@@ -6,14 +6,14 @@ import PageNotFound from './lib/PageNotFound';
 import { AuthProvider, useAuth } from '@/lib/AuthContext';
 import UserNotRegisteredError from '@/components/UserNotRegisteredError';
 import Layout from '@/components/Layout';
-import Dashboard from '../pages/Dashboard';
-import Properties from '../pages/Properties';
-import PropertyDetail from '../pages/PropertyDetail';
-import Clients from '../pages/Clients';
-import ClientDetail from '../pages/ClientDetail';
-import Calendar from '../pages/Calendar';
-import Commissions from '../pages/Commissions';
-import PropertyMap from '../pages/PropertyMap';
+import Dashboard from '@/pages/Dashboard';
+import Properties from '@/pages/Properties';
+import PropertyDetail from '@/pages/PropertyDetail';
+import Clients from '@/pages/Clients';
+import ClientDetail from '@/pages/ClientDetail';
+import Calendar from '@/pages/Calendar';
+import Commissions from '@/pages/Commissions';
+import PropertyMap from '@/pages/PropertyMap';
 
 const LayoutWrapper = ({ children, currentPageName }) =>
   <Layout currentPageName={currentPageName}>{children}</Layout>;
