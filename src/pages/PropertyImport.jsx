@@ -21,19 +21,27 @@ export default function PropertyImport() {
 
     try {
       const response = await base44.integrations.Core.InvokeLLM({
-        prompt: `Prejdi na stránku ${url} a extrahuj všetky aktuálne ponuky nehnuteľností. Pre každú nehnuteľnosť zisti:
-- Názov/titulok
-- Krajina
-- Mesto/lokalita
-- Typ nehnuteľnosti (apartment, villa, studio, atď.)
-- Cena v EUR (ak je v inej mene, preveď)
-- Počet izieb/spální
-- Plocha v m²
-- Popis
-- Hlavný obrázok URL (ak je dostupný)
+        prompt: `Navštív stránku ${url} a extrahuj všetky nehnuteľnosti, ktoré tam nájdeš.
 
-Vráť mi zoznam nehnuteľností v JSON formáte.`,
+Pre každú nehnuteľnosť zisti:
+- Presný názov projektu/nehnuteľnosti
+- Krajina (použi z tejto ponuky: Albania, Bali, Hungary, Bulgaria, Dominican Republic, Egypt, Georgia, Mauritius, Oman, UAE, Spain, Italy, Thailand, Turkey)
+- Mesto alebo lokalita
+- Typ nehnuteľnosti - apartment, villa, penthouse, studio, townhouse, land alebo commercial
+- Cena v EUR - ak je v inej mene, preveď na EUR (napr. 1 USD = 0.92 EUR, 1 GBP = 1.17 EUR)
+- Počet spální/izieb
+- Plocha v m²
+- Detailný popis nehnuteľnosti
+- URL adresy všetkých fotografií nehnuteľnosti (nie len hlavnej, ale všetkých dostupných obrázkov)
+
+DÔLEŽITÉ pre obrázky:
+- Použi plné URL adresy obrázkov (začínajúce http:// alebo https://)
+- Skontroluj či sú obrázky funkčné a skutočné fotografie nehnuteľností
+- Extrahuj všetky dostupné obrázky z galérie nehnuteľnosti
+
+Vráť zoznam v JSON formáte.`,
         add_context_from_internet: true,
+        model: "gemini_3_pro",
         response_json_schema: {
           type: "object",
           properties: {
@@ -50,7 +58,10 @@ Vráť mi zoznam nehnuteľností v JSON formáte.`,
                   bedrooms: { type: "number" },
                   area_sqm: { type: "number" },
                   description: { type: "string" },
-                  image_url: { type: "string" }
+                  images: { 
+                    type: "array",
+                    items: { type: "string" }
+                  }
                 }
               }
             }
@@ -82,7 +93,7 @@ Vráť mi zoznam nehnuteľností v JSON formáte.`,
             bedrooms: prop.bedrooms || 0,
             area_sqm: prop.area_sqm || 0,
             description: prop.description || "",
-            images: prop.image_url ? [prop.image_url] : [],
+            images: prop.images || [],
             status: "available",
             is_public: true,
             currency: "EUR",
@@ -138,7 +149,8 @@ Vráť mi zoznam nehnuteľností v JSON formáte.`,
             <h4 className="text-sm font-semibold text-blue-900 mb-2">ℹ️ Ako to funguje?</h4>
             <ul className="text-xs text-blue-700 space-y-1">
               <li>• AI prejde stránku a automaticky vyhľadá nehnuteľnosti</li>
-              <li>• Extrahuje všetky dostupné informácie (názov, cena, lokácia, atď.)</li>
+              <li>• Extrahuje všetky informácie vrátane všetkých fotografií z galérie</li>
+              <li>• Používa pokročilý model pre presnejšie výsledky</li>
               <li>• Importované nehnuteľnosti sú automaticky zverejnené na verejnej stránke</li>
               <li>• Po importe skontrolujte a upravte údaje podľa potreby</li>
             </ul>
