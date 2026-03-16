@@ -11,6 +11,7 @@ import { createPageUrl } from "@/utils";
 import { toast } from "sonner";
 import PropertyForm from "../components/properties/PropertyForm";
 import BrochureSender from "../components/brochures/BrochureSender";
+import PropertyPdfExport from "../components/properties/PropertyPdfExport";
 
 const statusColors = {
   available: "bg-emerald-50 text-emerald-700",
@@ -27,6 +28,7 @@ export default function PropertyDetail() {
   const [editing, setEditing] = useState(false);
   const [selectedImage, setSelectedImage] = useState(0);
   const [showBrochure, setShowBrochure] = useState(false);
+  const [showPdfExport, setShowPdfExport] = useState(false);
 
   const { data: property, isLoading } = useQuery({
     queryKey: ["property", id],
@@ -55,7 +57,10 @@ export default function PropertyDetail() {
           <ArrowLeft className="w-4 h-4" /> Back to Properties
         </Link>
         <div className="flex gap-2">
-          <Button variant="outline" size="sm" onClick={() => setShowBrochure(true)} className="bg-[#c9a84c] text-white hover:bg-[#b8973b]">
+          <Button variant="outline" size="sm" onClick={() => setShowPdfExport(true)} className="bg-[#c9a84c] text-white hover:bg-[#b8973b] border-0">
+            <FileText className="w-4 h-4 mr-1" /> PDF Ponuka
+          </Button>
+          <Button variant="outline" size="sm" onClick={() => setShowBrochure(true)}>
             <FileText className="w-4 h-4 mr-1" /> Send Brochure
           </Button>
           <Button variant="outline" size="sm" onClick={() => setEditing(true)}><Pencil className="w-4 h-4 mr-1" /> Edit</Button>
@@ -194,6 +199,14 @@ export default function PropertyDetail() {
           property={property}
           open={showBrochure}
           onClose={() => setShowBrochure(false)}
+        />
+      )}
+
+      {showPdfExport && (
+        <PropertyPdfExport
+          property={property}
+          open={showPdfExport}
+          onClose={() => setShowPdfExport(false)}
         />
       )}
     </div>
