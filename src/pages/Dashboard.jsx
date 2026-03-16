@@ -1,0 +1,77 @@
+import React from "react";
+import { useQuery } from "@tanstack/react-query";
+import { base44 } from "@/api/base44Client";
+import { Building2, Users, DollarSign, CalendarClock } from "lucide-react";
+import { Skeleton } from "@/components/ui/skeleton";
+import StatCard from "../components/dashboard/StatCard";
+import RecentActivity from "../components/dashboard/RecentActivity";
+import CountryBreakdown from "../components/dashboard/CountryBreakdown";
+import UpcomingReminders from "../components/dashboard/UpcomingReminders";
+
+export default function Dashboard() {
+  const { data: properties = [], isLoading: loadingProps } = useQuery({
+    queryKey: ["properties"],
+    queryFn: () => base44.entities.Property.list("-created_date", 100),
+  });
+
+  const { data: clients = [], isLoading: loadingClients } = useQuery({
+    queryKey: ["clients"],
+    queryFn: () => base44.entities.Client.list("-created_date", 100),
+  });
+
+  const { data: interactions = [] } = useQuery({
+    queryKey: ["interactions"],
+    queryFn: () => base44.entities.Interaction.list("-date", 20),
+  });
+
+  const { data: reminders = [] } = useQuery({
+    queryKey: ["reminders"],
+    queryFn: () => base44.entities.Reminder.filter({ status: "pending" }, "-due_date", 20),
+  });
+
+  const { data: commissions = [] } = useQuery({
+    queryKey: ["commissions"],
+    queryFn: () => base44.entities.Commission.list("-deal_date", 100),
+  });
+
+  const totalCommissions = commissions.reduce((sum, c) => sum + (c.commission_amount || 0), 0);
+  const availableProperties = properties.filter(p => p.status === "available").length;
+  const activeClients = clients.filter(c => ["active", "negotiating"].includes(c.status)).length;
+
+  if (loadingProps || loadingClients) {
+    return (
+      <div className="space-y-6">
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
+          {[1,2,3,4].map(i => <Skeleton key={i} className="h-32 rounded-2xl" />)}
+        </div>
+        <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
+          <Skeleton className="h-96 rounded-2xl lg:col-span-2" />
+          <Skeleton className="h-96 rounded-2xl" />
+        </div>
+      </div>
+    );
+  }
+
+  return (
+    <div className="space-y-6">
+      {/* Stats */}
+      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
+        <StatCard title="Total Properties" value={properties.length} subtitle={`${availableProperties} available`} icon={Building2} color="gold" />
+        <StatCard title="Clients" value={clients.length} subtitle={`${activeClients} active`} icon={Users} color="blue" />
+        <StatCard title="Total Commission" value={`€${totalCommissions.toLocaleString()}`} subtitle={`${commissions.length} deals`} icon={DollarSign} color="green" />
+        <StatCard title="Pending Reminders" value={reminders.length} subtitle="Action needed" icon={CalendarClock} color="red" />
+      </div>
+
+      {/* Main grid */}
+      <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
+        <div className="lg:col-span-2 space-y-6">
+          <RecentActivity interactions={interactions} clients={clients} />
+        </div>
+        <div className="space-y-6">
+          <UpcomingReminders reminders={reminders} />
+          <CountryBreakdown properties={properties} />
+        </div>
+      </div>
+    </div>
+  );
+}
