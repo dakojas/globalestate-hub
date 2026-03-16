@@ -33,13 +33,20 @@ export default function PropertyForm({ property, open, onClose, onSaved }) {
     const files = Array.from(e.target.files);
     if (!files.length) return;
     setUploading(true);
-    const urls = [];
-    for (const file of files) {
-      const { file_url } = await base44.integrations.Core.UploadFile({ file });
-      urls.push(file_url);
+    try {
+      const urls = [];
+      for (const file of files) {
+        const { file_url } = await base44.integrations.Core.UploadFile({ file });
+        urls.push(file_url);
+      }
+      setForm(prev => ({ ...prev, images: [...(prev.images || []), ...urls] }));
+      toast.success(`${urls.length} obrázok(ov) nahratý`);
+    } catch (err) {
+      toast.error("Nahrávanie zlyhalo, skúste znova");
+    } finally {
+      setUploading(false);
+      e.target.value = "";
     }
-    handleChange("images", [...(form.images || []), ...urls]);
-    setUploading(false);
   };
 
   const removeImage = (idx) => {
