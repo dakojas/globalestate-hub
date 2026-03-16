@@ -4,7 +4,7 @@ import { createPageUrl } from "@/utils";
 import { base44 } from "@/api/base44Client";
 import {
   LayoutDashboard, Building2, Users, CalendarClock, DollarSign,
-  MapPin, Menu, X, LogOut, ChevronRight, Bell, Languages
+  MapPin, Menu, X, LogOut, ChevronRight, Bell, Languages, UserPlus
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
@@ -18,10 +18,12 @@ export default function Layout({ children, currentPageName }) {
 
   const navItems = [
     { nameKey: "dashboard", icon: LayoutDashboard, page: "Dashboard" },
+    { nameKey: "leads", icon: UserPlus, page: "Leads" },
     { nameKey: "properties", icon: Building2, page: "Properties" },
     { nameKey: "clients", icon: Users, page: "Clients" },
     { nameKey: "calendar", icon: CalendarClock, page: "Calendar" },
     { nameKey: "commissions", icon: DollarSign, page: "Commissions" },
+    { nameKey: "referrers", icon: Users, page: "Referrers" },
     { nameKey: "map", icon: MapPin, page: "PropertyMap" },
   ];
 

@@ -17,6 +17,8 @@ import Commissions from '@/pages/Commissions';
 import PropertyMap from '@/pages/PropertyMap';
 import PublicHome from '@/pages/PublicHome';
 import PublicProperty from '@/pages/PublicProperty';
+import Leads from '@/pages/Leads';
+import Referrers from '@/pages/Referrers';
 
 const LayoutWrapper = ({ children, currentPageName }) =>
   <Layout currentPageName={currentPageName}>{children}</Layout>;
@@ -90,6 +92,16 @@ const AuthenticatedApp = () => {
       <Route path="/PropertyMap" element={
         <LayoutWrapper currentPageName="PropertyMap">
           <PropertyMap />
+        </LayoutWrapper>
+      } />
+      <Route path="/Leads" element={
+        <LayoutWrapper currentPageName="Leads">
+          <Leads />
+        </LayoutWrapper>
+      } />
+      <Route path="/Referrers" element={
+        <LayoutWrapper currentPageName="Referrers">
+          <Referrers />
         </LayoutWrapper>
       } />
       <Route path="/PublicHome" element={<PublicHome />} />

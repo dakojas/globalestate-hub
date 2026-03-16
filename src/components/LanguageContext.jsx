@@ -4,10 +4,12 @@ const translations = {
   sk: {
     // Navigation
     dashboard: "Dashboard",
+    leads: "Leady",
     properties: "Nehnuteľnosti",
     clients: "Klienti",
     calendar: "Kalendár",
     commissions: "Provízie",
+    referrers: "Tiperi",
     map: "Mapa",
     
     // Common
@@ -93,10 +95,12 @@ const translations = {
   en: {
     // Navigation
     dashboard: "Dashboard",
+    leads: "Leads",
     properties: "Properties",
     clients: "Clients",
     calendar: "Calendar",
     commissions: "Commissions",
+    referrers: "Referrers",
     map: "Map",
     
     // Common
