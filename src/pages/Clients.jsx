@@ -31,6 +31,7 @@ export default function Clients() {
   const [search, setSearch] = useState("");
   const [statusFilter, setStatusFilter] = useState("all");
   const queryClient = useQueryClient();
+  const navigate = useNavigate();
 
   const { data: clients = [], isLoading } = useQuery({
     queryKey: ["clients"],
@@ -137,7 +138,16 @@ export default function Clients() {
         <ClientForm client={editingClient} open={true} onClose={() => { setShowForm(false); setEditingClient(null); }} onSaved={refresh} />
       )}
       {interactionClient && (
-        <InteractionForm clientId={interactionClient.id} properties={properties} open={true} onClose={() => setInteractionClient(null)} onSaved={refresh} />
+        <InteractionForm
+          clientId={interactionClient.id}
+          properties={properties}
+          open={true}
+          onClose={() => setInteractionClient(null)}
+          onSaved={() => {
+            setInteractionClient(null);
+            navigate(createPageUrl(`ClientDetail?id=${interactionClient.id}`));
+          }}
+        />
       )}
     </div>
   );
