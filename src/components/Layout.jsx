@@ -4,7 +4,7 @@ import { createPageUrl } from "@/utils";
 import { base44 } from "@/api/base44Client";
 import {
   LayoutDashboard, Building2, Users, CalendarClock, DollarSign,
-  MapPin, Menu, X, LogOut, ChevronRight, Bell, Languages, UserPlus, BarChart3
+  MapPin, Menu, X, LogOut, ChevronRight, Bell, Languages, UserPlus, BarChart3, Globe
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
@@ -26,6 +26,7 @@ export default function Layout({ children, currentPageName }) {
     { nameKey: "referrers", icon: Users, page: "Referrers" },
     { nameKey: "reports", icon: BarChart3, page: "Reports" },
     { nameKey: "map", icon: MapPin, page: "PropertyMap" },
+    { nameKey: "publicSite", icon: Globe, page: "PublicHome", divider: true },
   ];
 
   useEffect(() => {
@@ -74,25 +75,27 @@ export default function Layout({ children, currentPageName }) {
           {navItems.map((item) => {
             const isActive = currentPageName === item.page;
             return (
-              <Link
-                key={item.page}
-                to={createPageUrl(item.page)}
-                onClick={() => setSidebarOpen(false)}
-                className={`
-                  flex items-center gap-3 px-4 py-3 rounded-xl text-sm font-medium transition-all duration-200
-                  ${isActive
-                    ? "bg-[var(--gold)]/15 text-[var(--gold)]"
-                    : "text-white/60 hover:text-white hover:bg-white/5"
-                  }
-                `}
-              >
-                <item.icon className="w-5 h-5 flex-shrink-0" />
-                <span>{t(item.nameKey)}</span>
-                {item.page === "Calendar" && pendingReminders > 0 && (
-                  <Badge className="ml-auto bg-red-500 text-white text-xs px-2">{pendingReminders}</Badge>
-                )}
-                {isActive && <ChevronRight className="w-4 h-4 ml-auto" />}
-              </Link>
+              <React.Fragment key={item.page}>
+                {item.divider && <div className="border-t border-white/10 my-2" />}
+                <Link
+                  to={createPageUrl(item.page)}
+                  onClick={() => setSidebarOpen(false)}
+                  className={`
+                    flex items-center gap-3 px-4 py-3 rounded-xl text-sm font-medium transition-all duration-200
+                    ${isActive
+                      ? "bg-[var(--gold)]/15 text-[var(--gold)]"
+                      : "text-white/60 hover:text-white hover:bg-white/5"
+                    }
+                  `}
+                >
+                  <item.icon className="w-5 h-5 flex-shrink-0" />
+                  <span>{t(item.nameKey)}</span>
+                  {item.page === "Calendar" && pendingReminders > 0 && (
+                    <Badge className="ml-auto bg-red-500 text-white text-xs px-2">{pendingReminders}</Badge>
+                  )}
+                  {isActive && <ChevronRight className="w-4 h-4 ml-auto" />}
+                </Link>
+              </React.Fragment>
             );
           })}
         </nav>

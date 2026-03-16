@@ -12,6 +12,7 @@ const translations = {
     referrers: "Tiperi",
     reports: "Reporty",
     map: "Mapa",
+    publicSite: "Verejný web",
     
     // Common
     search: "Hľadať",
@@ -104,6 +105,7 @@ const translations = {
     referrers: "Referrers",
     reports: "Reports",
     map: "Map",
+    publicSite: "Public Site",
     
     // Common
     search: "Search",
