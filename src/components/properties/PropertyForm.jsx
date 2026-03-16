@@ -6,7 +6,7 @@ import { Label } from "@/components/ui/label";
 import { Textarea } from "@/components/ui/textarea";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { Dialog, DialogContent, DialogHeader, DialogTitle } from "@/components/ui/dialog";
-import { Upload, X, Plus, Loader2 } from "lucide-react";
+import { Upload, X, Plus, Loader2, FileText } from "lucide-react";
 import { toast } from "sonner";
 
 const COUNTRIES = ["Albania", "Bali", "Hungary", "Bulgaria", "Dominican Republic", "Egypt", "Georgia", "Mauritius", "Oman", "UAE", "Spain", "Italy", "Thailand", "Turkey"];
@@ -20,10 +20,11 @@ export default function PropertyForm({ property, open, onClose, onSaved }) {
     property_type: "apartment", status: "available", price: "", currency: "EUR",
     area_sqm: "", bedrooms: "", bathrooms: "", images: [], features: [],
     latitude: "", longitude: "", project_name: "", portal_links: [],
-    commission_rate: "", notes: "", assigned_agent: ""
+    commission_rate: "", notes: "", assigned_agent: "", brochure_url: ""
   });
   const [saving, setSaving] = useState(false);
   const [uploading, setUploading] = useState(false);
+  const [uploadingPdf, setUploadingPdf] = useState(false);
   const [newFeature, setNewFeature] = useState("");
   const [newPortal, setNewPortal] = useState({ portal_name: "", url: "" });
 
@@ -222,6 +223,50 @@ export default function PropertyForm({ property, open, onClose, onSaved }) {
             <div className="flex gap-2 mt-2">
               <Input value={newFeature} onChange={e => setNewFeature(e.target.value)} placeholder="e.g. Sea view, Pool" onKeyDown={e => e.key === "Enter" && (e.preventDefault(), addFeature())} />
               <Button type="button" variant="outline" size="sm" onClick={addFeature}><Plus className="w-4 h-4" /></Button>
+            </div>
+          </div>
+
+          {/* Brochure PDF */}
+          <div>
+            <Label>Brožúra (PDF)</Label>
+            <div className="mt-2">
+              {form.brochure_url ? (
+                <div className="flex items-center gap-3 p-3 bg-gray-50 rounded-lg border">
+                  <FileText className="w-5 h-5 text-red-500 flex-shrink-0" />
+                  <a href={form.brochure_url} target="_blank" rel="noopener noreferrer" className="text-sm text-blue-600 hover:underline truncate flex-1">
+                    Zobraziť brožúru
+                  </a>
+                  <button onClick={() => handleChange("brochure_url", "")} className="text-gray-400 hover:text-red-500">
+                    <X className="w-4 h-4" />
+                  </button>
+                </div>
+              ) : (
+                <label className="flex items-center gap-3 p-3 border-2 border-dashed border-gray-200 rounded-lg cursor-pointer hover:border-[#c9a84c] transition-colors">
+                  {uploadingPdf ? <Loader2 className="w-5 h-5 animate-spin text-gray-400" /> : <FileText className="w-5 h-5 text-gray-400" />}
+                  <span className="text-sm text-gray-500">{uploadingPdf ? "Nahrávam PDF..." : "Nahrať PDF brožúru"}</span>
+                  <input
+                    type="file"
+                    accept=".pdf"
+                    className="hidden"
+                    disabled={uploadingPdf}
+                    onChange={async (e) => {
+                      const file = e.target.files[0];
+                      if (!file) return;
+                      setUploadingPdf(true);
+                      try {
+                        const { file_url } = await base44.integrations.Core.UploadFile({ file });
+                        handleChange("brochure_url", file_url);
+                        toast.success("PDF brožúra nahratá");
+                      } catch {
+                        toast.error("Nahrávanie zlyhalo");
+                      } finally {
+                        setUploadingPdf(false);
+                        e.target.value = "";
+                      }
+                    }}
+                  />
+                </label>
+              )}
             </div>
           </div>
 
