@@ -7,7 +7,7 @@ import { Label } from "@/components/ui/label";
 import { Textarea } from "@/components/ui/textarea";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { Dialog, DialogContent, DialogHeader, DialogTitle } from "@/components/ui/dialog";
-import { Loader2, Send, Eye, Download } from "lucide-react";
+import { Loader2, Send, Eye, Download, FileText } from "lucide-react";
 import { Tabs, TabsList, TabsTrigger, TabsContent } from "@/components/ui/tabs";
 import { Checkbox } from "@/components/ui/checkbox";
 import { toast } from "sonner";
@@ -71,7 +71,7 @@ export default function BrochureSender({ property, open, onClose }) {
       await base44.integrations.Core.SendEmail({
         to: email,
         subject: subject,
-        body: emailBody,
+        body: emailBody + (property?.brochure_url ? `\n\nStiahnuť brožúru: ${property.brochure_url}` : ""),
       });
     }
 
@@ -106,6 +106,16 @@ export default function BrochureSender({ property, open, onClose }) {
           </TabsList>
 
           <TabsContent value="compose" className="space-y-4">
+            {property?.brochure_url && (
+              <div className="flex items-center gap-3 p-3 bg-green-50 border border-green-200 rounded-lg">
+                <FileText className="w-5 h-5 text-green-600 flex-shrink-0" />
+                <div className="flex-1">
+                  <p className="text-sm font-medium text-green-800">Nahratá PDF brožúra</p>
+                  <p className="text-xs text-green-600">Odkaz na brožúru bude automaticky pridaný do emailu</p>
+                </div>
+                <a href={property.brochure_url} target="_blank" rel="noopener noreferrer" className="text-xs text-green-700 underline">Zobraziť</a>
+              </div>
+            )}
             <div>
               <Label>Template Style</Label>
               <Select value={template} onValueChange={setTemplate}>
