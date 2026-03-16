@@ -26,7 +26,8 @@ export default function Layout({ children, currentPageName }) {
     { nameKey: "referrers", icon: Users, page: "Referrers" },
     { nameKey: "reports", icon: BarChart3, page: "Reports" },
     { nameKey: "map", icon: MapPin, page: "PropertyMap" },
-    { nameKey: "publicSite", icon: Globe, page: "PublicHome", divider: true },
+    { nameKey: "team", icon: Users, page: "Team", divider: true },
+    { nameKey: "publicSite", icon: Globe, page: "PublicHome" },
   ];
 
   useEffect(() => {

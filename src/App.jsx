@@ -21,6 +21,7 @@ import Leads from '@/pages/Leads';
 import Referrers from '@/pages/Referrers';
 import Reports from '@/pages/Reports';
 import PropertyImport from '@/pages/PropertyImport';
+import Team from '@/pages/Team';
 
 const LayoutWrapper = ({ children, currentPageName }) =>
   <Layout currentPageName={currentPageName}>{children}</Layout>;
@@ -114,6 +115,11 @@ const AuthenticatedApp = () => {
       <Route path="/PropertyImport" element={
         <LayoutWrapper currentPageName="PropertyImport">
           <PropertyImport />
+        </LayoutWrapper>
+      } />
+      <Route path="/Team" element={
+        <LayoutWrapper currentPageName="Team">
+          <Team />
         </LayoutWrapper>
       } />
       <Route path="/PublicHome" element={<PublicHome />} />
