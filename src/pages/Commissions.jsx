@@ -217,10 +217,25 @@ export default function Commissions() {
           <DialogHeader><DialogTitle>Record Commission</DialogTitle></DialogHeader>
           <div className="space-y-4 mt-4">
             <div>
-              <Label>Property</Label>
-              <Select value={form.property_id} onValueChange={handlePropertyChange}>
-                <SelectTrigger><SelectValue placeholder="Select property" /></SelectTrigger>
-                <SelectContent>{properties.map(p => <SelectItem key={p.id} value={p.id}>{p.title}</SelectItem>)}</SelectContent>
+              <Label>Krajina</Label>
+              <Select value={form.country} onValueChange={handleCountryChange}>
+                <SelectTrigger><SelectValue placeholder="Vybrať krajinu" /></SelectTrigger>
+                <SelectContent>
+                  {countries.map(c => <SelectItem key={c} value={c}>{c}</SelectItem>)}
+                </SelectContent>
+              </Select>
+            </div>
+            <div>
+              <Label>Projekt / Nehnuteľnosť</Label>
+              <Select value={form.property_id} onValueChange={handlePropertyChange} disabled={!form.country}>
+                <SelectTrigger><SelectValue placeholder={form.country ? "Vybrať projekt" : "Najprv vybrať krajinu"} /></SelectTrigger>
+                <SelectContent>
+                  {filteredProperties.map(p => (
+                    <SelectItem key={p.id} value={p.id}>
+                      {p.title}{p.project_name ? ` — ${p.project_name}` : ""}
+                    </SelectItem>
+                  ))}
+                </SelectContent>
               </Select>
             </div>
             <div>
