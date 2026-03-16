@@ -246,7 +246,7 @@ export default function PropertyForm({ property, open, onClose, onSaved }) {
 
           <div className="flex justify-end gap-3 pt-4 border-t">
             <Button variant="outline" onClick={onClose}>Cancel</Button>
-            <Button onClick={handleSubmit} disabled={saving || !form.title || !form.country || !form.price} className="bg-[#0a1628] hover:bg-[#132039]">
+            <Button onClick={handleSubmit} disabled={saving || uploading || !form.title || !form.country || !form.price} className="bg-[#0a1628] hover:bg-[#132039]">
               {saving && <Loader2 className="w-4 h-4 mr-2 animate-spin" />}
               {property?.id ? "Update" : "Create"} Property
             </Button>
