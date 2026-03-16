@@ -49,7 +49,7 @@ export default function Commissions() {
     property_id: "", client_id: "", sale_price: "", commission_rate: "",
     commission_amount: "", status: "pending", deal_date: new Date().toISOString().slice(0, 10),
     property_title: "", client_name: "", agent_email: "", notes: "",
-    referrer_share: 0, company_share: 100, country: "",
+    referrer_share: 0, company_share: 100, country: "", commission_type: "percentage",
   });
 
   const countries = [...new Set(properties.map(p => p.country).filter(Boolean))].sort();
@@ -98,6 +98,9 @@ export default function Commissions() {
   };
 
   const calcCommission = () => {
+    if (form.commission_type === "absolute") {
+      return Number(form.commission_amount) || 0;
+    }
     const price = Number(form.sale_price) || 0;
     const rate = Number(form.commission_rate) || 0;
     return Math.round(price * rate / 100);
@@ -245,11 +248,32 @@ export default function Commissions() {
                 <SelectContent>{clients.map(c => <SelectItem key={c.id} value={c.id}>{c.full_name}</SelectItem>)}</SelectContent>
               </Select>
             </div>
-            <div className="grid grid-cols-2 gap-4">
-              <div><Label>Sale Price (€)</Label><Input type="number" value={form.sale_price} onChange={e => setForm(f => ({ ...f, sale_price: e.target.value }))} /></div>
-              <div><Label>Rate (%)</Label><Input type="number" value={form.commission_rate} onChange={e => setForm(f => ({ ...f, commission_rate: e.target.value }))} /></div>
+            <div>
+              <Label>Sale Price (€)</Label>
+              <Input type="number" value={form.sale_price} onChange={e => setForm(f => ({ ...f, sale_price: e.target.value }))} />
             </div>
-            {form.sale_price && form.commission_rate && (
+            <div>
+              <Label>Typ provízie</Label>
+              <Select value={form.commission_type} onValueChange={v => setForm(f => ({ ...f, commission_type: v }))}>
+                <SelectTrigger><SelectValue /></SelectTrigger>
+                <SelectContent>
+                  <SelectItem value="percentage">Percentuálna (%)</SelectItem>
+                  <SelectItem value="absolute">Absolútna hodnota (€)</SelectItem>
+                </SelectContent>
+              </Select>
+            </div>
+            {form.commission_type === "percentage" ? (
+              <div>
+                <Label>Sadzba provízie (%)</Label>
+                <Input type="number" step="0.1" value={form.commission_rate} onChange={e => setForm(f => ({ ...f, commission_rate: e.target.value }))} />
+              </div>
+            ) : (
+              <div>
+                <Label>Výška provízie (€)</Label>
+                <Input type="number" value={form.commission_amount} onChange={e => setForm(f => ({ ...f, commission_amount: e.target.value }))} />
+              </div>
+            )}
+            {form.sale_price && (form.commission_rate || form.commission_amount) && (
               <div className="space-y-3">
                 <div className="bg-[#c9a84c]/10 rounded-xl p-4">
                   <p className="text-xs text-gray-500 text-center mb-1">Celková provízia</p>
@@ -272,7 +296,7 @@ export default function Commissions() {
             <div><Label>Deal Date</Label><Input type="date" value={form.deal_date} onChange={e => setForm(f => ({ ...f, deal_date: e.target.value }))} /></div>
             <div className="flex justify-end gap-3 pt-4 border-t">
               <Button variant="outline" onClick={() => setShowForm(false)}>Cancel</Button>
-              <Button onClick={handleSubmit} disabled={saving || !form.sale_price || !form.commission_rate} className="bg-[#0a1628] hover:bg-[#132039]">
+              <Button onClick={handleSubmit} disabled={saving || !form.sale_price || (form.commission_type === "percentage" ? !form.commission_rate : !form.commission_amount)} className="bg-[#0a1628] hover:bg-[#132039]">
                 {saving && <Loader2 className="w-4 h-4 mr-2 animate-spin" />} Save
               </Button>
             </div>
