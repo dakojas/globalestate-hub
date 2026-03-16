@@ -52,9 +52,12 @@ export default function Layout({ children, currentPageName }) {
       `}>
         <div className="p-6 border-b border-white/10">
           <div className="flex items-center justify-between">
-            <div>
-              <h1 className="text-white font-bold text-xl tracking-tight">NvZ</h1>
-              <p className="text-[var(--gold)] text-xs font-medium mt-0.5 tracking-widest uppercase">Real Estate CRM</p>
+            <div className="flex items-center gap-3">
+              <img 
+                src="https://qtrypzzcjebvfcihiynt.supabase.co/storage/v1/object/public/base44-prod/public/69b801924dae038161790d9a/9193a9184_nehnutelnosti_logo-07.jpg" 
+                alt="Nehnuteľnosti v zahraničí" 
+                className="h-12 w-auto object-contain"
+              />
             </div>
             <button onClick={() => setSidebarOpen(false)} className="lg:hidden text-white/60 hover:text-white">
               <X className="w-5 h-5" />
