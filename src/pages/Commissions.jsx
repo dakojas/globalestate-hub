@@ -49,8 +49,17 @@ export default function Commissions() {
     property_id: "", client_id: "", sale_price: "", commission_rate: "",
     commission_amount: "", status: "pending", deal_date: new Date().toISOString().slice(0, 10),
     property_title: "", client_name: "", agent_email: "", notes: "",
-    referrer_share: 0, company_share: 100,
+    referrer_share: 0, company_share: 100, country: "",
   });
+
+  const countries = [...new Set(properties.map(p => p.country).filter(Boolean))].sort();
+  const filteredProperties = form.country
+    ? properties.filter(p => p.country === form.country)
+    : properties;
+
+  const handleCountryChange = (country) => {
+    setForm(f => ({ ...f, country, property_id: "", property_title: "", commission_rate: "" }));
+  };
 
   const totalEarned = commissions.filter(c => c.status === "paid").reduce((s, c) => s + (c.commission_amount || 0), 0);
   const totalPending = commissions.filter(c => c.status !== "paid").reduce((s, c) => s + (c.commission_amount || 0), 0);
