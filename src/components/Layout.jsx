@@ -4,24 +4,26 @@ import { createPageUrl } from "@/utils";
 import { base44 } from "@/api/base44Client";
 import {
   LayoutDashboard, Building2, Users, CalendarClock, DollarSign,
-  MapPin, Menu, X, LogOut, ChevronRight, Bell
+  MapPin, Menu, X, LogOut, ChevronRight, Bell, Languages
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
-
-const navItems = [
-  { name: "Dashboard", icon: LayoutDashboard, page: "Dashboard" },
-  { name: "Properties", icon: Building2, page: "Properties" },
-  { name: "Clients", icon: Users, page: "Clients" },
-  { name: "Calendar", icon: CalendarClock, page: "Calendar" },
-  { name: "Commissions", icon: DollarSign, page: "Commissions" },
-  { name: "Map", icon: MapPin, page: "PropertyMap" },
-];
+import { useTranslation } from "@/lib/translations";
 
 export default function Layout({ children, currentPageName }) {
   const [sidebarOpen, setSidebarOpen] = useState(false);
   const [user, setUser] = useState(null);
   const [pendingReminders, setPendingReminders] = useState(0);
+  const { t, language, changeLanguage } = useTranslation();
+
+  const navItems = [
+    { nameKey: "dashboard", icon: LayoutDashboard, page: "Dashboard" },
+    { nameKey: "properties", icon: Building2, page: "Properties" },
+    { nameKey: "clients", icon: Users, page: "Clients" },
+    { nameKey: "calendar", icon: CalendarClock, page: "Calendar" },
+    { nameKey: "commissions", icon: DollarSign, page: "Commissions" },
+    { nameKey: "map", icon: MapPin, page: "PropertyMap" },
+  ];
 
   useEffect(() => {
     base44.auth.me().then(setUser).catch(() => {});
@@ -82,7 +84,7 @@ export default function Layout({ children, currentPageName }) {
                 `}
               >
                 <item.icon className="w-5 h-5 flex-shrink-0" />
-                <span>{item.name}</span>
+                <span>{t(item.nameKey)}</span>
                 {item.page === "Calendar" && pendingReminders > 0 && (
                   <Badge className="ml-auto bg-red-500 text-white text-xs px-2">{pendingReminders}</Badge>
                 )}
@@ -122,10 +124,19 @@ export default function Layout({ children, currentPageName }) {
                 <Menu className="w-6 h-6" />
               </button>
               <h2 className="text-lg font-semibold text-[var(--navy)]">
-                {navItems.find(n => n.page === currentPageName)?.name || currentPageName}
+                {t(navItems.find(n => n.page === currentPageName)?.nameKey || currentPageName)}
               </h2>
             </div>
-            <Link to={createPageUrl("Calendar")} className="relative">
+            <div className="flex items-center gap-3">
+              <button
+                onClick={() => changeLanguage(language === 'sk' ? 'en' : 'sk')}
+                className="flex items-center gap-1.5 px-2.5 py-1.5 rounded-lg bg-gray-100 hover:bg-gray-200 transition-colors"
+                title="Zmeniť jazyk / Change language"
+              >
+                <Languages className="w-4 h-4 text-gray-600" />
+                <span className="text-xs font-semibold text-gray-700 uppercase">{language}</span>
+              </button>
+              <Link to={createPageUrl("Calendar")} className="relative">
               <Bell className="w-5 h-5 text-gray-500 hover:text-[var(--navy)]" />
               {pendingReminders > 0 && (
                 <span className="absolute -top-1 -right-1 w-4 h-4 bg-red-500 rounded-full text-[10px] text-white flex items-center justify-center font-bold">
@@ -133,6 +144,7 @@ export default function Layout({ children, currentPageName }) {
                 </span>
               )}
             </Link>
+            </div>
           </div>
         </header>
 
