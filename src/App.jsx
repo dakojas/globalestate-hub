@@ -15,6 +15,8 @@ import ClientDetail from '@/pages/ClientDetail';
 import Calendar from '@/pages/Calendar';
 import Commissions from '@/pages/Commissions';
 import PropertyMap from '@/pages/PropertyMap';
+import PublicHome from '@/pages/PublicHome';
+import PublicProperty from '@/pages/PublicProperty';
 
 const LayoutWrapper = ({ children, currentPageName }) =>
   <Layout currentPageName={currentPageName}>{children}</Layout>;
@@ -90,6 +92,8 @@ const AuthenticatedApp = () => {
           <PropertyMap />
         </LayoutWrapper>
       } />
+      <Route path="/PublicHome" element={<PublicHome />} />
+      <Route path="/PublicProperty" element={<PublicProperty />} />
       <Route path="*" element={<PageNotFound />} />
     </Routes>
   );

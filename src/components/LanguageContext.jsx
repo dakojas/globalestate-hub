@@ -78,6 +78,17 @@ const translations = {
     activeClients: "Aktívni klienti",
     totalRevenue: "Celkový príjem",
     pendingTasks: "Úlohy na dokončenie",
+    
+    // Lead statuses
+    new_lead: "Nový lead",
+    unclaimed: "Neprevzatý",
+    claimed: "Prevzatý",
+    contacted: "Kontaktovaný",
+    qualified: "Kvalifikovaný",
+    offers_sent: "Ponuky odoslané",
+    viewing: "Obhliadka",
+    reserved: "Rezervácia",
+    lost: "Stratený",
   },
   en: {
     // Navigation
@@ -156,6 +167,17 @@ const translations = {
     activeClients: "Active Clients",
     totalRevenue: "Total Revenue",
     pendingTasks: "Pending Tasks",
+    
+    // Lead statuses
+    new_lead: "New Lead",
+    unclaimed: "Unclaimed",
+    claimed: "Claimed",
+    contacted: "Contacted",
+    qualified: "Qualified",
+    offers_sent: "Offers Sent",
+    viewing: "Viewing",
+    reserved: "Reserved",
+    lost: "Lost",
   }
 };
 
