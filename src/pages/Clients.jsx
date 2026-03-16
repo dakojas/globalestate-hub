@@ -12,6 +12,7 @@ import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigge
 import { toast } from "sonner";
 import { Link } from "react-router-dom";
 import { createPageUrl } from "@/utils";
+import { useNavigate } from "react-router-dom";
 import ClientForm from "../components/clients/ClientForm";
 import InteractionForm from "../components/clients/InteractionForm";
 
