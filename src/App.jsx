@@ -1,19 +1,22 @@
 import { Toaster } from "@/components/ui/toaster"
 import { QueryClientProvider } from '@tanstack/react-query'
 import { queryClientInstance } from '@/lib/query-client'
-import { pagesConfig } from './pages.config'
 import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
 import PageNotFound from './lib/PageNotFound';
 import { AuthProvider, useAuth } from '@/lib/AuthContext';
 import UserNotRegisteredError from '@/components/UserNotRegisteredError';
+import Layout from './layout';
+import Dashboard from './pages/Dashboard';
+import Properties from './pages/Properties';
+import PropertyDetail from './pages/PropertyDetail';
+import Clients from './pages/Clients';
+import ClientDetail from './pages/ClientDetail';
+import Calendar from './pages/Calendar';
+import Commissions from './pages/Commissions';
+import PropertyMap from './pages/PropertyMap';
 
-const { Pages, Layout, mainPage } = pagesConfig;
-const mainPageKey = mainPage ?? Object.keys(Pages)[0];
-const MainPage = mainPageKey ? Pages[mainPageKey] : <></>;
-
-const LayoutWrapper = ({ children, currentPageName }) => Layout ?
-  <Layout currentPageName={currentPageName}>{children}</Layout>
-  : <>{children}</>;
+const LayoutWrapper = ({ children, currentPageName }) =>
+  <Layout currentPageName={currentPageName}>{children}</Layout>;
 
 const AuthenticatedApp = () => {
   const { isLoadingAuth, isLoadingPublicSettings, authError, navigateToLogin } = useAuth();
@@ -42,21 +45,50 @@ const AuthenticatedApp = () => {
   return (
     <Routes>
       <Route path="/" element={
-        <LayoutWrapper currentPageName={mainPageKey}>
-          <MainPage />
+        <LayoutWrapper currentPageName="Dashboard">
+          <Dashboard />
         </LayoutWrapper>
       } />
-      {Object.entries(Pages).map(([path, Page]) => (
-        <Route
-          key={path}
-          path={`/${path}`}
-          element={
-            <LayoutWrapper currentPageName={path}>
-              <Page />
-            </LayoutWrapper>
-          }
-        />
-      ))}
+      <Route path="/Dashboard" element={
+        <LayoutWrapper currentPageName="Dashboard">
+          <Dashboard />
+        </LayoutWrapper>
+      } />
+      <Route path="/Properties" element={
+        <LayoutWrapper currentPageName="Properties">
+          <Properties />
+        </LayoutWrapper>
+      } />
+      <Route path="/PropertyDetail" element={
+        <LayoutWrapper currentPageName="PropertyDetail">
+          <PropertyDetail />
+        </LayoutWrapper>
+      } />
+      <Route path="/Clients" element={
+        <LayoutWrapper currentPageName="Clients">
+          <Clients />
+        </LayoutWrapper>
+      } />
+      <Route path="/ClientDetail" element={
+        <LayoutWrapper currentPageName="ClientDetail">
+          <ClientDetail />
+        </LayoutWrapper>
+      } />
+      <Route path="/Calendar" element={
+        <LayoutWrapper currentPageName="Calendar">
+          <Calendar />
+        </LayoutWrapper>
+      } />
+      <Route path="/Commissions" element={
+        <LayoutWrapper currentPageName="Commissions">
+          <Commissions />
+        </LayoutWrapper>
+      } />
+      <Route path="/PropertyMap" element={
+        <LayoutWrapper currentPageName="PropertyMap">
+          <PropertyMap />
+        </LayoutWrapper>
+      } />
       <Route path="*" element={<PageNotFound />} />
     </Routes>
   );
