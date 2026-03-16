@@ -8,6 +8,7 @@ import RecentActivity from "../components/dashboard/RecentActivity";
 import CountryBreakdown from "../components/dashboard/CountryBreakdown";
 import UpcomingReminders from "../components/dashboard/UpcomingReminders";
 import LeadSourceChart from "../components/dashboard/LeadSourceChart";
+import ClientMatches from "../components/dashboard/ClientMatches";
 
 export default function Dashboard() {
   const { data: properties = [], isLoading: loadingProps } = useQuery({
