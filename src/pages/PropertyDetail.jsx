@@ -5,11 +5,12 @@ import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Skeleton } from "@/components/ui/skeleton";
-import { MapPin, Bed, Bath, Maximize, ArrowLeft, Pencil, Trash2, ExternalLink, Globe } from "lucide-react";
+import { MapPin, Bed, Bath, Maximize, ArrowLeft, Pencil, Trash2, ExternalLink, Globe, FileText } from "lucide-react";
 import { Link, useNavigate } from "react-router-dom";
 import { createPageUrl } from "@/utils";
 import { toast } from "sonner";
 import PropertyForm from "../components/properties/PropertyForm";
+import BrochureSender from "../components/brochures/BrochureSender";
 
 const statusColors = {
   available: "bg-emerald-50 text-emerald-700",
@@ -25,6 +26,7 @@ export default function PropertyDetail() {
   const queryClient = useQueryClient();
   const [editing, setEditing] = useState(false);
   const [selectedImage, setSelectedImage] = useState(0);
+  const [showBrochure, setShowBrochure] = useState(false);
 
   const { data: property, isLoading } = useQuery({
     queryKey: ["property", id],
@@ -53,6 +55,9 @@ export default function PropertyDetail() {
           <ArrowLeft className="w-4 h-4" /> Back to Properties
         </Link>
         <div className="flex gap-2">
+          <Button variant="outline" size="sm" onClick={() => setShowBrochure(true)} className="bg-[#c9a84c] text-white hover:bg-[#b8973b]">
+            <FileText className="w-4 h-4 mr-1" /> Send Brochure
+          </Button>
           <Button variant="outline" size="sm" onClick={() => setEditing(true)}><Pencil className="w-4 h-4 mr-1" /> Edit</Button>
           <Button variant="outline" size="sm" className="text-red-600 hover:text-red-700" onClick={handleDelete}><Trash2 className="w-4 h-4 mr-1" /> Delete</Button>
         </div>
@@ -181,6 +186,14 @@ export default function PropertyDetail() {
           open={editing}
           onClose={() => setEditing(false)}
           onSaved={() => { setEditing(false); queryClient.invalidateQueries({ queryKey: ["property", id] }); queryClient.invalidateQueries({ queryKey: ["properties"] }); }}
+        />
+      )}
+
+      {showBrochure && (
+        <BrochureSender
+          property={property}
+          open={showBrochure}
+          onClose={() => setShowBrochure(false)}
         />
       )}
     </div>
