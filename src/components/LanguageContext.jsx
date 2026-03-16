@@ -10,6 +10,7 @@ const translations = {
     calendar: "Kalendár",
     commissions: "Provízie",
     referrers: "Tiperi",
+    reports: "Reporty",
     map: "Mapa",
     
     // Common
@@ -101,6 +102,7 @@ const translations = {
     calendar: "Calendar",
     commissions: "Commissions",
     referrers: "Referrers",
+    reports: "Reports",
     map: "Map",
     
     // Common

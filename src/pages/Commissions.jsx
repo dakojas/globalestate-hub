@@ -40,10 +40,16 @@ export default function Commissions() {
     queryFn: () => base44.entities.Client.list("-created_date", 200),
   });
 
+  const { data: users = [] } = useQuery({
+    queryKey: ["users"],
+    queryFn: () => base44.entities.User.list(),
+  });
+
   const [form, setForm] = useState({
     property_id: "", client_id: "", sale_price: "", commission_rate: "",
     commission_amount: "", status: "pending", deal_date: new Date().toISOString().slice(0, 10),
-    property_title: "", client_name: "", notes: ""
+    property_title: "", client_name: "", agent_email: "", notes: "",
+    referrer_share: 0, company_share: 100,
   });
 
   const totalEarned = commissions.filter(c => c.status === "paid").reduce((s, c) => s + (c.commission_amount || 0), 0);
@@ -55,19 +61,47 @@ export default function Commissions() {
     setForm(f => ({
       ...f, property_id: id,
       property_title: prop?.title || "",
-      commission_rate: prop?.commission_rate || f.commission_rate,
+      commission_rate: prop?.commission_rate || prop?.company_commission || f.commission_rate,
     }));
   };
 
   const handleClientChange = (id) => {
     const cl = clients.find(c => c.id === id);
-    setForm(f => ({ ...f, client_id: id, client_name: cl?.full_name || "" }));
+    const prop = properties.find(p => p.id === form.property_id);
+    
+    // Calculate referrer/company split
+    let referrerShare = 0;
+    let companyShare = 100;
+    
+    if (cl?.lead_source === "referrer" && prop?.referrer_commission) {
+      referrerShare = prop.referrer_commission;
+      companyShare = 100 - referrerShare;
+    }
+    
+    setForm(f => ({ 
+      ...f, 
+      client_id: id, 
+      client_name: cl?.full_name || "",
+      agent_email: cl?.assigned_agent || cl?.claimed_by || "",
+      referrer_share: referrerShare,
+      company_share: companyShare,
+    }));
   };
 
   const calcCommission = () => {
     const price = Number(form.sale_price) || 0;
     const rate = Number(form.commission_rate) || 0;
     return Math.round(price * rate / 100);
+  };
+
+  const calcReferrerAmount = () => {
+    const total = calcCommission();
+    const share = Number(form.referrer_share) || 0;
+    return Math.round(total * share / 100);
+  };
+
+  const calcCompanyAmount = () => {
+    return calcCommission() - calcReferrerAmount();
   };
 
   const handleSubmit = async () => {
@@ -192,9 +226,23 @@ export default function Commissions() {
               <div><Label>Rate (%)</Label><Input type="number" value={form.commission_rate} onChange={e => setForm(f => ({ ...f, commission_rate: e.target.value }))} /></div>
             </div>
             {form.sale_price && form.commission_rate && (
-              <div className="bg-[#c9a84c]/10 rounded-xl p-4 text-center">
-                <p className="text-xs text-gray-500">Commission Amount</p>
-                <p className="text-2xl font-bold text-[#c9a84c]">€{calcCommission().toLocaleString()}</p>
+              <div className="space-y-3">
+                <div className="bg-[#c9a84c]/10 rounded-xl p-4">
+                  <p className="text-xs text-gray-500 text-center mb-1">Celková provízia</p>
+                  <p className="text-2xl font-bold text-[#c9a84c] text-center">€{calcCommission().toLocaleString()}</p>
+                </div>
+                {form.referrer_share > 0 && (
+                  <div className="grid grid-cols-2 gap-3 text-sm">
+                    <div className="bg-purple-50 rounded-lg p-3">
+                      <p className="text-xs text-gray-500 mb-1">Referrer ({form.referrer_share}%)</p>
+                      <p className="font-bold text-purple-700">€{calcReferrerAmount().toLocaleString()}</p>
+                    </div>
+                    <div className="bg-green-50 rounded-lg p-3">
+                      <p className="text-xs text-gray-500 mb-1">Firma ({form.company_share}%)</p>
+                      <p className="font-bold text-green-700">€{calcCompanyAmount().toLocaleString()}</p>
+                    </div>
+                  </div>
+                )}
               </div>
             )}
             <div><Label>Deal Date</Label><Input type="date" value={form.deal_date} onChange={e => setForm(f => ({ ...f, deal_date: e.target.value }))} /></div>

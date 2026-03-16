@@ -4,7 +4,7 @@ import { createPageUrl } from "@/utils";
 import { base44 } from "@/api/base44Client";
 import {
   LayoutDashboard, Building2, Users, CalendarClock, DollarSign,
-  MapPin, Menu, X, LogOut, ChevronRight, Bell, Languages, UserPlus
+  MapPin, Menu, X, LogOut, ChevronRight, Bell, Languages, UserPlus, BarChart3
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
@@ -24,6 +24,7 @@ export default function Layout({ children, currentPageName }) {
     { nameKey: "calendar", icon: CalendarClock, page: "Calendar" },
     { nameKey: "commissions", icon: DollarSign, page: "Commissions" },
     { nameKey: "referrers", icon: Users, page: "Referrers" },
+    { nameKey: "reports", icon: BarChart3, page: "Reports" },
     { nameKey: "map", icon: MapPin, page: "PropertyMap" },
   ];
 

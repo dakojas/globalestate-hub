@@ -1,23 +1,31 @@
 import React, { useState } from "react";
-import { useQuery, useQueryClient } from "@tanstack/react-query";
+import { useQuery, useQueryClient, useMutation } from "@tanstack/react-query";
 import { base44 } from "@/api/base44Client";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Skeleton } from "@/components/ui/skeleton";
-import { ArrowLeft, Pencil, MessageSquare, Phone, Mail, Eye, FileText, Clock } from "lucide-react";
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
+import { ArrowLeft, Pencil, MessageSquare, Phone, Mail, Eye, FileText, Clock, User, Gift } from "lucide-react";
 import { Link } from "react-router-dom";
 import { createPageUrl } from "@/utils";
 import { format } from "date-fns";
+import { toast } from "sonner";
 import ClientForm from "../components/clients/ClientForm";
 import InteractionForm from "../components/clients/InteractionForm";
+import { useTranslation } from "@/components/LanguageContext";
 
 const statusColors = {
-  lead: "bg-blue-50 text-blue-700",
-  active: "bg-emerald-50 text-emerald-700",
-  negotiating: "bg-amber-50 text-amber-700",
-  closed: "bg-purple-50 text-purple-700",
-  inactive: "bg-gray-100 text-gray-600",
+  new_lead: "bg-blue-500",
+  unclaimed: "bg-yellow-500",
+  claimed: "bg-purple-500",
+  contacted: "bg-indigo-500",
+  qualified: "bg-green-500",
+  offers_sent: "bg-teal-500",
+  viewing: "bg-orange-500",
+  reserved: "bg-pink-500",
+  closed: "bg-emerald-600",
+  lost: "bg-gray-400",
 };
 
 const interactionIcons = {
@@ -31,6 +39,12 @@ export default function ClientDetail() {
   const queryClient = useQueryClient();
   const [editing, setEditing] = useState(false);
   const [showInteraction, setShowInteraction] = useState(false);
+  const { t } = useTranslation();
+
+  const { data: user } = useQuery({
+    queryKey: ["current-user"],
+    queryFn: () => base44.auth.me(),
+  });
 
   const { data: client, isLoading } = useQuery({
     queryKey: ["client", id],
@@ -49,6 +63,25 @@ export default function ClientDetail() {
     queryKey: ["properties"],
     queryFn: () => base44.entities.Property.list("-created_date", 200),
   });
+
+  const { data: users = [] } = useQuery({
+    queryKey: ["team-users"],
+    queryFn: () => base44.entities.User.list(),
+  });
+
+  const updateStatusMutation = useMutation({
+    mutationFn: async (newStatus) => {
+      await base44.entities.Client.update(id, { status: newStatus });
+    },
+    onSuccess: () => {
+      toast.success("Status aktualizovaný");
+      queryClient.invalidateQueries({ queryKey: ["client", id] });
+      queryClient.invalidateQueries({ queryKey: ["leads"] });
+    },
+  });
+
+  const userMap = {};
+  users.forEach(u => { userMap[u.email] = u.full_name || u.email; });
 
   const refresh = () => {
     setEditing(false);
@@ -79,18 +112,59 @@ export default function ClientDetail() {
               <div className="w-16 h-16 rounded-2xl bg-[#0a1628]/5 flex items-center justify-center">
                 <span className="text-2xl font-bold text-[#0a1628]">{client.full_name?.charAt(0)}</span>
               </div>
-              <div>
+              <div className="flex-1">
                 <h2 className="text-xl font-bold text-[#0a1628]">{client.full_name}</h2>
-                <Badge className={`${statusColors[client.status]} mt-1`}>{client.status}</Badge>
+                <Select value={client.status} onValueChange={(v) => updateStatusMutation.mutate(v)}>
+                  <SelectTrigger className="w-full mt-2 h-8">
+                    <Badge className={`${statusColors[client.status]} text-white text-xs`}>
+                      {t(client.status)}
+                    </Badge>
+                  </SelectTrigger>
+                  <SelectContent>
+                    <SelectItem value="new_lead">Nový lead</SelectItem>
+                    <SelectItem value="unclaimed">Neprevzatý</SelectItem>
+                    <SelectItem value="claimed">Prevzatý</SelectItem>
+                    <SelectItem value="contacted">Kontaktovaný</SelectItem>
+                    <SelectItem value="qualified">Kvalifikovaný</SelectItem>
+                    <SelectItem value="offers_sent">Ponuky odoslané</SelectItem>
+                    <SelectItem value="viewing">Obhliadka</SelectItem>
+                    <SelectItem value="reserved">Rezervácia</SelectItem>
+                    <SelectItem value="closed">Uzavretý</SelectItem>
+                    <SelectItem value="lost">Stratený</SelectItem>
+                  </SelectContent>
+                </Select>
               </div>
             </div>
+            
+            {/* Lead Info */}
+            {client.lead_source && (
+              <div className="mb-4 p-3 rounded-lg bg-gray-50">
+                <div className="flex items-center gap-2 mb-2">
+                  {client.lead_source === "referrer" && <Gift className="w-4 h-4 text-purple-600" />}
+                  <p className="text-xs font-semibold text-gray-700">
+                    Zdroj: {client.lead_source === "referrer" ? "🎁 Referrer" : client.lead_source}
+                  </p>
+                </div>
+                {client.referrer_code && (
+                  <p className="text-xs text-gray-500">Kód: {client.referrer_code}</p>
+                )}
+                {client.claimed_by && (
+                  <div className="flex items-center gap-2 mt-2 pt-2 border-t">
+                    <User className="w-3 h-3 text-gray-400" />
+                    <p className="text-xs text-gray-600">
+                      Prevzal: {userMap[client.claimed_by] || client.claimed_by}
+                    </p>
+                  </div>
+                )}
+              </div>
+            )}
+
             <div className="space-y-3 text-sm">
               {client.email && <p className="flex items-center gap-2 text-gray-600"><Mail className="w-4 h-4 text-gray-400" />{client.email}</p>}
               {client.phone && <p className="flex items-center gap-2 text-gray-600"><Phone className="w-4 h-4 text-gray-400" />{client.phone}</p>}
               {client.nationality && <p className="text-gray-500">Nationality: {client.nationality}</p>}
-              {client.source && <p className="text-gray-500">Source: {client.source?.replace("_"," ")}</p>}
               {(client.budget_min || client.budget_max) && (
-                <p className="text-gray-500">Budget: €{(client.budget_min || 0).toLocaleString()} – €{(client.budget_max || 0).toLocaleString()}</p>
+                <p className="text-gray-500">Rozpočet: €{(client.budget_min || 0).toLocaleString()} – €{(client.budget_max || 0).toLocaleString()}</p>
               )}
             </div>
             {client.preferred_countries?.length > 0 && (

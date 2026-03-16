@@ -1,12 +1,13 @@
 import React from "react";
 import { useQuery } from "@tanstack/react-query";
 import { base44 } from "@/api/base44Client";
-import { Building2, Users, DollarSign, CalendarClock } from "lucide-react";
+import { Building2, Users, DollarSign, CalendarClock, UserPlus, TrendingUp } from "lucide-react";
 import { Skeleton } from "@/components/ui/skeleton";
 import StatCard from "../components/dashboard/StatCard";
 import RecentActivity from "../components/dashboard/RecentActivity";
 import CountryBreakdown from "../components/dashboard/CountryBreakdown";
 import UpcomingReminders from "../components/dashboard/UpcomingReminders";
+import LeadSourceChart from "../components/dashboard/LeadSourceChart";
 
 export default function Dashboard() {
   const { data: properties = [], isLoading: loadingProps } = useQuery({
@@ -37,6 +38,11 @@ export default function Dashboard() {
   const totalCommissions = commissions.reduce((sum, c) => sum + (c.commission_amount || 0), 0);
   const availableProperties = properties.filter(p => p.status === "available").length;
   const activeClients = clients.filter(c => ["active", "negotiating"].includes(c.status)).length;
+  
+  // New lead stats
+  const newLeads = clients.filter(c => c.status === "new_lead" || c.status === "unclaimed").length;
+  const referrerLeads = clients.filter(c => c.lead_source === "referrer").length;
+  const closedDeals = clients.filter(c => c.status === "closed").length;
 
   if (loadingProps || loadingClients) {
     return (
@@ -55,17 +61,20 @@ export default function Dashboard() {
   return (
     <div className="space-y-6">
       {/* Stats */}
-      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
-        <StatCard title="Total Properties" value={properties.length} subtitle={`${availableProperties} available`} icon={Building2} color="gold" />
-        <StatCard title="Clients" value={clients.length} subtitle={`${activeClients} active`} icon={Users} color="blue" />
-        <StatCard title="Total Commission" value={`€${totalCommissions.toLocaleString()}`} subtitle={`${commissions.length} deals`} icon={DollarSign} color="green" />
-        <StatCard title="Pending Reminders" value={reminders.length} subtitle="Action needed" icon={CalendarClock} color="red" />
+      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-6 gap-4">
+        <StatCard title="New Leads" value={newLeads} subtitle="Waiting" icon={UserPlus} color="blue" />
+        <StatCard title="Total Clients" value={clients.length} subtitle={`${activeClients} active`} icon={Users} color="purple" />
+        <StatCard title="Properties" value={properties.length} subtitle={`${availableProperties} available`} icon={Building2} color="gold" />
+        <StatCard title="Referrer Leads" value={referrerLeads} subtitle="From partners" icon={TrendingUp} color="green" />
+        <StatCard title="Closed Deals" value={closedDeals} subtitle="Successful" icon={DollarSign} color="emerald" />
+        <StatCard title="Reminders" value={reminders.length} subtitle="Pending" icon={CalendarClock} color="red" />
       </div>
 
       {/* Main grid */}
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
         <div className="lg:col-span-2 space-y-6">
           <RecentActivity interactions={interactions} clients={clients} />
+          <LeadSourceChart clients={clients} />
         </div>
         <div className="space-y-6">
           <UpcomingReminders reminders={reminders} />
