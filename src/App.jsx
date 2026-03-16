@@ -20,6 +20,7 @@ import PublicProperty from '@/pages/PublicProperty';
 import Leads from '@/pages/Leads';
 import Referrers from '@/pages/Referrers';
 import Reports from '@/pages/Reports';
+import PropertyImport from '@/pages/PropertyImport';
 
 const LayoutWrapper = ({ children, currentPageName }) =>
   <Layout currentPageName={currentPageName}>{children}</Layout>;
@@ -108,6 +109,11 @@ const AuthenticatedApp = () => {
       <Route path="/Reports" element={
         <LayoutWrapper currentPageName="Reports">
           <Reports />
+        </LayoutWrapper>
+      } />
+      <Route path="/PropertyImport" element={
+        <LayoutWrapper currentPageName="PropertyImport">
+          <PropertyImport />
         </LayoutWrapper>
       } />
       <Route path="/PublicHome" element={<PublicHome />} />
