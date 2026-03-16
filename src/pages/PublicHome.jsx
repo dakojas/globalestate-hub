@@ -184,6 +184,14 @@ export default function PublicHome() {
       <footer id="contact" className="border-t border-white/10 bg-white/5 backdrop-blur-lg py-12 px-6">
         <div className="max-w-7xl mx-auto text-center">
           <p className="text-white/60 mb-4">© 2026 Nehnuteľnosti v zahraničí. All rights reserved.</p>
+          <a
+            href="https://www.nehnutelnostivzahranici.sk/ochrana-sukromia/"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="text-[#c9a84c] text-sm hover:underline"
+          >
+            Ochrana osobných údajov (GDPR)
+          </a>
         </div>
       </footer>
     </div>

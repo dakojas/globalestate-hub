@@ -25,6 +25,7 @@ export default function PublicProperty() {
     notes: "",
   });
   const [submitting, setSubmitting] = useState(false);
+  const [gdprAccepted, setGdprAccepted] = useState(false);
 
   const { data: property } = useQuery({
     queryKey: ["public-property", id],
@@ -241,12 +242,31 @@ export default function PublicProperty() {
                     onChange={e => setFormData({...formData, notes: e.target.value})}
                     className="bg-white/10 border-white/20 text-white placeholder:text-white/50 min-h-24"
                   />
-                  <Button type="submit" disabled={submitting} className="w-full bg-[#c9a84c] hover:bg-[#b8973b] text-white">
-                    {submitting ? "Odeسielam..." : "Odoslať dopyt"}
+                  <div className="flex items-start gap-3 p-3 rounded-lg bg-white/5 border border-white/10">
+                    <input
+                      type="checkbox"
+                      id="gdpr"
+                      checked={gdprAccepted}
+                      onChange={e => setGdprAccepted(e.target.checked)}
+                      className="mt-0.5 w-4 h-4 accent-[#c9a84c] flex-shrink-0 cursor-pointer"
+                      required
+                    />
+                    <label htmlFor="gdpr" className="text-xs text-white/60 leading-relaxed cursor-pointer">
+                      Prečítal/a som si a súhlasím s{" "}
+                      <a
+                        href="https://www.nehnutelnostivzahranici.sk/ochrana-sukromia/"
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="text-[#c9a84c] hover:underline"
+                      >
+                        podmienkami ochrany osobných údajov (GDPR)
+                      </a>
+                      . Súhlasím so spracovaním mojich osobných údajov za účelom odpovede na môj dopyt. *
+                    </label>
+                  </div>
+                  <Button type="submit" disabled={submitting || !gdprAccepted} className="w-full bg-[#c9a84c] hover:bg-[#b8973b] text-white disabled:opacity-50 disabled:cursor-not-allowed">
+                    {submitting ? "Odosielam..." : "Odoslať dopyt"}
                   </Button>
-                  <p className="text-xs text-white/40 text-center">
-                    Odoslaním súhlasíte so spracovaním osobných údajov
-                  </p>
                 </form>
               </CardContent>
             </Card>
