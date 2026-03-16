@@ -12,6 +12,7 @@ const translations = {
     referrers: "Tiperi",
     reports: "Reporty",
     map: "Mapa",
+    team: "Tím",
     publicSite: "Verejný web",
     
     // Common
@@ -105,6 +106,7 @@ const translations = {
     referrers: "Referrers",
     reports: "Reports",
     map: "Map",
+    team: "Team",
     publicSite: "Public Site",
     
     // Common
