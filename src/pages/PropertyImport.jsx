@@ -41,7 +41,6 @@ DÔLEŽITÉ pre obrázky:
 
 Vráť zoznam v JSON formáte.`,
         add_context_from_internet: true,
-        model: "gemini_3_pro",
         response_json_schema: {
           type: "object",
           properties: {
@@ -150,7 +149,6 @@ Vráť zoznam v JSON formáte.`,
             <ul className="text-xs text-blue-700 space-y-1">
               <li>• AI prejde stránku a automaticky vyhľadá nehnuteľnosti</li>
               <li>• Extrahuje všetky informácie vrátane všetkých fotografií z galérie</li>
-              <li>• Používa pokročilý model pre presnejšie výsledky</li>
               <li>• Importované nehnuteľnosti sú automaticky zverejnené na verejnej stránke</li>
               <li>• Po importe skontrolujte a upravte údaje podľa potreby</li>
             </ul>
