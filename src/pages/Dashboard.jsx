@@ -79,6 +79,7 @@ export default function Dashboard() {
         </div>
         <div className="space-y-6">
           <UpcomingReminders reminders={reminders} />
+          <ClientMatches clients={clients} properties={properties} />
           <CountryBreakdown properties={properties} />
         </div>
       </div>
