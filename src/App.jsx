@@ -5,7 +5,7 @@ import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
 import PageNotFound from './lib/PageNotFound';
 import { AuthProvider, useAuth } from '@/lib/AuthContext';
 import UserNotRegisteredError from '@/components/UserNotRegisteredError';
-import Layout from './layout.js';
+import Layout from './layout';
 import Dashboard from './pages/Dashboard.js';
 import Properties from './pages/Properties.js';
 import PropertyDetail from './pages/PropertyDetail.js';
