@@ -84,7 +84,7 @@ Vráť mi zoznam nehnuteľností v JSON formáte.`,
             description: prop.description || "",
             images: prop.image_url ? [prop.image_url] : [],
             status: "available",
-            is_public: false, // Manually review before publishing
+            is_public: true,
             currency: "EUR",
           });
           success++;
@@ -139,7 +139,7 @@ Vráť mi zoznam nehnuteľností v JSON formáte.`,
             <ul className="text-xs text-blue-700 space-y-1">
               <li>• AI prejde stránku a automaticky vyhľadá nehnuteľnosti</li>
               <li>• Extrahuje všetky dostupné informácie (názov, cena, lokácia, atď.)</li>
-              <li>• Importované nehnuteľnosti sú nastavené ako "nepublikované" na manuálnu kontrolu</li>
+              <li>• Importované nehnuteľnosti sú automaticky zverejnené na verejnej stránke</li>
               <li>• Po importe skontrolujte a upravte údaje podľa potreby</li>
             </ul>
           </div>
@@ -202,8 +202,8 @@ Vráť mi zoznam nehnuteľností v JSON formáte.`,
           <h4 className="text-sm font-semibold text-amber-900 mb-2">⚠️ Upozornenie</h4>
           <p className="text-xs text-amber-700">
             Import používa AI na extrahovanie údajov, preto odporúčame po importe skontrolovať správnosť údajov.
-            Importované nehnuteľnosti sú automaticky nastavené ako "nepublikované" a je potrebné ich manuálne
-            schváliť v sekcii Properties.
+            Importované nehnuteľnosti sú automaticky zverejnené na verejnej stránke - môžete ich upraviť
+            alebo skryť v sekcii Properties.
           </p>
         </CardContent>
       </Card>
