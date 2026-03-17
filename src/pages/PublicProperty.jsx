@@ -10,20 +10,16 @@ import { ArrowLeft, MapPin, Bed, Bath, Maximize, Check } from "lucide-react";
 import { Link } from "react-router-dom";
 import { createPageUrl } from "@/utils";
 import { toast } from "sonner";
+import { PublicLanguageProvider, usePublicLang } from "@/components/PublicLanguageContext";
+import PublicLangSwitcher from "@/components/PublicLangSwitcher";
 
-export default function PublicProperty() {
+function PublicPropertyInner() {
   const urlParams = new URLSearchParams(window.location.search);
   const id = urlParams.get("id");
-  const ref = urlParams.get("ref"); // referrer code
+  const ref = urlParams.get("ref");
+  const { tr, lang } = usePublicLang();
 
-  const [formData, setFormData] = useState({
-    full_name: "",
-    email: "",
-    phone: "",
-    budget_min: "",
-    budget_max: "",
-    notes: "",
-  });
+  const [formData, setFormData] = useState({ full_name: "", email: "", phone: "", budget_min: "", budget_max: "", notes: "" });
   const [submitting, setSubmitting] = useState(false);
   const [gdprAccepted, setGdprAccepted] = useState(false);
 
@@ -37,36 +33,24 @@ export default function PublicProperty() {
   const handleSubmit = async (e) => {
     e.preventDefault();
     setSubmitting(true);
-
     try {
-      // Create client lead
-      const clientData = {
+      await base44.entities.Client.create({
         full_name: formData.full_name,
         email: formData.email,
         phone: formData.phone,
         budget_min: Number(formData.budget_min) || undefined,
         budget_max: Number(formData.budget_max) || undefined,
         preferred_countries: property?.country ? [property.country] : [],
-        lead_source: ref ? "referrer" : "direct_app",
+        lead_source: ref ? "referrer" : "website",
         referrer_code: ref || undefined,
         status: "new_lead",
         notes: formData.notes,
-      };
-
-      await base44.entities.Client.create(clientData);
-
-      // Create interaction
-      await base44.entities.Interaction.create({
-        client_id: "temp", // Will be linked properly in production
-        type: "note",
-        summary: `Lead z verejného webu - záujem o ${property?.title}`,
-        property_id: property?.id,
       });
-
-      toast.success("Ďakujeme! Čoskoro vás budeme kontaktovať.");
+      toast.success(lang === "sk" ? "Ďakujeme! Čoskoro vás budeme kontaktovať." : "Thank you! We will contact you shortly.");
       setFormData({ full_name: "", email: "", phone: "", budget_min: "", budget_max: "", notes: "" });
+      setGdprAccepted(false);
     } catch (error) {
-      toast.error("Chyba pri odoslaní. Skúste to prosím znova.");
+      toast.error(lang === "sk" ? "Chyba pri odoslaní." : "Submission failed. Please try again.");
     } finally {
       setSubmitting(false);
     }
@@ -75,10 +59,12 @@ export default function PublicProperty() {
   if (!property) {
     return (
       <div className="min-h-screen bg-[#0a1628] flex items-center justify-center">
-        <p className="text-white/60">Načítavam...</p>
+        <p className="text-white/60">{lang === "sk" ? "Načítavam..." : "Loading..."}</p>
       </div>
     );
   }
+
+  const displayDescription = lang === "en" && property.description_en ? property.description_en : property.description;
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-[#0a1628] via-[#132039] to-[#1a2844]">
@@ -87,13 +73,12 @@ export default function PublicProperty() {
         <div className="max-w-7xl mx-auto px-6 py-4 flex items-center justify-between">
           <Link to={createPageUrl("PublicHome")} className="flex items-center gap-2 text-white/70 hover:text-white transition-colors">
             <ArrowLeft className="w-5 h-5" />
-            Späť na ponuky
+            {tr("backToOffers")}
           </Link>
-          <img 
-            src="https://qtrypzzcjebvfcihiynt.supabase.co/storage/v1/object/public/base44-prod/public/69b801924dae038161790d9a/9193a9184_nehnutelnosti_logo-07.jpg" 
-            alt="Logo" 
-            className="h-10 w-auto object-contain"
-          />
+          <div className="flex items-center gap-4">
+            <img src="https://qtrypzzcjebvfcihiynt.supabase.co/storage/v1/object/public/base44-prod/public/69b801924dae038161790d9a/9193a9184_nehnutelnosti_logo-07.jpg" alt="Logo" className="h-10 w-auto object-contain hidden sm:block" />
+            <PublicLangSwitcher />
+          </div>
         </div>
       </header>
 
@@ -101,14 +86,11 @@ export default function PublicProperty() {
         <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
           {/* Main Content */}
           <div className="lg:col-span-2 space-y-6">
-            {/* Image Gallery */}
             <div className="rounded-2xl overflow-hidden bg-gray-900 aspect-video">
               {property.images?.[0] ? (
                 <img src={property.images[0]} alt={property.title} className="w-full h-full object-cover" />
               ) : (
-                <div className="w-full h-full flex items-center justify-center">
-                  <MapPin className="w-20 h-20 text-white/20" />
-                </div>
+                <div className="w-full h-full flex items-center justify-center"><MapPin className="w-20 h-20 text-white/20" /></div>
               )}
             </div>
 
@@ -122,44 +104,28 @@ export default function PublicProperty() {
               </div>
             )}
 
-            {/* Details */}
             <Card className="bg-white/5 backdrop-blur-lg border-white/10">
               <CardContent className="p-6">
                 <Badge className="bg-[#c9a84c] text-white mb-4">{property.country}</Badge>
                 <h1 className="text-3xl font-bold text-white mb-3">{property.title}</h1>
-                <p className="text-white/60 flex items-center gap-2 mb-6">
-                  <MapPin className="w-5 h-5" />
-                  {property.city}
-                </p>
+                <p className="text-white/60 flex items-center gap-2 mb-6"><MapPin className="w-5 h-5" />{property.city}</p>
 
                 <div className="grid grid-cols-3 gap-6 mb-6 pb-6 border-b border-white/10">
                   {property.bedrooms && (
-                    <div>
-                      <Bed className="w-6 h-6 text-[#c9a84c] mb-2" />
-                      <p className="text-2xl font-bold text-white">{property.bedrooms}</p>
-                      <p className="text-sm text-white/60">Spálne</p>
-                    </div>
+                    <div><Bed className="w-6 h-6 text-[#c9a84c] mb-2" /><p className="text-2xl font-bold text-white">{property.bedrooms}</p><p className="text-sm text-white/60">{tr("bedrooms")}</p></div>
                   )}
                   {property.bathrooms && (
-                    <div>
-                      <Bath className="w-6 h-6 text-[#c9a84c] mb-2" />
-                      <p className="text-2xl font-bold text-white">{property.bathrooms}</p>
-                      <p className="text-sm text-white/60">Kúpeľne</p>
-                    </div>
+                    <div><Bath className="w-6 h-6 text-[#c9a84c] mb-2" /><p className="text-2xl font-bold text-white">{property.bathrooms}</p><p className="text-sm text-white/60">{tr("bathrooms")}</p></div>
                   )}
                   {property.area_sqm && (
-                    <div>
-                      <Maximize className="w-6 h-6 text-[#c9a84c] mb-2" />
-                      <p className="text-2xl font-bold text-white">{property.area_sqm}</p>
-                      <p className="text-sm text-white/60">m²</p>
-                    </div>
+                    <div><Maximize className="w-6 h-6 text-[#c9a84c] mb-2" /><p className="text-2xl font-bold text-white">{property.area_sqm}</p><p className="text-sm text-white/60">m²</p></div>
                   )}
                 </div>
 
-                {property.description && (
+                {displayDescription && (
                   <>
-                    <h3 className="text-xl font-semibold text-white mb-3">Popis</h3>
-                    <p className="text-white/70 leading-relaxed whitespace-pre-wrap">{property.description}</p>
+                    <h3 className="text-xl font-semibold text-white mb-3">{tr("description")}</h3>
+                    <p className="text-white/70 leading-relaxed whitespace-pre-wrap">{displayDescription}</p>
                   </>
                 )}
               </CardContent>
@@ -168,13 +134,10 @@ export default function PublicProperty() {
             {property.features?.length > 0 && (
               <Card className="bg-white/5 backdrop-blur-lg border-white/10">
                 <CardContent className="p-6">
-                  <h3 className="text-xl font-semibold text-white mb-4">Vybavenie</h3>
+                  <h3 className="text-xl font-semibold text-white mb-4">{tr("amenities")}</h3>
                   <div className="grid grid-cols-2 gap-3">
                     {property.features.map((f, i) => (
-                      <div key={i} className="flex items-center gap-2 text-white/70">
-                        <Check className="w-4 h-4 text-[#c9a84c]" />
-                        <span>{f}</span>
-                      </div>
+                      <div key={i} className="flex items-center gap-2 text-white/70"><Check className="w-4 h-4 text-[#c9a84c]" /><span>{f}</span></div>
                     ))}
                   </div>
                 </CardContent>
@@ -187,85 +150,32 @@ export default function PublicProperty() {
             <Card className="bg-white/5 backdrop-blur-lg border-white/10 sticky top-24">
               <CardContent className="p-6">
                 <div className="mb-6">
-                  <p className="text-3xl font-bold text-[#c9a84c] mb-1">
-                    €{property.price?.toLocaleString()}
-                  </p>
+                  <p className="text-3xl font-bold text-[#c9a84c] mb-1">€{property.price?.toLocaleString()}</p>
                   {property.available_units && (
-                    <p className="text-sm text-white/60">Dostupných: {property.available_units} jednotiek</p>
+                    <p className="text-sm text-white/60">{tr("available_units")}: {property.available_units}</p>
                   )}
                 </div>
 
-                <h3 className="text-lg font-semibold text-white mb-4">Mám záujem</h3>
+                <h3 className="text-lg font-semibold text-white mb-4">{tr("interested")}</h3>
                 <form onSubmit={handleSubmit} className="space-y-4">
-                  <Input
-                    placeholder="Meno a priezvisko *"
-                    value={formData.full_name}
-                    onChange={e => setFormData({...formData, full_name: e.target.value})}
-                    required
-                    className="bg-white/10 border-white/20 text-white placeholder:text-white/50"
-                  />
-                  <Input
-                    type="email"
-                    placeholder="Email *"
-                    value={formData.email}
-                    onChange={e => setFormData({...formData, email: e.target.value})}
-                    required
-                    className="bg-white/10 border-white/20 text-white placeholder:text-white/50"
-                  />
-                  <Input
-                    type="tel"
-                    placeholder="Telefón *"
-                    value={formData.phone}
-                    onChange={e => setFormData({...formData, phone: e.target.value})}
-                    required
-                    className="bg-white/10 border-white/20 text-white placeholder:text-white/50"
-                  />
+                  <Input placeholder={tr("nameSurname")} value={formData.full_name} onChange={e => setFormData({...formData, full_name: e.target.value})} required className="bg-white/10 border-white/20 text-white placeholder:text-white/50" />
+                  <Input type="email" placeholder={tr("email")} value={formData.email} onChange={e => setFormData({...formData, email: e.target.value})} required className="bg-white/10 border-white/20 text-white placeholder:text-white/50" />
+                  <Input type="tel" placeholder={tr("phone")} value={formData.phone} onChange={e => setFormData({...formData, phone: e.target.value})} required className="bg-white/10 border-white/20 text-white placeholder:text-white/50" />
                   <div className="grid grid-cols-2 gap-3">
-                    <Input
-                      type="number"
-                      placeholder="Min. rozpočet (€)"
-                      value={formData.budget_min}
-                      onChange={e => setFormData({...formData, budget_min: e.target.value})}
-                      className="bg-white/10 border-white/20 text-white placeholder:text-white/50"
-                    />
-                    <Input
-                      type="number"
-                      placeholder="Max. rozpočet (€)"
-                      value={formData.budget_max}
-                      onChange={e => setFormData({...formData, budget_max: e.target.value})}
-                      className="bg-white/10 border-white/20 text-white placeholder:text-white/50"
-                    />
+                    <Input type="number" placeholder={tr("minBudget")} value={formData.budget_min} onChange={e => setFormData({...formData, budget_min: e.target.value})} className="bg-white/10 border-white/20 text-white placeholder:text-white/50" />
+                    <Input type="number" placeholder={tr("maxBudget")} value={formData.budget_max} onChange={e => setFormData({...formData, budget_max: e.target.value})} className="bg-white/10 border-white/20 text-white placeholder:text-white/50" />
                   </div>
-                  <Textarea
-                    placeholder="Vaša správa"
-                    value={formData.notes}
-                    onChange={e => setFormData({...formData, notes: e.target.value})}
-                    className="bg-white/10 border-white/20 text-white placeholder:text-white/50 min-h-24"
-                  />
+                  <Textarea placeholder={tr("message")} value={formData.notes} onChange={e => setFormData({...formData, notes: e.target.value})} className="bg-white/10 border-white/20 text-white placeholder:text-white/50 min-h-24" />
                   <div className="flex items-start gap-3 p-3 rounded-lg bg-white/5 border border-white/10">
-                    <input
-                      type="checkbox"
-                      id="gdpr"
-                      checked={gdprAccepted}
-                      onChange={e => setGdprAccepted(e.target.checked)}
-                      className="mt-0.5 w-4 h-4 accent-[#c9a84c] flex-shrink-0 cursor-pointer"
-                      required
-                    />
+                    <input type="checkbox" id="gdpr" checked={gdprAccepted} onChange={e => setGdprAccepted(e.target.checked)} className="mt-0.5 w-4 h-4 accent-[#c9a84c] flex-shrink-0 cursor-pointer" required />
                     <label htmlFor="gdpr" className="text-xs text-white/60 leading-relaxed cursor-pointer">
-                      Prečítal/a som si a súhlasím s{" "}
-                      <a
-                        href="https://www.nehnutelnostivzahranici.sk/ochrana-sukromia/"
-                        target="_blank"
-                        rel="noopener noreferrer"
-                        className="text-[#c9a84c] hover:underline"
-                      >
-                        podmienkami ochrany osobných údajov (GDPR)
-                      </a>
-                      . Súhlasím so spracovaním mojich osobných údajov za účelom odpovede na môj dopyt. *
+                      {tr("gdpr")}
+                      <a href="https://www.nehnutelnostivzahranici.sk/ochrana-sukromia/" target="_blank" rel="noopener noreferrer" className="text-[#c9a84c] hover:underline">{tr("gdprLink")}</a>
+                      {tr("gdprEnd")}
                     </label>
                   </div>
                   <Button type="submit" disabled={submitting || !gdprAccepted} className="w-full bg-[#c9a84c] hover:bg-[#b8973b] text-white disabled:opacity-50 disabled:cursor-not-allowed">
-                    {submitting ? "Odosielam..." : "Odoslať dopyt"}
+                    {submitting ? tr("sending") : tr("send")}
                   </Button>
                 </form>
               </CardContent>
@@ -274,5 +184,13 @@ export default function PublicProperty() {
         </div>
       </div>
     </div>
+  );
+}
+
+export default function PublicProperty() {
+  return (
+    <PublicLanguageProvider>
+      <PublicPropertyInner />
+    </PublicLanguageProvider>
   );
 }
