@@ -185,16 +185,16 @@ function PublicHomeInner() {
                 <p className="text-xl text-white/70 max-w-2xl mx-auto"><em>Staliśmy się bramą do całego świata.</em></p>
               </>
             )}
-            {lang === "hu" && (
-              <>
-                <h2 className="text-4xl md:text-5xl font-bold text-white mb-4"><em>Egy kis szlovák álomként kezdtünk.</em></h2>
-                <p className="text-xl text-white/70 max-w-2xl mx-auto"><em>Az egész világ kapujává váltunk.</em></p>
-              </>
-            )}
             {lang === "ru" && (
               <>
                 <h2 className="text-4xl md:text-5xl font-bold text-white mb-4"><em>Мы начали как маленькая словацкая мечта.</em></h2>
                 <p className="text-xl text-white/70 max-w-2xl mx-auto"><em>Мы стали воротами в весь мир.</em></p>
+              </>
+            )}
+            {lang === "hu" && (
+              <>
+                <h2 className="text-4xl md:text-5xl font-bold text-white mb-4"><em>Egy kis szlovák álomként kezdtünk.</em></h2>
+                <p className="text-xl text-white/70 max-w-2xl mx-auto"><em>Az egész világ kapujává váltunk.</em></p>
               </>
             )}
           </div>
