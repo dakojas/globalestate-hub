@@ -20,6 +20,27 @@ L.Icon.Default.mergeOptions({
   shadowUrl: "https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.7.1/images/marker-shadow.png",
 });
 
+const createCustomIcon = (status) => {
+  const colors = {
+    available: "#10b981",
+    reserved: "#f59e0b",
+    sold: "#ef4444",
+    off_market: "#6b7280",
+  };
+  const color = colors[status] || "#c9a84c";
+  const svg = `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 42" width="32" height="42">
+    <path d="M16 0C7.163 0 0 7.163 0 16c0 10 16 26 16 26s16-16 16-26C32 7.163 24.837 0 16 0z" fill="${color}" stroke="white" stroke-width="2"/>
+    <circle cx="16" cy="16" r="7" fill="white"/>
+  </svg>`;
+  return L.divIcon({
+    html: svg,
+    className: "",
+    iconSize: [32, 42],
+    iconAnchor: [16, 42],
+    popupAnchor: [0, -44],
+  });
+};
+
 const statusColors = {
   available: "bg-emerald-50 text-emerald-700",
   reserved: "bg-amber-50 text-amber-700",
