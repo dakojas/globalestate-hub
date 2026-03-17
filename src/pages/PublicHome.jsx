@@ -280,7 +280,7 @@ function PublicHomeInner() {
                 <>
                   <p className="text-[#c9a84c] text-xs uppercase tracking-widest font-semibold mb-4">KAPITOLA II – RAST</p>
                   <h3 className="text-2xl font-bold text-gray-900 mb-4">Klienti nás vzali so sebou.</h3>
-                  <p className="text-gray-700 text-sm leading-relaxed">Prvá kúpa v Egypte. Potom Dubaj. Potom Bali. Každý spokojný klient otvoril nové dvere — do novej krajiny, k novému developerovi. Tím rástol, portfólio rástlo, ale závázok zostal rovnaký.</p>
+                  <p className="text-gray-700 text-sm leading-relaxed">Prvá kúpa v Egypte. Potom Dubaj. Potom Bali. Každý spokojný klient otvoril nové dvere — do novej krajiny, k novému developerovi. Tím rástol, portfólio rástlo, ale záväzok zostal rovnaký.</p>
                 </>
               )}
               {lang === "en" && (
