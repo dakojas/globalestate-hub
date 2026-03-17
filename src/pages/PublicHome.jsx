@@ -49,11 +49,7 @@ function PublicHomeInner() {
       {/* Header */}
       <header className="border-b border-white/10 bg-white/5 backdrop-blur-lg sticky top-0 z-50">
         <div className="max-w-7xl mx-auto px-6 py-4 flex items-center justify-between">
-          <img
-            src="https://qtrypzzcjebvfcihiynt.supabase.co/storage/v1/object/public/base44-prod/public/69b801924dae038161790d9a/6515e362b_nehnutelnosti_logo-10.jpg"
-            alt="Nehnuteľnosti v zahraničí"
-            className="h-10 w-auto object-contain"
-          />
+          <Logo className="h-10" />
           <nav className="flex items-center gap-6">
             <a href="#properties" className="text-white/70 hover:text-[#c9a84c] transition-colors text-sm hidden sm:block">{tr("offers")}</a>
             <a href="#contact" className="text-white/70 hover:text-[#c9a84c] transition-colors text-sm hidden sm:block">{tr("contact")}</a>
@@ -199,11 +195,7 @@ function PublicHomeInner() {
       <footer id="contact" className="border-t border-white/10 bg-white/5 backdrop-blur-lg py-12 px-6">
         <div className="max-w-7xl mx-auto">
           <div className="flex flex-col md:flex-row items-center justify-between gap-6 mb-8">
-            <img
-              src="https://qtrypzzcjebvfcihiynt.supabase.co/storage/v1/object/public/base44-prod/public/69b801924dae038161790d9a/6515e362b_nehnutelnosti_logo-10.jpg"
-              alt="Nehnuteľnosti v zahraničí"
-              className="h-10 w-auto object-contain"
-            />
+            <Logo className="h-10" />
             <div className="flex flex-col sm:flex-row items-center gap-6 text-white/70 text-sm">
               <a href="tel:+421951094706" className="flex items-center gap-2 hover:text-[#c9a84c] transition-colors">
                 <span className="text-[#c9a84c]">📞</span> +421 951 094 706
