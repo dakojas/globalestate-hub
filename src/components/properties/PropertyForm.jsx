@@ -180,8 +180,7 @@ export default function PropertyForm({ property, open, onClose, onSaved }) {
               <Select value={form.construction_phase || ""} onValueChange={v => handleChange("construction_phase", v)}>
                 <SelectTrigger><SelectValue placeholder="Vyberte fázu" /></SelectTrigger>
                 <SelectContent>
-                  <SelectItem value="off_plan">🏗 Off Plan</SelectItem>
-                  <SelectItem value="vo_vystavbe">🔨 Vo výstavbe</SelectItem>
+                  <SelectItem value="vo_vystavbe">🏗 Vo výstavbe / Off Plan</SelectItem>
                   <SelectItem value="dokoncene">✅ Dokončené</SelectItem>
                 </SelectContent>
               </Select>

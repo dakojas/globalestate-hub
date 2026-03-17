@@ -105,8 +105,7 @@ function PublicHomeInner() {
                   </SelectTrigger>
                   <SelectContent>
                     <SelectItem value="all">{lang === "sk" ? "Všetky fázy" : "All phases"}</SelectItem>
-                    <SelectItem value="off_plan">🏗 Off Plan</SelectItem>
-                    <SelectItem value="vo_vystavbe">🔨 {lang === "sk" ? "Vo výstavbe" : "Under construction"}</SelectItem>
+                    <SelectItem value="vo_vystavbe">🏗 {lang === "sk" ? "Vo výstavbe / Off Plan" : "Off Plan"}</SelectItem>
                     <SelectItem value="dokoncene">✅ {lang === "sk" ? "Dokončené" : "Completed"}</SelectItem>
                   </SelectContent>
                 </Select>
@@ -163,13 +162,11 @@ function PublicHomeInner() {
                       <span className="bg-[#c9a84c] text-white text-xs font-bold px-3 py-1 rounded-full">{property.country}</span>
                       {property.construction_phase && (
                         <span className={`text-white text-xs font-semibold px-2 py-0.5 rounded-full ${
-                          property.construction_phase === "off_plan" ? "bg-blue-600" :
-                          property.construction_phase === "vo_vystavbe" ? "bg-orange-500" :
-                          "bg-emerald-600"
+                          property.construction_phase === "vo_vystavbe" ? "bg-orange-500" : "bg-emerald-600"
                         }`}>
-                          {property.construction_phase === "off_plan" ? "Off Plan" :
-                           property.construction_phase === "vo_vystavbe" ? (lang === "sk" ? "Vo výstavbe" : "Under constr.") :
-                           (lang === "sk" ? "Dokončené" : "Completed")}
+                          {property.construction_phase === "vo_vystavbe"
+                            ? (lang === "sk" ? "Vo výstavbe" : "Off Plan")
+                            : (lang === "sk" ? "Dokončené" : "Completed")}
                         </span>
                       )}
                     </div>

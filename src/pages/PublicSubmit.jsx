@@ -235,8 +235,7 @@ Return a JSON with: title_sk, title_en, description_sk, description_en. Keep tra
                     <SelectValue placeholder={lang === "sk" ? "Fáza projektu (voliteľné)" : "Construction phase (optional)"} />
                   </SelectTrigger>
                   <SelectContent>
-                    <SelectItem value="off_plan">🏗 Off Plan</SelectItem>
-                    <SelectItem value="vo_vystavbe">🔨 {lang === "sk" ? "Vo výstavbe" : "Under construction"}</SelectItem>
+                    <SelectItem value="vo_vystavbe">🏗 {lang === "sk" ? "Vo výstavbe / Off Plan" : "Off Plan"}</SelectItem>
                     <SelectItem value="dokoncene">✅ {lang === "sk" ? "Dokončené" : "Completed"}</SelectItem>
                   </SelectContent>
                 </Select>
