@@ -6,7 +6,7 @@ import { Label } from "@/components/ui/label";
 import { Textarea } from "@/components/ui/textarea";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { Dialog, DialogContent, DialogHeader, DialogTitle } from "@/components/ui/dialog";
-import { Upload, X, Plus, Loader2, FileText } from "lucide-react";
+import { Upload, X, Plus, Loader2, FileText, Languages } from "lucide-react";
 import { toast } from "sonner";
 
 const COUNTRIES = ["Albania", "Bali", "Hungary", "Bulgaria", "Dominican Republic", "Egypt", "Georgia", "Mauritius", "Oman", "UAE", "Spain", "Italy", "Thailand", "Turkey"];
@@ -27,6 +27,18 @@ export default function PropertyForm({ property, open, onClose, onSaved }) {
   const [uploadingPdf, setUploadingPdf] = useState(false);
   const [newFeature, setNewFeature] = useState("");
   const [newPortal, setNewPortal] = useState({ portal_name: "", url: "" });
+  const [translating, setTranslating] = useState(false);
+
+  const handleAiTranslate = async () => {
+    if (!form.description) return toast.error("Najprv zadajte popis nehnuteľnosti");
+    setTranslating(true);
+    const result = await base44.integrations.Core.InvokeLLM({
+      prompt: `Translate the following Slovak real estate property description to English. Keep it professional and natural. Only return the translated text, nothing else.\n\n${form.description}`,
+    });
+    handleChange("description_en", result);
+    toast.success("Preložené do angličtiny ✓");
+    setTranslating(false);
+  };
 
   const handleChange = (field, value) => setForm(prev => ({ ...prev, [field]: value }));
 
@@ -178,8 +190,21 @@ export default function PropertyForm({ property, open, onClose, onSaved }) {
           </div>
 
           <div>
-            <Label>Description</Label>
-            <Textarea value={form.description} onChange={e => handleChange("description", e.target.value)} rows={4} placeholder="Property details..." />
+            <div className="flex items-center justify-between mb-1">
+              <Label>Popis (SK)</Label>
+            </div>
+            <Textarea value={form.description} onChange={e => handleChange("description", e.target.value)} rows={4} placeholder="Popis nehnuteľnosti po slovensky..." />
+          </div>
+
+          <div>
+            <div className="flex items-center justify-between mb-1">
+              <Label>Popis (EN)</Label>
+              <Button type="button" variant="outline" size="sm" onClick={handleAiTranslate} disabled={translating} className="h-7 text-xs gap-1">
+                {translating ? <Loader2 className="w-3 h-3 animate-spin" /> : <Languages className="w-3 h-3" />}
+                {translating ? "Prekladám..." : "AI preložiť SK→EN"}
+              </Button>
+            </div>
+            <Textarea value={form.description_en || ""} onChange={e => handleChange("description_en", e.target.value)} rows={4} placeholder="English description (auto or manual)..." />
           </div>
 
           <div>
