@@ -58,6 +58,7 @@ function PublicHomeInner() {
         <div className="max-w-7xl mx-auto px-6 py-4 flex items-center justify-between">
           <Logo className="h-10" />
           <nav className="flex items-center gap-6">
+            <Link to={createPageUrl("PublicAbout")} className="text-white/70 hover:text-[#c9a84c] transition-colors text-sm hidden sm:block">O nás</Link>
             <a href="#properties" className="text-white/70 hover:text-[#c9a84c] transition-colors text-sm hidden sm:block">{tr("offers")}</a>
             <a href="#contact" className="text-white/70 hover:text-[#c9a84c] transition-colors text-sm hidden sm:block">{tr("contact")}</a>
             <Link to={createPageUrl("PublicSubmit")} className="hidden sm:block">
@@ -140,6 +141,38 @@ function PublicHomeInner() {
                 <X className="w-3 h-3" /> {filters.country}
               </button>
             )}
+          </div>
+        </div>
+      </section>
+
+      {/* Brand Story Section */}
+      <section className="py-16 px-6 bg-white/5 backdrop-blur-lg border-t border-b border-white/10">
+        <div className="max-w-5xl mx-auto">
+          <div className="text-center mb-12">
+            <p className="text-[#c9a84c] text-xs uppercase tracking-widest mb-4">BRATISLAVA • DUBAJ • SVET • 2024–</p>
+            <h2 className="text-4xl md:text-5xl font-bold text-white mb-4">
+              <em>Začali sme ako malý slovenský sen.</em>
+            </h2>
+            <p className="text-xl text-white/70 max-w-2xl mx-auto">
+              <em>Stali sme sa bránou do celého sveta.</em>
+            </p>
+          </div>
+
+          <div className="grid md:grid-cols-2 gap-8 mb-8">
+            <div className="bg-white rounded-xl p-8">
+              <p className="text-[#c9a84c] text-xs uppercase tracking-widest font-semibold mb-4">KAPITOLA I – ZAČIATOK</p>
+              <h3 className="text-2xl font-bold text-gray-900 mb-4">Jeden nápad. Jeden sen.</h3>
+              <p className="text-gray-700 text-sm leading-relaxed">Bolo to jednoduché: Slováci chceli nehnuteľnosti v zahraničí. Jazyk bol cudzi, trh neznámy. Tak vznikla stránka Nehnuteľnosti v zahraničí — nie ako veľká korporácia, ale ako odpoveď na konkrétnu potrebu konkrétnych ľudí.</p>
+            </div>
+            <div className="bg-white rounded-xl p-8">
+              <p className="text-[#c9a84c] text-xs uppercase tracking-widest font-semibold mb-4">KAPITOLA II – RAST</p>
+              <h3 className="text-2xl font-bold text-gray-900 mb-4">Klienti nás vzali so sebou.</h3>
+              <p className="text-gray-700 text-sm leading-relaxed">Prvá kúpa v Egypte. Potom Dubaj. Potom Bali. Každý spokojný klient otvoriť nové dvere — do novej krajiny, k novému developerovi. Tím rástol, portfólio rástlo, ale závázok zostal rovnaký.</p>
+            </div>
+          </div>
+
+          <div className="text-center">
+            <Link to={createPageUrl("PublicAbout")} className="inline-block text-[#c9a84c] hover:text-[#b8973b] transition-colors font-semibold text-sm uppercase tracking-widest">Читай celý príbeh →</Link>
           </div>
         </div>
       </section>
