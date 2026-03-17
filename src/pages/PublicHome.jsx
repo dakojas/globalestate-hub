@@ -49,7 +49,7 @@ function PublicHomeInner() {
       <header className="border-b border-white/10 bg-white/5 backdrop-blur-lg sticky top-0 z-50">
         <div className="max-w-7xl mx-auto px-6 py-4 flex items-center justify-between">
           <img
-            src="https://qtrypzzcjebvfcihiynt.supabase.co/storage/v1/object/public/base44-prod/public/69b801924dae038161790d9a/9193a9184_nehnutelnosti_logo-07.jpg"
+            src="https://qtrypzzcjebvfcihiynt.supabase.co/storage/v1/object/public/base44-prod/public/69b801924dae038161790d9a/6515e362b_nehnutelnosti_logo-10.jpg"
             alt="Nehnuteľnosti v zahraničí"
             className="h-10 w-auto object-contain"
           />

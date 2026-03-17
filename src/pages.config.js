@@ -47,40 +47,46 @@
  *
  * The mainPage value must match a key in the PAGES object exactly.
  */
+import Calendar from './pages/Calendar';
+import ClientDetail from './pages/ClientDetail';
+import Clients from './pages/Clients';
+import Commissions from './pages/Commissions';
 import Dashboard from './pages/Dashboard';
+import Leads from './pages/Leads';
 import Properties from './pages/Properties';
 import PropertyDetail from './pages/PropertyDetail';
-import Clients from './pages/Clients';
-import ClientDetail from './pages/ClientDetail';
-import Calendar from './pages/Calendar';
-import Commissions from './pages/Commissions';
+import PropertyImport from './pages/PropertyImport';
 import PropertyMap from './pages/PropertyMap';
 import PublicHome from './pages/PublicHome';
 import PublicProperty from './pages/PublicProperty';
-import Leads from './pages/Leads';
+import PublicSubmit from './pages/PublicSubmit';
 import Referrers from './pages/Referrers';
 import Reports from './pages/Reports';
+import Team from './pages/Team';
 import __Layout from './Layout.jsx';
 
 
 export const PAGES = {
+    "Calendar": Calendar,
+    "ClientDetail": ClientDetail,
+    "Clients": Clients,
+    "Commissions": Commissions,
     "Dashboard": Dashboard,
+    "Leads": Leads,
     "Properties": Properties,
     "PropertyDetail": PropertyDetail,
-    "Clients": Clients,
-    "ClientDetail": ClientDetail,
-    "Calendar": Calendar,
-    "Commissions": Commissions,
+    "PropertyImport": PropertyImport,
     "PropertyMap": PropertyMap,
     "PublicHome": PublicHome,
     "PublicProperty": PublicProperty,
-    "Leads": Leads,
+    "PublicSubmit": PublicSubmit,
     "Referrers": Referrers,
     "Reports": Reports,
+    "Team": Team,
 }
 
 export const pagesConfig = {
-    mainPage: "Dashboard",
+    mainPage: "PublicHome",
     Pages: PAGES,
     Layout: __Layout,
 };
