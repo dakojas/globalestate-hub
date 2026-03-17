@@ -142,7 +142,7 @@ Return a JSON with: title_sk, title_en, description_sk, description_en. Keep tra
         <div className="max-w-5xl mx-auto px-6 py-4 flex items-center justify-between">
           <Link to={createPageUrl("PublicHome")} className="flex items-center gap-2 text-white/70 hover:text-white transition-colors">
             <ArrowLeft className="w-5 h-5" />
-            <img src="https://qtrypzzcjebvfcihiynt.supabase.co/storage/v1/object/public/base44-prod/public/69b801924dae038161790d9a/9193a9184_nehnutelnosti_logo-07.jpg" alt="Logo" className="h-9 w-auto object-contain ml-2" />
+            <img src="https://qtrypzzcjebvfcihiynt.supabase.co/storage/v1/object/public/base44-prod/public/69b801924dae038161790d9a/6515e362b_nehnutelnosti_logo-10.jpg" alt="Logo" className="h-9 w-auto object-contain ml-2" />
           </Link>
           <PublicLangSwitcher />
         </div>

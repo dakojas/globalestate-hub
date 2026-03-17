@@ -54,7 +54,7 @@ export default function Layout({ children, currentPageName }) {
           <div className="flex items-center justify-between">
             <div className="flex items-center gap-3">
               <img 
-                src="https://qtrypzzcjebvfcihiynt.supabase.co/storage/v1/object/public/base44-prod/public/69b801924dae038161790d9a/9193a9184_nehnutelnosti_logo-07.jpg" 
+                src="https://qtrypzzcjebvfcihiynt.supabase.co/storage/v1/object/public/base44-prod/public/69b801924dae038161790d9a/6515e362b_nehnutelnosti_logo-10.jpg" 
                 alt="Nehnuteľnosti v zahraničí" 
                 className="h-12 w-auto object-contain"
               />
