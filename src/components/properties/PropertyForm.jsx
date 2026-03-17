@@ -10,7 +10,7 @@ import { Upload, X, Plus, Loader2, FileText, Languages } from "lucide-react";
 import { toast } from "sonner";
 
 const COUNTRIES = ["Albania", "Bali", "Hungary", "Bulgaria", "Dominican Republic", "Egypt", "Georgia", "Mauritius", "Oman", "UAE", "Spain", "Italy", "Thailand", "Turkey"];
-const TYPES = ["apartment", "villa", "penthouse", "studio", "townhouse", "land", "commercial"];
+const TYPES = ["studio", "1_bedroom", "2_bedroom", "penthouse", "vila"];
 const STATUSES = ["available", "reserved", "sold", "off_market"];
 const CURRENCIES = ["EUR", "USD", "GBP", "AED", "THB", "EGP", "IDR"];
 
@@ -133,7 +133,11 @@ export default function PropertyForm({ property, open, onClose, onSaved }) {
               <Select value={form.property_type} onValueChange={v => handleChange("property_type", v)}>
                 <SelectTrigger><SelectValue /></SelectTrigger>
                 <SelectContent>
-                  {TYPES.map(t => <SelectItem key={t} value={t}>{t.charAt(0).toUpperCase() + t.slice(1)}</SelectItem>)}
+                  <SelectItem value="studio">Štúdio</SelectItem>
+                  <SelectItem value="1_bedroom">1 Bedroom</SelectItem>
+                  <SelectItem value="2_bedroom">2 Bedroom</SelectItem>
+                  <SelectItem value="penthouse">Penthouse</SelectItem>
+                  <SelectItem value="vila">Vila</SelectItem>
                 </SelectContent>
               </Select>
             </div>

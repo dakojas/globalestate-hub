@@ -14,7 +14,7 @@ import PublicLangSwitcher from "@/components/PublicLangSwitcher";
 import Logo from "@/components/Logo";
 
 const COUNTRIES = ["Albania","Bali","Hungary","Bulgaria","Dominican Republic","Egypt","Georgia","Mauritius","Oman","UAE","Spain","Italy","Thailand","Turkey","Other"];
-const PROPERTY_TYPES = ["apartment","villa","penthouse","studio","townhouse","land","commercial"];
+const PROPERTY_TYPES = ["studio","1_bedroom","2_bedroom","penthouse","vila"];
 
 function PublicSubmitInner() {
   const { tr, lang } = usePublicLang();
@@ -218,7 +218,11 @@ Return a JSON with: title_sk, title_en, description_sk, description_en. Keep tra
                     <SelectValue placeholder={tr("typeLabel")} />
                   </SelectTrigger>
                   <SelectContent>
-                    {PROPERTY_TYPES.map(t => <SelectItem key={t} value={t}>{t}</SelectItem>)}
+                    <SelectItem value="studio">Štúdio</SelectItem>
+                    <SelectItem value="1_bedroom">1 Bedroom</SelectItem>
+                    <SelectItem value="2_bedroom">2 Bedroom</SelectItem>
+                    <SelectItem value="penthouse">Penthouse</SelectItem>
+                    <SelectItem value="vila">Vila</SelectItem>
                   </SelectContent>
                 </Select>
                 <Input type="number" placeholder={tr("priceLabel") + " (€) *"} value={form.price} onChange={e => setForm({...form, price: e.target.value})} required className="bg-white/10 border-white/20 text-white placeholder:text-white/40" />

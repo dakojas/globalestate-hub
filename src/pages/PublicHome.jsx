@@ -14,6 +14,13 @@ import { PublicLanguageProvider, usePublicLang } from "@/components/PublicLangua
 import PublicLangSwitcher from "@/components/PublicLangSwitcher";
 
 const COUNTRIES = ["Albania", "Bali", "Hungary", "Bulgaria", "Dominican Republic", "Egypt", "Georgia", "Mauritius", "Oman", "UAE", "Spain", "Italy", "Thailand", "Turkey"];
+const PROPERTY_TYPES_DISPLAY = {
+  "studio": "Štúdio",
+  "1_bedroom": "1 Bedroom",
+  "2_bedroom": "2 Bedroom",
+  "penthouse": "Penthouse",
+  "vila": "Vila"
+};
 
 function PublicHomeInner() {
   const { tr, lang } = usePublicLang();
@@ -89,11 +96,11 @@ function PublicHomeInner() {
                   </SelectTrigger>
                   <SelectContent>
                     <SelectItem value="all">{tr("allTypes")}</SelectItem>
-                    <SelectItem value="apartment">{tr("apartment")}</SelectItem>
-                    <SelectItem value="villa">{tr("villa")}</SelectItem>
-                    <SelectItem value="penthouse">{tr("penthouse")}</SelectItem>
-                    <SelectItem value="studio">{tr("studio")}</SelectItem>
-                    <SelectItem value="townhouse">{tr("townhouse")}</SelectItem>
+                    <SelectItem value="studio">Štúdio</SelectItem>
+                    <SelectItem value="1_bedroom">1 Bedroom</SelectItem>
+                    <SelectItem value="2_bedroom">2 Bedroom</SelectItem>
+                    <SelectItem value="penthouse">Penthouse</SelectItem>
+                    <SelectItem value="vila">Vila</SelectItem>
                   </SelectContent>
                 </Select>
                 <Select value={filters.constructionPhase} onValueChange={v => setFilters({...filters, constructionPhase: v})}>
