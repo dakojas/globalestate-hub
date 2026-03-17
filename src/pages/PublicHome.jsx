@@ -5,7 +5,8 @@ import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { Card, CardContent } from "@/components/ui/card";
-import { MapPin, Bed, Maximize, Home } from "lucide-react";
+import { MapPin, Bed, Maximize, Home, X } from "lucide-react";
+import CountryMap from "@/components/public/CountryMap";
 import { Link } from "react-router-dom";
 import { createPageUrl } from "@/utils";
 import { PublicLanguageProvider, usePublicLang } from "@/components/PublicLanguageContext";
@@ -16,6 +17,13 @@ const COUNTRIES = ["Albania", "Bali", "Hungary", "Bulgaria", "Dominican Republic
 function PublicHomeInner() {
   const { tr, lang } = usePublicLang();
   const [filters, setFilters] = useState({ country: "all", minBudget: "", maxBudget: "", propertyType: "all" });
+  const [mapCountry, setMapCountry] = useState("all");
+
+  const handleMapSelect = (country) => {
+    setMapCountry(country);
+    setFilters(f => ({ ...f, country }));
+    document.getElementById("properties")?.scrollIntoView({ behavior: "smooth" });
+  };
 
   const { data: properties = [] } = useQuery({
     queryKey: ["public-properties"],
