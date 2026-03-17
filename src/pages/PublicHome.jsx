@@ -30,6 +30,10 @@ function PublicHomeInner() {
     queryFn: () => base44.entities.Property.filter({ is_public: true }, "-created_date", 100),
   });
 
+  const propertiesByCountry = properties
+    .filter(p => p.status === "available")
+    .reduce((acc, p) => { acc[p.country] = (acc[p.country] || 0) + 1; return acc; }, {});
+
   const filtered = properties.filter(p => {
     const matchCountry = filters.country === "all" || p.country === filters.country;
     const matchType = filters.propertyType === "all" || p.property_type === filters.propertyType;
