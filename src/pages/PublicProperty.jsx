@@ -6,7 +6,7 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 import { Badge } from "@/components/ui/badge";
-import { ArrowLeft, MapPin, Bed, Bath, Maximize, Check } from "lucide-react";
+import { ArrowLeft, MapPin, Bed, Bath, Maximize, Check, Loader2 } from "lucide-react";
 import { Link } from "react-router-dom";
 import { createPageUrl } from "@/utils";
 import { toast } from "sonner";
@@ -22,6 +22,9 @@ function PublicPropertyInner() {
   const [formData, setFormData] = useState({ full_name: "", email: "", phone: "", budget_min: "", budget_max: "", notes: "" });
   const [submitting, setSubmitting] = useState(false);
   const [gdprAccepted, setGdprAccepted] = useState(false);
+  const [translatedDesc, setTranslatedDesc] = useState(null);
+  const [translatedFeatures, setTranslatedFeatures] = useState(null);
+  const [translating, setTranslating] = useState(false);
 
   const { data: property } = useQuery({
     queryKey: ["public-property", id],
@@ -29,6 +32,37 @@ function PublicPropertyInner() {
     select: d => d[0],
     enabled: !!id,
   });
+
+  // Auto-translate when switching to EN and no pre-saved translation
+  React.useEffect(() => {
+    if (lang !== "en" || !property) return;
+    if (property.description_en) {
+      setTranslatedDesc(property.description_en);
+      return;
+    }
+    if (translatedDesc || translating) return;
+
+    const textsToTranslate = [];
+    if (property.description) textsToTranslate.push(`DESCRIPTION:\n${property.description}`);
+    if (property.features?.length) textsToTranslate.push(`FEATURES (comma separated):\n${property.features.join(", ")}`);
+
+    if (!textsToTranslate.length) return;
+
+    setTranslating(true);
+    base44.integrations.Core.InvokeLLM({
+      prompt: `Translate the following Slovak real estate content to English. Return ONLY a JSON object with keys "description" (string) and "features" (array of strings). Keep it natural and professional.\n\n${textsToTranslate.join("\n\n")}`,
+      response_json_schema: {
+        type: "object",
+        properties: {
+          description: { type: "string" },
+          features: { type: "array", items: { type: "string" } }
+        }
+      }
+    }).then(result => {
+      if (result.description) setTranslatedDesc(result.description);
+      if (result.features?.length) setTranslatedFeatures(result.features);
+    }).finally(() => setTranslating(false));
+  }, [lang, property]);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -64,7 +98,8 @@ function PublicPropertyInner() {
     );
   }
 
-  const displayDescription = lang === "en" && property.description_en ? property.description_en : property.description;
+  const displayDescription = lang === "en" ? (property.description_en || translatedDesc || property.description) : property.description;
+  const displayFeatures = lang === "en" ? (translatedFeatures || property.features) : property.features;
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-[#0a1628] via-[#132039] to-[#1a2844]">
@@ -122,6 +157,12 @@ function PublicPropertyInner() {
                   )}
                 </div>
 
+                {translating && lang === "en" && (
+                  <div className="flex items-center gap-2 text-white/50 text-sm mb-4">
+                    <Loader2 className="w-4 h-4 animate-spin" />
+                    Translating content...
+                  </div>
+                )}
                 {displayDescription && (
                   <>
                     <h3 className="text-xl font-semibold text-white mb-3">{tr("description")}</h3>
@@ -136,7 +177,7 @@ function PublicPropertyInner() {
                 <CardContent className="p-6">
                   <h3 className="text-xl font-semibold text-white mb-4">{tr("amenities")}</h3>
                   <div className="grid grid-cols-2 gap-3">
-                    {property.features.map((f, i) => (
+                    {(displayFeatures || property.features).map((f, i) => (
                       <div key={i} className="flex items-center gap-2 text-white/70"><Check className="w-4 h-4 text-[#c9a84c]" /><span>{f}</span></div>
                     ))}
                   </div>
