@@ -20,7 +20,6 @@ export default function Properties() {
   const [statusFilter, setStatusFilter] = useState("all");
   const [selectedIds, setSelectedIds] = useState(new Set());
   const [bulkDeleting, setBulkDeleting] = useState(false);
-  const queryClient = useQueryClient();
   const { data: properties = [], isLoading } = useQuery({
     queryKey: ["properties"],
     queryFn: () => base44.entities.Property.list("-created_date", 200),
