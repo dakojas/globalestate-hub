@@ -172,7 +172,7 @@ function PublicHomeInner() {
           </div>
 
           <div className="text-center">
-            <Link to={createPageUrl("PublicAbout")} className="inline-block text-[#c9a84c] hover:text-[#b8973b] transition-colors font-semibold text-sm uppercase tracking-widest">Читай celý príbeh →</Link>
+            <Link to={createPageUrl("PublicAbout")} className="inline-block text-[#c9a84c] hover:text-[#b8973b] transition-colors font-semibold text-sm uppercase tracking-widest">Čítaj celý príbeh →</Link>
           </div>
         </div>
       </section>
