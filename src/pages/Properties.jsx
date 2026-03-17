@@ -5,7 +5,7 @@ import { base44 } from "@/api/base44Client";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
-import { Plus, Search, LayoutGrid, List, Trash2, Loader2 } from "lucide-react";
+import { Plus, Search, LayoutGrid, List, Trash2, Loader2, Star } from "lucide-react";
 import { toast } from "sonner";
 import { Skeleton } from "@/components/ui/skeleton";
 import PropertyCard from "../components/properties/PropertyCard";
@@ -14,6 +14,7 @@ import PropertyForm from "../components/properties/PropertyForm";
 const COUNTRIES = ["All", "Albania", "Bali", "Hungary", "Bulgaria", "Dominican Republic", "Egypt", "Georgia", "Mauritius", "Oman", "UAE", "Spain", "Italy", "Thailand", "Turkey"];
 
 export default function Properties() {
+  const queryClient = useQueryClient();
   const [showForm, setShowForm] = useState(false);
   const [search, setSearch] = useState("");
   const [countryFilter, setCountryFilter] = useState("All");
@@ -24,6 +25,16 @@ export default function Properties() {
     queryKey: ["properties"],
     queryFn: () => base44.entities.Property.list("-created_date", 200),
   });
+
+  const toggleFeatured = async (propertyId, currentFeatured) => {
+    try {
+      await base44.entities.Property.update(propertyId, { is_featured: !currentFeatured });
+      queryClient.invalidateQueries({ queryKey: ["properties"] });
+      toast.success(!currentFeatured ? "Nehnuteľnosť je odteraz featured" : "Featured status odstránený");
+    } catch {
+      toast.error("Chyba pri aktualizácii");
+    }
+  };
 
   const filtered = properties.filter(p => {
     const matchSearch = !search || p.title?.toLowerCase().includes(search.toLowerCase()) || p.city?.toLowerCase().includes(search.toLowerCase());
@@ -155,6 +166,15 @@ export default function Properties() {
                 onChange={() => toggleSelect(p.id)}
                 className="absolute top-4 left-4 w-5 h-5 accent-[#c9a84c] cursor-pointer z-10 rounded"
               />
+              <button
+                onClick={() => toggleFeatured(p.id, p.is_featured)}
+                className={`absolute top-4 right-4 z-10 p-2 rounded-full transition-colors ${
+                  p.is_featured ? "bg-[#c9a84c] text-white" : "bg-white/20 text-white/60 hover:text-white"
+                }`}
+                title="Toggle featured"
+              >
+                <Star className="w-5 h-5" fill={p.is_featured ? "currentColor" : "none"} />
+              </button>
               <PropertyCard property={p} />
             </div>
           ))}
