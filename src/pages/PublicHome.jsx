@@ -176,11 +176,28 @@ function PublicHomeInner() {
 
       {/* Footer */}
       <footer id="contact" className="border-t border-white/10 bg-white/5 backdrop-blur-lg py-12 px-6">
-        <div className="max-w-7xl mx-auto text-center">
-          <p className="text-white/60 mb-4">© 2026 Nehnuteľnosti v zahraničí. {tr("rights")}</p>
-          <a href="https://www.nehnutelnostivzahranici.sk/ochrana-sukromia/" target="_blank" rel="noopener noreferrer" className="text-[#c9a84c] text-sm hover:underline">
-            {tr("privacy")}
-          </a>
+        <div className="max-w-7xl mx-auto">
+          <div className="flex flex-col md:flex-row items-center justify-between gap-6 mb-8">
+            <img
+              src="https://qtrypzzcjebvfcihiynt.supabase.co/storage/v1/object/public/base44-prod/public/69b801924dae038161790d9a/9193a9184_nehnutelnosti_logo-07.jpg"
+              alt="Nehnuteľnosti v zahraničí"
+              className="h-10 w-auto object-contain"
+            />
+            <div className="flex flex-col sm:flex-row items-center gap-6 text-white/70 text-sm">
+              <a href="tel:+421951094706" className="flex items-center gap-2 hover:text-[#c9a84c] transition-colors">
+                <span className="text-[#c9a84c]">📞</span> +421 951 094 706
+              </a>
+              <a href="mailto:info@nehnutelnostivzahranici.sk" className="flex items-center gap-2 hover:text-[#c9a84c] transition-colors">
+                <span className="text-[#c9a84c]">✉️</span> info@nehnutelnostivzahranici.sk
+              </a>
+            </div>
+          </div>
+          <div className="border-t border-white/10 pt-6 flex flex-col sm:flex-row items-center justify-between gap-3">
+            <p className="text-white/40 text-sm">© 2026 Nehnuteľnosti v zahraničí. {tr("rights")}</p>
+            <a href="https://www.nehnutelnostivzahranici.sk/ochrana-sukromia/" target="_blank" rel="noopener noreferrer" className="text-[#c9a84c] text-sm hover:underline">
+              {tr("privacy")}
+            </a>
+          </div>
         </div>
       </footer>
     </div>
