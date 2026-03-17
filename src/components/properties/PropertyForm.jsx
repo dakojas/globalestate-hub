@@ -176,6 +176,17 @@ export default function PropertyForm({ property, open, onClose, onSaved }) {
               <Input value={form.project_name} onChange={e => handleChange("project_name", e.target.value)} placeholder="Development name" />
             </div>
             <div>
+              <Label>Fáza projektu</Label>
+              <Select value={form.construction_phase || ""} onValueChange={v => handleChange("construction_phase", v)}>
+                <SelectTrigger><SelectValue placeholder="Vyberte fázu" /></SelectTrigger>
+                <SelectContent>
+                  <SelectItem value="off_plan">🏗 Off Plan</SelectItem>
+                  <SelectItem value="vo_vystavbe">🔨 Vo výstavbe</SelectItem>
+                  <SelectItem value="dokoncene">✅ Dokončené</SelectItem>
+                </SelectContent>
+              </Select>
+            </div>
+            <div>
               <Label>Commission Rate (%)</Label>
               <Input type="number" value={form.commission_rate} onChange={e => handleChange("commission_rate", e.target.value)} />
             </div>
