@@ -30,7 +30,7 @@ const LayoutWrapper = ({ children, currentPageName }) =>
 const PUBLIC_PATHS = ["/", "/PublicHome", "/PublicProperty", "/PublicSubmit"];
 
 const ProtectedRoute = ({ children }) => {
-  const { isLoadingAuth, isLoadingPublicSettings, authError, isAuthenticated, navigateToLogin } = useAuth();
+  const { isLoadingAuth, isLoadingPublicSettings, authError, isAuthenticated } = useAuth();
 
   if (isLoadingPublicSettings || isLoadingAuth) {
     return (
@@ -42,9 +42,15 @@ const ProtectedRoute = ({ children }) => {
 
   if (authError?.type === 'user_not_registered') return <UserNotRegisteredError />;
 
-  if (!isAuthenticated || authError?.type === 'auth_required') {
-    navigateToLogin();
-    return null;
+  if (!isAuthenticated) {
+    // Force redirect to login immediately
+    base44.auth.redirectToLogin(window.location.href);
+    return (
+      <div className="fixed inset-0 flex flex-col items-center justify-center bg-[#0a1628] gap-4">
+        <div className="w-8 h-8 border-4 border-[#c9a84c]/30 border-t-[#c9a84c] rounded-full animate-spin"></div>
+        <p className="text-white/60 text-sm">Presmerovávam na prihlásenie...</p>
+      </div>
+    );
   }
 
   return children;
