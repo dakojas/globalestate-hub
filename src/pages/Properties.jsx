@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import PendingApprovals from "../components/properties/PendingApprovals";
 import { useQuery, useQueryClient } from "@tanstack/react-query";
 import { base44 } from "@/api/base44Client";
 import { Button } from "@/components/ui/button";
@@ -32,6 +33,7 @@ export default function Properties() {
 
   return (
     <div className="space-y-6">
+      <PendingApprovals />
       {/* Header */}
       <div className="flex flex-col sm:flex-row gap-4 items-start sm:items-center justify-between">
         <div>
