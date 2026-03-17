@@ -111,8 +111,8 @@ function PublicPropertyInner() {
     );
   }
 
-  const displayDescription = lang === "en" ? (property.description_en || translatedDesc || property.description) : property.description;
-  const displayFeatures = lang === "en" ? (translatedFeatures || property.features) : property.features;
+  const displayDescription = lang === "sk" ? property.description : (translatedDesc || property.description);
+  const displayFeatures = lang === "sk" ? property.features : (translatedFeatures || property.features);
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-[#0a1628] via-[#132039] to-[#1a2844]">
@@ -170,10 +170,10 @@ function PublicPropertyInner() {
                   )}
                 </div>
 
-                {translating && lang === "en" && (
+                {translating && lang !== "sk" && (
                   <div className="flex items-center gap-2 text-white/50 text-sm mb-4">
                     <Loader2 className="w-4 h-4 animate-spin" />
-                    Translating content...
+                    {tr("translatingListing")}
                   </div>
                 )}
                 {displayDescription && (
