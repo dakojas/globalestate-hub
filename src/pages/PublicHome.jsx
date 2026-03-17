@@ -101,6 +101,31 @@ function PublicHomeInner() {
         </div>
       </section>
 
+      {/* World Map */}
+      <section className="px-6 pb-8">
+        <div className="max-w-7xl mx-auto">
+          <div className="text-center mb-6">
+            <h2 className="text-2xl font-bold text-white">{tr("exploreMap")}</h2>
+            <p className="text-white/50 text-sm mt-1">{tr("exploreMapSub")}</p>
+          </div>
+          <div className="relative rounded-2xl overflow-hidden border border-white/10" style={{ height: 420 }}>
+            <CountryMap
+              propertiesByCountry={propertiesByCountry}
+              selectedCountry={filters.country}
+              onSelectCountry={handleMapSelect}
+            />
+            {filters.country !== "all" && (
+              <button
+                onClick={() => handleMapSelect("all")}
+                className="absolute top-3 right-3 z-[1000] bg-[#c9a84c] hover:bg-[#b8973b] text-white text-xs font-semibold px-3 py-1.5 rounded-full flex items-center gap-1 shadow-lg"
+              >
+                <X className="w-3 h-3" /> {filters.country}
+              </button>
+            )}
+          </div>
+        </div>
+      </section>
+
       {/* Properties Grid */}
       <section id="properties" className="py-16 px-6">
         <div className="max-w-7xl mx-auto">
