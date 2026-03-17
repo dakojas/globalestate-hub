@@ -159,8 +159,19 @@ function PublicHomeInner() {
                     ) : (
                       <div className="w-full h-full flex items-center justify-center"><Home className="w-16 h-16 text-white/20" /></div>
                     )}
-                    <div className="absolute top-3 right-3">
+                    <div className="absolute top-3 right-3 flex flex-col gap-1 items-end">
                       <span className="bg-[#c9a84c] text-white text-xs font-bold px-3 py-1 rounded-full">{property.country}</span>
+                      {property.construction_phase && (
+                        <span className={`text-white text-xs font-semibold px-2 py-0.5 rounded-full ${
+                          property.construction_phase === "off_plan" ? "bg-blue-600" :
+                          property.construction_phase === "vo_vystavbe" ? "bg-orange-500" :
+                          "bg-emerald-600"
+                        }`}>
+                          {property.construction_phase === "off_plan" ? "Off Plan" :
+                           property.construction_phase === "vo_vystavbe" ? (lang === "sk" ? "Vo výstavbe" : "Under constr.") :
+                           (lang === "sk" ? "Dokončené" : "Completed")}
+                        </span>
+                      )}
                     </div>
                   </div>
                   <CardContent className="p-5">
