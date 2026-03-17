@@ -56,27 +56,45 @@ function PublicSubmitInner() {
     let description_sk = form.description, description_en = form.description;
 
     try {
-      const translated = await base44.integrations.Core.InvokeLLM({
-        prompt: `Translate the following real estate listing content into both Slovak (sk) and English (en). The original language is: ${form.original_language}.
+      const isOriginalSK = form.original_language === "sk";
+      const originalText = form.title;
+      const originalDesc = form.description;
 
-Title: ${form.title}
-Description: ${form.description}
-
-Return a JSON with: title_sk, title_en, description_sk, description_en. Keep translations professional and natural for real estate context.`,
-        response_json_schema: {
-          type: "object",
-          properties: {
-            title_sk: { type: "string" },
-            title_en: { type: "string" },
-            description_sk: { type: "string" },
-            description_en: { type: "string" },
+      if (isOriginalSK) {
+        title_sk = originalText;
+        description_sk = originalDesc;
+        // Translate to EN
+        const enTranslation = await base44.integrations.Core.InvokeLLM({
+          prompt: `Translate the following Slovak real estate listing to English. Return JSON with: title_en, description_en.\n\nTitle: ${originalText}\nDescription: ${originalDesc}`,
+          response_json_schema: {
+            type: "object",
+            properties: {
+              title_en: { type: "string" },
+              description_en: { type: "string" },
+            }
           }
-        }
-      });
-      title_sk = translated.title_sk || form.title;
-      title_en = translated.title_en || form.title;
-      description_sk = translated.description_sk || form.description;
-      description_en = translated.description_en || form.description;
+        });
+        title_en = enTranslation.title_en || originalText;
+        description_en = enTranslation.description_en || originalDesc;
+      } else {
+        // Translate from other language to SK and EN
+        const translations = await base44.integrations.Core.InvokeLLM({
+          prompt: `Translate the following real estate listing to Slovak (sk) and English (en). Original language: ${form.original_language}.\n\nTitle: ${originalText}\nDescription: ${originalDesc}`,
+          response_json_schema: {
+            type: "object",
+            properties: {
+              title_sk: { type: "string" },
+              title_en: { type: "string" },
+              description_sk: { type: "string" },
+              description_en: { type: "string" },
+            }
+          }
+        });
+        title_sk = translations.title_sk || originalText;
+        title_en = translations.title_en || originalText;
+        description_sk = translations.description_sk || originalDesc;
+        description_en = translations.description_en || originalDesc;
+      }
     } catch {
       // fallback: keep original
     }

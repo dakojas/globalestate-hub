@@ -34,24 +34,35 @@ function PublicPropertyInner() {
     enabled: !!id,
   });
 
-  // Auto-translate when switching to EN and no pre-saved translation
+  // Auto-translate to selected language
   useEffect(() => {
-    if (lang !== "en" || !property) return;
-    if (property.description_en) {
-      setTranslatedDesc(property.description_en);
+    if (!property) return;
+    
+    // Check if we already have translation stored or cached
+    const cacheKey = `trans_${property.id}_${lang}`;
+    const cached = sessionStorage.getItem(cacheKey);
+    if (cached) {
+      const cached_data = JSON.parse(cached);
+      setTranslatedDesc(cached_data.description);
+      setTranslatedFeatures(cached_data.features);
       return;
     }
-    if (translatedDesc || translating) return;
 
-    const textsToTranslate = [];
-    if (property.description) textsToTranslate.push(`DESCRIPTION:\n${property.description}`);
-    if (property.features?.length) textsToTranslate.push(`FEATURES (comma separated):\n${property.features.join(", ")}`);
+    // No need to translate to SK (original language)
+    if (lang === "sk") {
+      setTranslatedDesc(null);
+      setTranslatedFeatures(null);
+      return;
+    }
 
-    if (!textsToTranslate.length) return;
+    if (translating || translatedDesc) return;
 
     setTranslating(true);
+    const langMap = { en: "English", de: "German", ru: "Russian", pl: "Polish", hu: "Hungarian" };
+    const targetLang = langMap[lang] || "English";
+
     base44.integrations.Core.InvokeLLM({
-      prompt: `Translate the following Slovak real estate content to English. Return ONLY a JSON object with keys "description" (string) and "features" (array of strings). Keep it natural and professional.\n\n${textsToTranslate.join("\n\n")}`,
+      prompt: `Translate the following Slovak real estate content to ${targetLang}. Return ONLY a JSON object with keys "description" (string) and "features" (array of strings). Keep it natural and professional.\n\nDESCRIPTION:\n${property.description}\n\nFEATURES:\n${property.features?.join(", ") || ""}`,
       response_json_schema: {
         type: "object",
         properties: {
@@ -60,8 +71,9 @@ function PublicPropertyInner() {
         }
       }
     }).then(result => {
-      if (result.description) setTranslatedDesc(result.description);
-      if (result.features?.length) setTranslatedFeatures(result.features);
+      setTranslatedDesc(result.description);
+      setTranslatedFeatures(result.features);
+      sessionStorage.setItem(cacheKey, JSON.stringify(result));
     }).finally(() => setTranslating(false));
   }, [lang, property]);
 
