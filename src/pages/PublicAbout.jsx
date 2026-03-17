@@ -53,7 +53,7 @@ const brandStory = {
     chapter2: {
       label: "KAPITOLA II – RAST",
       title: "Klienti nás vzali so sebou.",
-      content: "Nikto nás nemusel presvedčiť o tom, že svet je malý. Naši klienti nám to ukázali.\n\nPrvá kúpa v Egypte. Potom Dubaj. Potom Bali. Každý spokojný klient otvoriť nové dvere — do novej krajiny, k novému developerovi, k novej komunite ľudí, ktorí chcú investovať mimo hranic.\n\nTím rástol. Portfólio rástlo. Ale závázok zostal rovnaký: každý klient dostane rovnakú starostlivosť ako ten prvý.",
+      content: "Nikto nás nemusel presvedčiť o tom, že svet je malý. Naši klienti nám to ukázali.\n\nPrvá kúpa v Egypte. Potom Dubaj. Potom Bali. Každý spokojný klient otvoril nové dvere — do novej krajiny, k novému developerovi, k novej komunite ľudí, ktorí chcú investovať mimo hranic.\n\nTím rástol. Portfólio rástlo. Ale závázok zostal rovnaký: každý klient dostane rovnakú starostlivosť ako ten prvý.",
       timeline: [
         { label: "Vznik", desc: "Slovenský portál ide online. Prvé projekty, prví klienti, prvé sny splnené na cudzej pôde." },
         { label: "Expanzia", desc: "Egypt, Dubaj, Albánsko, Turecko. Tím rastie. Makléri v Dubaji. Partneri na mieste. Klient nekupuje naslepo." },
@@ -64,7 +64,7 @@ const brandStory = {
     chapter3: {
       label: "KAPITOLA III – DNES",
       title: "Globálni. Ale stále vaši.",
-      content: "Dnes pôsobíme v 16 krajinách. Náš tím hovorí viacerými jazykmi, pozná lokálne trhy, pozná developerov osobne. Ale jedno sa nezmenilo.\n\nKeď ná zavoláte, neodpovedá vám call centrum. Odpovie vám človek, ktorý pozná vás, váš rozpočet a váš sen. Tak to bolo od začiatku. Tak to zostane.\n\nNie sme globálna korporácia s lokálnou pobočkou. Sme lokálna firma s globálnym dosahom. To je rozdiel, ktorý cítite pri každom jednání."
+      content: "Dnes pôsobíme v 16 krajinách. Náš tím hovorí viacerými jazykmi, pozná lokálne trhy, pozná developerov osobne. Ale jedno sa nezmenilo.\n\nKeď nám zavoláte, neodpovedá vám call centrum. Odpovie vám človek, ktorý pozná vás, váš rozpočet a váš sen. Tak to bolo od začiatku. Tak to zostane.\n\nNie sme globálna korporácia s lokálnou pobočkou. Sme lokálna firma s globálnym dosahom. To je rozdiel, ktorý cítite pri každom jednání."
     },
     motto: {
       title: "Svet je väčší, než si myslíte.",
