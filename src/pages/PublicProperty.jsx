@@ -58,7 +58,7 @@ function PublicPropertyInner() {
     if (translating || translatedDesc) return;
 
     setTranslating(true);
-    const langMap = { en: "English", de: "German", ru: "Russian", pl: "Polish", hu: "Hungarian" };
+    const langMap = { en: "English", de: "German", fr: "French", it: "Italian", ru: "Russian", pl: "Polish", hu: "Hungarian" };
     const targetLang = langMap[lang] || "English";
 
     base44.integrations.Core.InvokeLLM({
@@ -93,11 +93,31 @@ function PublicPropertyInner() {
         status: "new_lead",
         notes: formData.notes,
       });
-      toast.success(lang === "sk" ? "Ďakujeme! Čoskoro vás budeme kontaktovať." : "Thank you! We will contact you shortly.");
+      const messages = {
+        sk: "Ďakujeme! Čoskoro vás budeme kontaktovať.",
+        en: "Thank you! We will contact you shortly.",
+        fr: "Merci! Nous vous contacterons bientôt.",
+        it: "Grazie! Vi contatteremo presto.",
+        de: "Danke! Wir werden Sie bald kontaktieren.",
+        ru: "Спасибо! Мы свяжемся с вами вскоре.",
+        pl: "Dziękuję! Skontaktujemy się z Tobą wkrótce.",
+        hu: "Köszönöm! Hamarosan felvesszük a kapcsolatot."
+      };
+      toast.success(messages[lang] || messages.sk);
       setFormData({ full_name: "", email: "", phone: "", budget_min: "", budget_max: "", notes: "" });
       setGdprAccepted(false);
     } catch (error) {
-      toast.error(lang === "sk" ? "Chyba pri odoslaní." : "Submission failed. Please try again.");
+      const errorMessages = {
+        sk: "Chyba pri odoslaní.",
+        en: "Submission failed. Please try again.",
+        fr: "Erreur lors de l'envoi.",
+        it: "Errore nell'invio.",
+        de: "Fehler beim Absenden.",
+        ru: "Ошибка при отправке.",
+        pl: "Błąd przy wysyłaniu.",
+        hu: "Hiba az elküldéskor."
+      };
+      toast.error(errorMessages[lang] || errorMessages.sk);
     } finally {
       setSubmitting(false);
     }
