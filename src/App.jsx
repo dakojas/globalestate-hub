@@ -30,7 +30,7 @@ const LayoutWrapper = ({ children, currentPageName }) =>
 const PUBLIC_PATHS = ["/", "/PublicHome", "/PublicProperty", "/PublicSubmit"];
 
 const ProtectedRoute = ({ children }) => {
-  const { isLoadingAuth, isLoadingPublicSettings, authError, navigateToLogin } = useAuth();
+  const { isLoadingAuth, isLoadingPublicSettings, authError, isAuthenticated, navigateToLogin } = useAuth();
 
   if (isLoadingPublicSettings || isLoadingAuth) {
     return (
@@ -40,9 +40,11 @@ const ProtectedRoute = ({ children }) => {
     );
   }
 
-  if (authError) {
-    if (authError.type === 'user_not_registered') return <UserNotRegisteredError />;
-    if (authError.type === 'auth_required') { navigateToLogin(); return null; }
+  if (authError?.type === 'user_not_registered') return <UserNotRegisteredError />;
+
+  if (!isAuthenticated) {
+    navigateToLogin();
+    return null;
   }
 
   return children;
