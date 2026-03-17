@@ -112,7 +112,7 @@ function PublicPropertyInner() {
             {tr("backToOffers")}
           </Link>
           <div className="flex items-center gap-4">
-            <img src="https://qtrypzzcjebvfcihiynt.supabase.co/storage/v1/object/public/base44-prod/public/69b801924dae038161790d9a/6515e362b_nehnutelnosti_logo-10.jpg" alt="Logo" className="h-10 w-auto object-contain hidden sm:block" />
+            <Logo className="h-10 hidden sm:flex" />
             <PublicLangSwitcher />
           </div>
         </div>
