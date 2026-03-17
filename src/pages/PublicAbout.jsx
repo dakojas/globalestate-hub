@@ -32,7 +32,7 @@ const brandStory = {
     chapter3: {
       label: "KAPITOLA III – DNES",
       title: "Globálni. Ale stále vaši.",
-      content: "Dnes pôsobíme v 16 krajinách. Náš tím hovorí viacerými jazykmi, pozná lokálne trhy, pozná developerov osobne. Ale jedno sa nezmenilo.\n\nKed ná zavolá, neodpovedá vám call centrum. Odpovie vám človek, ktorý pozná vás, váš rozpočet a váš sen. Tak to bolo od začiatku. Tak to zostane.\n\nNie sme globálna korporácia s lokálnou pobočkou. Sme lokálna firma s globálnym dosahom. To je rozdiel, ktorý cítite pri každom jednání."
+      content: "Dnes pôsobíme v 16 krajinách. Náš tím hovorí viacerými jazykmi, pozná lokálne trhy, pozná developerov osobne. Ale jedno sa nezmenilo.\n\nKeď ná zavoláte, neodpovedá vám call centrum. Odpovie vám človek, ktorý pozná vás, váš rozpočet a váš sen. Tak to bolo od začiatku. Tak to zostane.\n\nNie sme globálna korporácia s lokálnou pobočkou. Sme lokálna firma s globálnym dosahom. To je rozdiel, ktorý cítite pri každom jednání."
     },
     motto: {
       title: "Svet je väčší, než si myslíte.",
