@@ -99,6 +99,17 @@ function PublicHomeInner() {
                     <SelectItem value="townhouse">{tr("townhouse")}</SelectItem>
                   </SelectContent>
                 </Select>
+                <Select value={filters.constructionPhase} onValueChange={v => setFilters({...filters, constructionPhase: v})}>
+                  <SelectTrigger className="bg-white/10 border-white/20 text-white">
+                    <SelectValue placeholder={lang === "sk" ? "Fáza projektu" : "Phase"} />
+                  </SelectTrigger>
+                  <SelectContent>
+                    <SelectItem value="all">{lang === "sk" ? "Všetky fázy" : "All phases"}</SelectItem>
+                    <SelectItem value="off_plan">🏗 Off Plan</SelectItem>
+                    <SelectItem value="vo_vystavbe">🔨 {lang === "sk" ? "Vo výstavbe" : "Under construction"}</SelectItem>
+                    <SelectItem value="dokoncene">✅ {lang === "sk" ? "Dokončené" : "Completed"}</SelectItem>
+                  </SelectContent>
+                </Select>
               </div>
             </CardContent>
           </Card>
