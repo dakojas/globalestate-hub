@@ -24,6 +24,7 @@ import Reports from '@/pages/Reports';
 import PropertyImport from '@/pages/PropertyImport';
 import Team from '@/pages/Team';
 import PublicSubmit from '@/pages/PublicSubmit';
+import PublicAbout from '@/pages/PublicAbout';
 
 const LayoutWrapper = ({ children, currentPageName }) =>
   <Layout currentPageName={currentPageName}>{children}</Layout>;
@@ -65,6 +66,7 @@ const AuthenticatedApp = () => {
       <Route path="/PublicHome" element={<PublicHome />} />
       <Route path="/PublicProperty" element={<PublicProperty />} />
       <Route path="/PublicSubmit" element={<PublicSubmit />} />
+      <Route path="/PublicAbout" element={<PublicAbout />} />
 
       {/* Protected routes - login required */}
       <Route path="/Dashboard" element={<ProtectedRoute><LayoutWrapper currentPageName="Dashboard"><Dashboard /></LayoutWrapper></ProtectedRoute>} />
