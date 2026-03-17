@@ -42,8 +42,7 @@ const brandStory = {
   sk: {
     hero: {
       title: "Začali sme ako malý slovenský sen.",
-      subtitle: "Stali sme sa bránou do celého sveta.",
-      meta: "BRATISLAVA • DUBAJ • SVET • 2024–"
+      subtitle: "Stali sme sa bránou do celého sveta."
     },
     chapter1: {
       label: "KAPITOLA I – ZAČIATOK",
@@ -75,8 +74,7 @@ const brandStory = {
   en: {
     hero: {
       title: "We started as a small Slovak dream.",
-      subtitle: "We became a gateway to the whole world.",
-      meta: "BRATISLAVA • DUBAI • WORLD • 2024–"
+      subtitle: "We became a gateway to the whole world."
     },
     chapter1: {
       label: "CHAPTER I – BEGINNING",
