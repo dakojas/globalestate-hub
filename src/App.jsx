@@ -27,10 +27,11 @@ import PublicSubmit from '@/pages/PublicSubmit';
 const LayoutWrapper = ({ children, currentPageName }) =>
   <Layout currentPageName={currentPageName}>{children}</Layout>;
 
-const AuthenticatedApp = () => {
+const PUBLIC_PATHS = ["/", "/PublicHome", "/PublicProperty", "/PublicSubmit"];
+
+const ProtectedRoute = ({ children }) => {
   const { isLoadingAuth, isLoadingPublicSettings, authError, navigateToLogin } = useAuth();
 
-  // Show loading spinner while checking app public settings or auth
   if (isLoadingPublicSettings || isLoadingAuth) {
     return (
       <div className="fixed inset-0 flex items-center justify-center">
@@ -39,89 +40,37 @@ const AuthenticatedApp = () => {
     );
   }
 
-  // Handle authentication errors
   if (authError) {
-    if (authError.type === 'user_not_registered') {
-      return <UserNotRegisteredError />;
-    } else if (authError.type === 'auth_required') {
-      // Redirect to login automatically
-      navigateToLogin();
-      return null;
-    }
+    if (authError.type === 'user_not_registered') return <UserNotRegisteredError />;
+    if (authError.type === 'auth_required') { navigateToLogin(); return null; }
   }
 
-  // Render the main app
+  return children;
+};
+
+const AuthenticatedApp = () => {
   return (
     <Routes>
+      {/* Public routes - no auth required */}
       <Route path="/" element={<PublicHome />} />
-      <Route path="/Dashboard" element={
-        <LayoutWrapper currentPageName="Dashboard">
-          <Dashboard />
-        </LayoutWrapper>
-      } />
-      <Route path="/Properties" element={
-        <LayoutWrapper currentPageName="Properties">
-          <Properties />
-        </LayoutWrapper>
-      } />
-      <Route path="/PropertyDetail" element={
-        <LayoutWrapper currentPageName="PropertyDetail">
-          <PropertyDetail />
-        </LayoutWrapper>
-      } />
-      <Route path="/Clients" element={
-        <LayoutWrapper currentPageName="Clients">
-          <Clients />
-        </LayoutWrapper>
-      } />
-      <Route path="/ClientDetail" element={
-        <LayoutWrapper currentPageName="ClientDetail">
-          <ClientDetail />
-        </LayoutWrapper>
-      } />
-      <Route path="/Calendar" element={
-        <LayoutWrapper currentPageName="Calendar">
-          <Calendar />
-        </LayoutWrapper>
-      } />
-      <Route path="/Commissions" element={
-        <LayoutWrapper currentPageName="Commissions">
-          <Commissions />
-        </LayoutWrapper>
-      } />
-      <Route path="/PropertyMap" element={
-        <LayoutWrapper currentPageName="PropertyMap">
-          <PropertyMap />
-        </LayoutWrapper>
-      } />
-      <Route path="/Leads" element={
-        <LayoutWrapper currentPageName="Leads">
-          <Leads />
-        </LayoutWrapper>
-      } />
-      <Route path="/Referrers" element={
-        <LayoutWrapper currentPageName="Referrers">
-          <Referrers />
-        </LayoutWrapper>
-      } />
-      <Route path="/Reports" element={
-        <LayoutWrapper currentPageName="Reports">
-          <Reports />
-        </LayoutWrapper>
-      } />
-      <Route path="/PropertyImport" element={
-        <LayoutWrapper currentPageName="PropertyImport">
-          <PropertyImport />
-        </LayoutWrapper>
-      } />
-      <Route path="/Team" element={
-        <LayoutWrapper currentPageName="Team">
-          <Team />
-        </LayoutWrapper>
-      } />
       <Route path="/PublicHome" element={<PublicHome />} />
       <Route path="/PublicProperty" element={<PublicProperty />} />
       <Route path="/PublicSubmit" element={<PublicSubmit />} />
+
+      {/* Protected routes - login required */}
+      <Route path="/Dashboard" element={<ProtectedRoute><LayoutWrapper currentPageName="Dashboard"><Dashboard /></LayoutWrapper></ProtectedRoute>} />
+      <Route path="/Properties" element={<ProtectedRoute><LayoutWrapper currentPageName="Properties"><Properties /></LayoutWrapper></ProtectedRoute>} />
+      <Route path="/PropertyDetail" element={<ProtectedRoute><LayoutWrapper currentPageName="PropertyDetail"><PropertyDetail /></LayoutWrapper></ProtectedRoute>} />
+      <Route path="/Clients" element={<ProtectedRoute><LayoutWrapper currentPageName="Clients"><Clients /></LayoutWrapper></ProtectedRoute>} />
+      <Route path="/ClientDetail" element={<ProtectedRoute><LayoutWrapper currentPageName="ClientDetail"><ClientDetail /></LayoutWrapper></ProtectedRoute>} />
+      <Route path="/Calendar" element={<ProtectedRoute><LayoutWrapper currentPageName="Calendar"><Calendar /></LayoutWrapper></ProtectedRoute>} />
+      <Route path="/Commissions" element={<ProtectedRoute><LayoutWrapper currentPageName="Commissions"><Commissions /></LayoutWrapper></ProtectedRoute>} />
+      <Route path="/PropertyMap" element={<ProtectedRoute><LayoutWrapper currentPageName="PropertyMap"><PropertyMap /></LayoutWrapper></ProtectedRoute>} />
+      <Route path="/Leads" element={<ProtectedRoute><LayoutWrapper currentPageName="Leads"><Leads /></LayoutWrapper></ProtectedRoute>} />
+      <Route path="/Referrers" element={<ProtectedRoute><LayoutWrapper currentPageName="Referrers"><Referrers /></LayoutWrapper></ProtectedRoute>} />
+      <Route path="/Reports" element={<ProtectedRoute><LayoutWrapper currentPageName="Reports"><Reports /></LayoutWrapper></ProtectedRoute>} />
+      <Route path="/PropertyImport" element={<ProtectedRoute><LayoutWrapper currentPageName="PropertyImport"><PropertyImport /></LayoutWrapper></ProtectedRoute>} />
+      <Route path="/Team" element={<ProtectedRoute><LayoutWrapper currentPageName="Team"><Team /></LayoutWrapper></ProtectedRoute>} />
       <Route path="*" element={<PageNotFound />} />
     </Routes>
   );
