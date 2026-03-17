@@ -149,7 +149,6 @@ function PublicHomeInner() {
       <section className="py-16 px-6 bg-white/5 backdrop-blur-lg border-t border-b border-white/10">
         <div className="max-w-5xl mx-auto">
           <div className="text-center mb-12">
-            <p className="text-[#c9a84c] text-xs uppercase tracking-widest mb-4">BRATISLAVA • DUBAJ • SVET • 2024–</p>
             <h2 className="text-4xl md:text-5xl font-bold text-white mb-4">
               <em>Začali sme ako malý slovenský sen.</em>
             </h2>
