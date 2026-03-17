@@ -145,9 +145,8 @@ export default function Commissions() {
 
   return (
     <div className="space-y-6">
-      {/* Stats – only for admin */}
-      {isAdmin && (
-        <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
+      {/* Stats – visible to all */}
+      <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
           <Card className="border-0 shadow-sm">
             <CardContent className="p-6 flex items-center gap-4">
               <div className="w-12 h-12 rounded-2xl bg-emerald-50 flex items-center justify-center"><DollarSign className="w-6 h-6 text-emerald-600" /></div>
@@ -167,7 +166,6 @@ export default function Commissions() {
             </CardContent>
           </Card>
         </div>
-      )}
 
       <div className="flex justify-end">
         {isAdmin && (
@@ -188,9 +186,9 @@ export default function Commissions() {
                 <TableRow className="bg-gray-50">
                   <TableHead>Property</TableHead>
                   <TableHead>Client</TableHead>
-                  {isAdmin && <TableHead>Sale Price</TableHead>}
-                  {isAdmin && <TableHead>Rate</TableHead>}
-                  {isAdmin && <TableHead>Commission</TableHead>}
+                  <TableHead>Sale Price</TableHead>
+                  <TableHead>Rate</TableHead>
+                  <TableHead>Commission</TableHead>
                   <TableHead>Date</TableHead>
                   <TableHead>Status</TableHead>
                 </TableRow>
@@ -202,9 +200,9 @@ export default function Commissions() {
                   <TableRow key={c.id} className="hover:bg-gray-50">
                     <TableCell className="font-medium text-sm">{c.property_title || "—"}</TableCell>
                     <TableCell className="text-sm">{c.client_name || "—"}</TableCell>
-                    {isAdmin && <TableCell className="text-sm">€{c.sale_price?.toLocaleString()}</TableCell>}
-                    {isAdmin && <TableCell className="text-sm">{c.commission_rate}%</TableCell>}
-                    {isAdmin && <TableCell className="font-semibold text-sm text-[#c9a84c]">€{c.commission_amount?.toLocaleString()}</TableCell>}
+                    <TableCell className="text-sm">€{c.sale_price?.toLocaleString()}</TableCell>
+                    <TableCell className="text-sm">{c.commission_rate}%</TableCell>
+                    <TableCell className="font-semibold text-sm text-[#c9a84c]">€{c.commission_amount?.toLocaleString()}</TableCell>
                     <TableCell className="text-sm text-gray-500">{c.deal_date ? format(new Date(c.deal_date), "MMM d, yyyy") : "—"}</TableCell>
                     <TableCell>
                       <Select value={c.status} onValueChange={v => updateStatus(c.id, v)}>
