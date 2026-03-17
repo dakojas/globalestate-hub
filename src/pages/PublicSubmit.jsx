@@ -23,6 +23,7 @@ function PublicSubmitInner() {
     owner_name: "", owner_email: "", owner_phone: "",
     title: "", description: "", country: "", city: "",
     price: "", property_type: "", area_sqm: "", bedrooms: "", bathrooms: "",
+    construction_phase: "",
     original_language: "sk",
   });
   const [images, setImages] = useState([]);
@@ -96,6 +97,7 @@ Return a JSON with: title_sk, title_en, description_sk, description_en. Keep tra
       owner_email: form.owner_email,
       owner_phone: form.owner_phone,
       original_language: form.original_language,
+      construction_phase: form.construction_phase || undefined,
       approval_status: "pending_review",
       is_public: false,
       status: "available",
@@ -225,6 +227,19 @@ Return a JSON with: title_sk, title_en, description_sk, description_en. Keep tra
               <div className="grid grid-cols-2 gap-4">
                 <Input type="number" placeholder={tr("bedroomsLabel")} value={form.bedrooms} onChange={e => setForm({...form, bedrooms: e.target.value})} className="bg-white/10 border-white/20 text-white placeholder:text-white/40" />
                 <Input type="number" placeholder={tr("bathroomsLabel")} value={form.bathrooms} onChange={e => setForm({...form, bathrooms: e.target.value})} className="bg-white/10 border-white/20 text-white placeholder:text-white/40" />
+              </div>
+
+              <div>
+                <Select value={form.construction_phase} onValueChange={v => setForm({...form, construction_phase: v})}>
+                  <SelectTrigger className="bg-white/10 border-white/20 text-white">
+                    <SelectValue placeholder={lang === "sk" ? "Fáza projektu (voliteľné)" : "Construction phase (optional)"} />
+                  </SelectTrigger>
+                  <SelectContent>
+                    <SelectItem value="off_plan">🏗 Off Plan</SelectItem>
+                    <SelectItem value="vo_vystavbe">🔨 {lang === "sk" ? "Vo výstavbe" : "Under construction"}</SelectItem>
+                    <SelectItem value="dokoncene">✅ {lang === "sk" ? "Dokončené" : "Completed"}</SelectItem>
+                  </SelectContent>
+                </Select>
               </div>
 
               <Textarea
