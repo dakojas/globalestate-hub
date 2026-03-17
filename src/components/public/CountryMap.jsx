@@ -1,16 +1,18 @@
-import React, { useEffect } from "react";
-import { MapContainer, TileLayer, CircleMarker, Tooltip } from "react-leaflet";
+import React from "react";
+import { MapContainer, TileLayer, Marker, Tooltip } from "react-leaflet";
+import L from "leaflet";
 import "leaflet/dist/leaflet.css";
 
 const COUNTRY_COORDS = {
   Albania: [41.15, 20.17],
-  Bali: [-8.35, 115.09],
+  Bali: [-8.34, 115.09],
   Hungary: [47.16, 19.5],
   Bulgaria: [42.73, 25.48],
+  Croatia: [45.1, 15.2],
   "Dominican Republic": [18.74, -70.16],
   Egypt: [26.82, 30.8],
-  Georgia: [42.32, 43.36],
-  Mauritius: [-20.28, 57.55],
+  Georgia: [42.31, 43.36],
+  Mauritius: [-20.34, 57.55],
   Oman: [21.51, 55.92],
   UAE: [23.42, 53.85],
   Spain: [40.46, -3.74],
@@ -19,47 +21,66 @@ const COUNTRY_COORDS = {
   Turkey: [38.96, 35.24],
 };
 
-export default function CountryMap({ propertiesByCountry, selectedCountry, onSelectCountry }) {
+const createCountryIcon = (country, count, isSelected) => {
+  const bg = isSelected ? "#c9a84c" : "#0a1628";
+  const border = isSelected ? "#fff" : "#c9a84c";
+  const html = `
+    <div style="
+      background: ${bg};
+      border: 2px solid ${border};
+      border-radius: 20px;
+      padding: 5px 10px;
+      white-space: nowrap;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.4);
+      display: flex;
+      align-items: center;
+      gap: 5px;
+      cursor: pointer;
+    ">
+      <span style="color: white; font-weight: 700; font-size: 12px; line-height: 1;">${country}</span>
+      ${count > 0 ? `<span style="
+        background: ${isSelected ? "#0a1628" : "#c9a84c"};
+        color: white;
+        border-radius: 10px;
+        padding: 1px 6px;
+        font-size: 10px;
+        font-weight: 800;
+        line-height: 1.4;
+      ">${count}</span>` : ""}
+    </div>
+  `;
+  return L.divIcon({
+    html,
+    className: "",
+    iconAnchor: [0, 0],
+    popupAnchor: [0, 0],
+  });
+};
+
+export default function CountryMap({ propertiesByCountry = {}, selectedCountry, onSelectCountry }) {
+  const countries = Object.keys(COUNTRY_COORDS).filter(c => COUNTRY_COORDS[c]);
+
   return (
     <MapContainer
-      center={[20, 30]}
+      center={[25, 30]}
       zoom={2}
-      minZoom={2}
-      maxZoom={6}
-      style={{ height: "100%", width: "100%", background: "#0d1f3c" }}
-      zoomControl={false}
+      style={{ height: "100%", width: "100%" }}
+      zoomControl={true}
       attributionControl={false}
-      scrollWheelZoom={false}
     >
       <TileLayer
         url="https://{s}.basemaps.cartocdn.com/dark_all/{z}/{x}/{y}{r}.png"
-        attribution=""
       />
-      {Object.entries(propertiesByCountry).map(([country, count]) => {
-        const coords = COUNTRY_COORDS[country];
-        if (!coords) return null;
+      {countries.map(country => {
+        const count = propertiesByCountry[country] || 0;
         const isSelected = selectedCountry === country;
         return (
-          <CircleMarker
+          <Marker
             key={country}
-            center={coords}
-            radius={isSelected ? 18 : 12}
-            pathOptions={{
-              fillColor: isSelected ? "#c9a84c" : "#4a90d9",
-              fillOpacity: isSelected ? 1 : 0.85,
-              color: isSelected ? "#fff" : "#c9a84c",
-              weight: isSelected ? 3 : 1.5,
-            }}
-            eventHandlers={{ click: () => onSelectCountry(isSelected ? "all" : country) }}
-          >
-            <Tooltip permanent direction="top" offset={[0, -10]}
-              className="leaflet-country-tooltip"
-            >
-              <span style={{ fontWeight: 700, fontSize: 11, color: isSelected ? "#c9a84c" : "#fff" }}>
-                {country} ({count})
-              </span>
-            </Tooltip>
-          </CircleMarker>
+            position={COUNTRY_COORDS[country]}
+            icon={createCountryIcon(country, count, isSelected)}
+            eventHandlers={{ click: () => onSelectCountry(country) }}
+          />
         );
       })}
     </MapContainer>
