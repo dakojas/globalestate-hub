@@ -272,7 +272,6 @@ function PublicSubmitInner() {
                 rows={6}
                 className="bg-white/10 border-white/20 text-white placeholder:text-white/40"
               />
-              <p className="text-white/40 text-xs">✦ {tr("autoTranslateNote")}</p>
             </CardContent>
           </Card>
 
