@@ -58,7 +58,7 @@ function PublicHomeInner() {
         <div className="max-w-7xl mx-auto px-6 py-4 flex items-center justify-between">
           <Logo className="h-10" />
           <nav className="flex items-center gap-6">
-            <Link to={createPageUrl("PublicAbout")} className="text-white/70 hover:text-[#c9a84c] transition-colors text-sm hidden sm:block">O nás</Link>
+            <Link to={createPageUrl("PublicAbout")} className="text-white/70 hover:text-[#c9a84c] transition-colors text-sm hidden sm:block">{tr("aboutUs")}</Link>
             <a href="#properties" className="text-white/70 hover:text-[#c9a84c] transition-colors text-sm hidden sm:block">{tr("offers")}</a>
             <a href="#contact" className="text-white/70 hover:text-[#c9a84c] transition-colors text-sm hidden sm:block">{tr("contact")}</a>
             <Link to={createPageUrl("PublicSubmit")} className="hidden sm:block">
