@@ -51,6 +51,37 @@ function PublicHomeInner() {
     return matchCountry && matchType && matchBudget && matchPhase && p.status === "available";
   });
 
+  const featured = properties.filter(p => p.is_featured && p.status === "available").sort((a, b) => new Date(b.created_date) - new Date(a.created_date));
+  const displayFeatured = featured.slice(0, 6);
+
+  const getDateLabel = () => {
+    const labels = {
+      sk: "Pridané:",
+      en: "Added:",
+      fr: "Ajouté:",
+      it: "Aggiunto:",
+      de: "Hinzugefügt:",
+      ru: "Добавлено:",
+      pl: "Dodane:",
+      hu: "Hozzáadva:"
+    };
+    return labels[lang] || "Added:";
+  };
+
+  const getFeaturedLabel = () => {
+    const labels = {
+      sk: "Odporúčané",
+      en: "Featured",
+      fr: "En vedette",
+      it: "In evidenza",
+      de: "Ausgewählt",
+      ru: "Рекомендуемое",
+      pl: "Wyróżnione",
+      hu: "Kiemelt"
+    };
+    return labels[lang] || "Featured";
+  };
+
   return (
     <div className="min-h-screen bg-gradient-to-br from-[#0a1628] via-[#132039] to-[#1a2844]">
       {/* Header */}
@@ -297,6 +328,59 @@ function PublicHomeInner() {
           </div>
         </div>
       </section>
+
+      {/* Featured Properties */}
+      {displayFeatured.length > 0 && (
+        <section className="py-16 px-6 bg-white/5 backdrop-blur-lg border-t border-b border-white/10">
+          <div className="max-w-7xl mx-auto">
+            <div className="flex items-center gap-3 mb-8">
+              <span className="text-[#c9a84c] text-3xl">⭐</span>
+              <h2 className="text-3xl font-bold text-white">{getFeaturedLabel()}</h2>
+            </div>
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+              {displayFeatured.map(property => (
+                <Link key={property.id} to={createPageUrl(`PublicProperty?id=${property.id}`)} className="group">
+                  <Card className="bg-white/5 backdrop-blur-lg border-[#c9a84c]/50 hover:border-[#c9a84c] transition-all overflow-hidden">
+                    <div className="aspect-video bg-gradient-to-br from-gray-800 to-gray-900 relative overflow-hidden">
+                      {property.images?.[0] ? (
+                        <img src={property.images[0]} alt={property.title} className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" />
+                      ) : (
+                        <div className="w-full h-full flex items-center justify-center"><Home className="w-16 h-16 text-white/20" /></div>
+                      )}
+                      <div className="absolute top-3 left-3"><span className="bg-[#c9a84c] text-white text-xs font-bold px-3 py-1 rounded-full">⭐ TOP</span></div>
+                      <div className="absolute top-3 right-3 flex flex-col gap-1 items-end">
+                        <span className="bg-white/20 text-white text-xs font-bold px-3 py-1 rounded-full backdrop-blur">{property.country}</span>
+                        {property.construction_phase && (
+                          <span className={`text-white text-xs font-semibold px-2 py-0.5 rounded-full ${
+                            property.construction_phase === "vo_vystavbe" ? "bg-orange-500" : "bg-emerald-600"
+                          }`}>
+                            {property.construction_phase === "vo_vystavbe"
+                              ? (lang === "sk" ? "Vo výstavbe" : lang === "en" ? "Off Plan" : lang === "fr" ? "En construction" : lang === "it" ? "In costruzione" : "Off Plan")
+                              : (lang === "sk" ? "Dokončené" : lang === "en" ? "Completed" : lang === "fr" ? "Achevé" : lang === "it" ? "Completato" : "Completed")}
+                          </span>
+                        )}
+                      </div>
+                    </div>
+                    <CardContent className="p-5">
+                      <h3 className="text-lg font-bold text-white mb-2 line-clamp-1">{property.title}</h3>
+                      <p className="text-white/60 text-sm mb-1 flex items-center gap-1"><MapPin className="w-4 h-4" />{property.city}</p>
+                      <p className="text-white/50 text-xs mb-3">{getDateLabel()} {new Date(property.created_date).toLocaleDateString(lang === "sk" ? "sk-SK" : "en-US")}</p>
+                      <div className="flex items-center gap-4 mb-4 text-sm text-white/60">
+                        {property.bedrooms && <span className="flex items-center gap-1"><Bed className="w-4 h-4" />{property.bedrooms}</span>}
+                        {property.area_sqm && <span className="flex items-center gap-1"><Maximize className="w-4 h-4" />{property.area_sqm} m²</span>}
+                      </div>
+                      <div className="flex items-center justify-between">
+                        <p className="text-2xl font-bold text-[#c9a84c]">€{property.price?.toLocaleString()}</p>
+                        <Button size="sm" className="bg-[#c9a84c] hover:bg-[#b8973b] text-white">{tr("detail")}</Button>
+                      </div>
+                    </CardContent>
+                  </Card>
+                </Link>
+              ))}
+            </div>
+          </div>
+        </section>
+      )}
 
       {/* Properties Grid */}
       <section id="properties" className="py-16 px-6">
