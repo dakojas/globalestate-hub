@@ -5,7 +5,8 @@ import { base44 } from "@/api/base44Client";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
-import { Plus, Search, LayoutGrid, List } from "lucide-react";
+import { Plus, Search, LayoutGrid, List, Trash2, Loader2 } from "lucide-react";
+import { toast } from "sonner";
 import { Skeleton } from "@/components/ui/skeleton";
 import PropertyCard from "../components/properties/PropertyCard";
 import PropertyForm from "../components/properties/PropertyForm";
@@ -17,8 +18,8 @@ export default function Properties() {
   const [search, setSearch] = useState("");
   const [countryFilter, setCountryFilter] = useState("All");
   const [statusFilter, setStatusFilter] = useState("all");
-  const queryClient = useQueryClient();
-
+  const [selectedIds, setSelectedIds] = useState(new Set());
+  const [bulkDeleting, setBulkDeleting] = useState(false);
   const queryClient = useQueryClient();
   const { data: properties = [], isLoading } = useQuery({
     queryKey: ["properties"],
@@ -32,6 +33,41 @@ export default function Properties() {
     return matchSearch && matchCountry && matchStatus;
   });
 
+  const toggleSelect = (id) => {
+    const newSelected = new Set(selectedIds);
+    if (newSelected.has(id)) {
+      newSelected.delete(id);
+    } else {
+      newSelected.add(id);
+    }
+    setSelectedIds(newSelected);
+  };
+
+  const toggleSelectAll = () => {
+    if (selectedIds.size === filtered.length) {
+      setSelectedIds(new Set());
+    } else {
+      setSelectedIds(new Set(filtered.map(p => p.id)));
+    }
+  };
+
+  const handleBulkDelete = async () => {
+    if (!selectedIds.size || !confirm(`Naozaj vymazať ${selectedIds.size} projektov?`)) return;
+    setBulkDeleting(true);
+    try {
+      for (const id of selectedIds) {
+        await base44.entities.Property.delete(id);
+      }
+      queryClient.invalidateQueries({ queryKey: ["properties"] });
+      setSelectedIds(new Set());
+      toast.success(`${selectedIds.size} projektov vymazaných`);
+    } catch {
+      toast.error("Chyba pri vymazaní");
+    } finally {
+      setBulkDeleting(false);
+    }
+  };
+
   return (
     <div className="space-y-6">
       <PendingApprovals />
@@ -44,6 +80,37 @@ export default function Properties() {
           <Plus className="w-4 h-4 mr-2" /> Add Property
         </Button>
       </div>
+
+      {/* Bulk Actions Bar */}
+      {selectedIds.size > 0 && (
+        <div className="p-4 bg-blue-50 border border-blue-200 rounded-lg flex items-center justify-between">
+          <div className="flex items-center gap-3">
+            <input
+              type="checkbox"
+              checked={selectedIds.size === filtered.length && filtered.length > 0}
+              onChange={toggleSelectAll}
+              className="w-4 h-4 accent-blue-600 cursor-pointer"
+            />
+            <span className="text-sm font-medium text-gray-700">
+              Vybrané: {selectedIds.size} z {filtered.length}
+            </span>
+          </div>
+          <div className="flex items-center gap-3">
+            <Button variant="outline" size="sm" onClick={() => setSelectedIds(new Set())}>
+              Zrušiť
+            </Button>
+            <Button
+              size="sm"
+              onClick={handleBulkDelete}
+              disabled={bulkDeleting}
+              className="bg-red-600 hover:bg-red-700 text-white"
+            >
+              {bulkDeleting ? <Loader2 className="w-4 h-4 mr-2 animate-spin" /> : <Trash2 className="w-4 h-4 mr-2" />}
+              Vymazať vybratých ({selectedIds.size})
+            </Button>
+          </div>
+        </div>
+      )}
 
       {/* Filters */}
       <div className="flex flex-col sm:flex-row gap-3">
@@ -81,7 +148,17 @@ export default function Properties() {
         </div>
       ) : (
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
-          {filtered.map(p => <PropertyCard key={p.id} property={p} />)}
+          {filtered.map(p => (
+            <div key={p.id} className="relative">
+              <input
+                type="checkbox"
+                checked={selectedIds.has(p.id)}
+                onChange={() => toggleSelect(p.id)}
+                className="absolute top-4 left-4 w-5 h-5 accent-[#c9a84c] cursor-pointer z-10 rounded"
+              />
+              <PropertyCard property={p} />
+            </div>
+          ))}
         </div>
       )}
 
