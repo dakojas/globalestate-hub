@@ -42,7 +42,7 @@ const ProtectedRoute = ({ children }) => {
 
   if (authError?.type === 'user_not_registered') return <UserNotRegisteredError />;
 
-  if (!isAuthenticated) {
+  if (!isAuthenticated || authError?.type === 'auth_required') {
     navigateToLogin();
     return null;
   }
