@@ -43,6 +43,9 @@ const t = {
     gdprEnd: ". Súhlasím so spracovaním mojich osobných údajov za účelom odpovede na môj dopyt. *",
     send: "Odoslať dopyt",
     sending: "Odosielam...",
+    // Map
+    exploreMap: "Preskúmajte naše destinácie",
+    exploreMapSub: "Kliknite na krajinu a zobrazte ponuky v danej lokalite",
     // Footer
     rights: "Všetky práva vyhradené.",
     privacy: "Ochrana osobných údajov (GDPR)",
@@ -89,6 +92,9 @@ const t = {
     gdprEnd: ". I consent to the processing of my personal data for the purpose of responding to my inquiry. *",
     send: "Send inquiry",
     sending: "Sending...",
+    // Map
+    exploreMap: "Explore our destinations",
+    exploreMapSub: "Click a country pin to filter listings by location",
     // Footer
     rights: "All rights reserved.",
     privacy: "Privacy Policy (GDPR)",
