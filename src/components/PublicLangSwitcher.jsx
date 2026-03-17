@@ -7,6 +7,8 @@ export default function PublicLangSwitcher() {
     { code: "sk", flag: "🇸🇰", label: "SK" },
     { code: "en", flag: "🇬🇧", label: "EN" },
     { code: "de", flag: "🇩🇪", label: "DE" },
+    { code: "fr", flag: "🇫🇷", label: "FR" },
+    { code: "it", flag: "🇮🇹", label: "IT" },
     { code: "ru", flag: "🇷🇺", label: "RU" },
     { code: "pl", flag: "🇵🇱", label: "PL" },
     { code: "hu", flag: "🇭🇺", label: "HU" },
