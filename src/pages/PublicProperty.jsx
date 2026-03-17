@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { useQuery } from "@tanstack/react-query";
 import { base44 } from "@/api/base44Client";
 import { Card, CardContent } from "@/components/ui/card";
@@ -34,7 +34,7 @@ function PublicPropertyInner() {
   });
 
   // Auto-translate when switching to EN and no pre-saved translation
-  React.useEffect(() => {
+  useEffect(() => {
     if (lang !== "en" || !property) return;
     if (property.description_en) {
       setTranslatedDesc(property.description_en);
