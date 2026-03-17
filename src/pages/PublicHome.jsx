@@ -16,7 +16,7 @@ const COUNTRIES = ["Albania", "Bali", "Hungary", "Bulgaria", "Dominican Republic
 
 function PublicHomeInner() {
   const { tr, lang } = usePublicLang();
-  const [filters, setFilters] = useState({ country: "all", minBudget: "", maxBudget: "", propertyType: "all" });
+  const [filters, setFilters] = useState({ country: "all", minBudget: "", maxBudget: "", propertyType: "all", constructionPhase: "all" });
   const [mapCountry, setMapCountry] = useState("all");
 
   const handleMapSelect = (country) => {
