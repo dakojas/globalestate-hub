@@ -7,6 +7,38 @@ import { PublicLanguageProvider, usePublicLang } from "@/components/PublicLangua
 import PublicLangSwitcher from "@/components/PublicLangSwitcher";
 
 const brandStory = {
+  en: {
+    hero: {
+      title: "We started as a small Slovak dream.",
+      subtitle: "We became a gateway to the whole world.",
+    },
+    chapter1: {
+      label: "CHAPTER I – BEGINNING",
+      title: "One idea. One page. One dream.",
+      content: "It was simple: Slovaks wanted property abroad, but didn't know where to start. The language was foreign. The market unknown. The legal landscape impenetrable. And nobody spoke to them in their language, with their trust, from their world.\n\nSo Nehnuteľnosti v zahraničí was born — not as a big corporation, but as an answer to a specific need of specific people. A local portal with a clear mission: to bring the distant world within reach."
+    },
+    chapter2: {
+      label: "CHAPTER II – GROWTH",
+      title: "Clients took us with them.",
+      content: "Nobody had to convince us that the world is small. Our clients showed us.\n\nFirst purchase in Egypt. Then Dubai. Then Bali. Every satisfied client opened new doors — to new countries, to new developers, to new communities of people who want to invest beyond borders.\n\nThe team grew. The portfolio grew. But the commitment stayed the same: every client gets the same care as the first one.",
+      timeline: [
+        { label: "Beginning", desc: "Slovak portal goes online. First projects, first clients, first dreams fulfilled on foreign soil." },
+        { label: "Expansion", desc: "Egypt, Dubai, Albania, Turkey. Team grows. Brokers in Dubai. Partners on the ground. Client doesn't buy blind." },
+        { label: "Today", desc: "16 countries. Hundreds of satisfied clients. Global network. Local soul. Every project verified. Every client welcomed." },
+        { label: "Tomorrow", desc: "Growth without compromise. More countries. More stories. One commitment — to be for every client what we were for the first one." }
+      ]
+    },
+    chapter3: {
+      label: "CHAPTER III – TODAY",
+      title: "Global. But still yours.",
+      content: "Today we operate in 16 countries. Our team speaks multiple languages, knows local markets, knows developers personally. But one thing hasn't changed.\n\nWhen you call us, a call center doesn't answer. A person answers who knows you, your budget, and your dream. That's how it was from the beginning. That's how it will stay.\n\nWe are not a global corporation with a local office. We are a local company with global reach. That is the difference you feel in every conversation."
+    },
+    motto: {
+      title: "The world is bigger than you think.",
+      subtitle: "So are your possibilities.",
+      closing: "We're here to help you discover them."
+    }
+  },
   sk: {
     hero: {
       title: "Začali sme ako malý slovenský sen.",
