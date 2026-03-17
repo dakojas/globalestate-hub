@@ -279,6 +279,7 @@ const t = {
   },
   sk: {
     // Nav
+    aboutUs: "O nás",
     offers: "Ponuky",
     contact: "Kontakt",
     backToOffers: "Späť na ponuky",
@@ -356,6 +357,7 @@ const t = {
   },
   en: {
     // Nav
+    aboutUs: "About Us",
     offers: "Listings",
     contact: "Contact",
     backToOffers: "Back to listings",
