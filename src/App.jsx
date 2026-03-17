@@ -22,6 +22,7 @@ import Referrers from '@/pages/Referrers';
 import Reports from '@/pages/Reports';
 import PropertyImport from '@/pages/PropertyImport';
 import Team from '@/pages/Team';
+import PublicSubmit from '@/pages/PublicSubmit';
 
 const LayoutWrapper = ({ children, currentPageName }) =>
   <Layout currentPageName={currentPageName}>{children}</Layout>;
@@ -120,6 +121,7 @@ const AuthenticatedApp = () => {
       } />
       <Route path="/PublicHome" element={<PublicHome />} />
       <Route path="/PublicProperty" element={<PublicProperty />} />
+      <Route path="/PublicSubmit" element={<PublicSubmit />} />
       <Route path="*" element={<PageNotFound />} />
     </Routes>
   );

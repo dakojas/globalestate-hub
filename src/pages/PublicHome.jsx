@@ -55,6 +55,9 @@ function PublicHomeInner() {
           <nav className="flex items-center gap-6">
             <a href="#properties" className="text-white/70 hover:text-[#c9a84c] transition-colors text-sm hidden sm:block">{tr("offers")}</a>
             <a href="#contact" className="text-white/70 hover:text-[#c9a84c] transition-colors text-sm hidden sm:block">{tr("contact")}</a>
+            <Link to={createPageUrl("PublicSubmit")} className="hidden sm:block">
+              <Button size="sm" className="bg-[#c9a84c] hover:bg-[#b8973b] text-white text-xs">{tr("listProperty")}</Button>
+            </Link>
             <PublicLangSwitcher />
           </nav>
         </div>
