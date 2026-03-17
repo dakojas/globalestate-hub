@@ -102,21 +102,36 @@ export default function PropertyMap() {
               url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
             />
             {mappable.map(p => (
-              <Marker key={p.id} position={[p.latitude, p.longitude]}>
-                <Popup maxWidth={280}>
-                  <div className="p-1">
-                    {p.images?.[0] && (
-                      <img src={p.images[0]} alt="" className="w-full h-32 object-cover rounded-lg mb-2" />
+              <Marker key={p.id} position={[p.latitude, p.longitude]} icon={createCustomIcon(p.status)}>
+                <Popup maxWidth={300} className="custom-popup">
+                  <div style={{ fontFamily: "inherit", minWidth: 240, borderRadius: 12, overflow: "hidden", margin: -1 }}>
+                    {p.images?.[0] ? (
+                      <div style={{ height: 140, overflow: "hidden", margin: "-1px -1px 0 -1px" }}>
+                        <img src={p.images[0]} alt="" style={{ width: "100%", height: "100%", objectFit: "cover" }} />
+                      </div>
+                    ) : (
+                      <div style={{ height: 80, background: "linear-gradient(135deg, #0a1628, #1a2844)", display: "flex", alignItems: "center", justifyContent: "center", margin: "-1px -1px 0 -1px" }}>
+                        <span style={{ color: "#c9a84c", fontSize: 28 }}>🏠</span>
+                      </div>
                     )}
-                    <h3 className="font-semibold text-sm mb-1">{p.title}</h3>
-                    <p className="text-xs text-gray-500 mb-2">{p.city}, {p.country}</p>
-                    <p className="text-lg font-bold text-[#c9a84c] mb-2">€{p.price?.toLocaleString()}</p>
-                    <div className="flex gap-3 text-xs text-gray-500 mb-2">
-                      {p.bedrooms && <span className="flex items-center gap-1"><Bed className="w-3 h-3" />{p.bedrooms}</span>}
-                      {p.bathrooms && <span className="flex items-center gap-1"><Bath className="w-3 h-3" />{p.bathrooms}</span>}
-                      {p.area_sqm && <span className="flex items-center gap-1"><Maximize className="w-3 h-3" />{p.area_sqm}m²</span>}
+                    <div style={{ padding: "12px 14px 10px" }}>
+                      <div style={{ display: "flex", justifyContent: "space-between", alignItems: "flex-start", marginBottom: 4 }}>
+                        <h3 style={{ fontWeight: 700, fontSize: 13, margin: 0, color: "#0a1628", lineHeight: 1.3, flex: 1, marginRight: 8 }}>{p.title}</h3>
+                        <span style={{ fontSize: 10, fontWeight: 600, padding: "2px 8px", borderRadius: 20, background: p.status === "available" ? "#d1fae5" : p.status === "reserved" ? "#fef3c7" : "#fee2e2", color: p.status === "available" ? "#065f46" : p.status === "reserved" ? "#92400e" : "#991b1b", whiteSpace: "nowrap" }}>
+                          {p.status}
+                        </span>
+                      </div>
+                      <p style={{ fontSize: 11, color: "#6b7280", margin: "0 0 8px" }}>📍 {p.city}, {p.country}</p>
+                      <p style={{ fontSize: 18, fontWeight: 800, color: "#c9a84c", margin: "0 0 8px" }}>€{p.price?.toLocaleString()}</p>
+                      <div style={{ display: "flex", gap: 12, fontSize: 11, color: "#6b7280", marginBottom: 10 }}>
+                        {p.bedrooms && <span>🛏 {p.bedrooms}</span>}
+                        {p.bathrooms && <span>🚿 {p.bathrooms}</span>}
+                        {p.area_sqm && <span>📐 {p.area_sqm} m²</span>}
+                      </div>
+                      <Link to={createPageUrl(`PropertyDetail?id=${p.id}`)} style={{ display: "block", textAlign: "center", background: "#0a1628", color: "white", borderRadius: 8, padding: "7px 0", fontSize: 12, fontWeight: 600, textDecoration: "none" }}>
+                        Zobraziť detail →
+                      </Link>
                     </div>
-                    <Link to={createPageUrl(`PropertyDetail?id=${p.id}`)} className="text-xs text-blue-600 hover:underline">View details →</Link>
                   </div>
                 </Popup>
               </Marker>
