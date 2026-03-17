@@ -202,7 +202,7 @@ function PublicHomeInner() {
         <div className="max-w-7xl mx-auto">
           <div className="flex flex-col md:flex-row items-center justify-between gap-6 mb-8">
             <img
-              src="https://qtrypzzcjebvfcihiynt.supabase.co/storage/v1/object/public/base44-prod/public/69b801924dae038161790d9a/9193a9184_nehnutelnosti_logo-07.jpg"
+              src="https://qtrypzzcjebvfcihiynt.supabase.co/storage/v1/object/public/base44-prod/public/69b801924dae038161790d9a/6515e362b_nehnutelnosti_logo-10.jpg"
               alt="Nehnuteľnosti v zahraničí"
               className="h-10 w-auto object-contain"
             />
