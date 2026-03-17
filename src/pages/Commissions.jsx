@@ -188,9 +188,9 @@ export default function Commissions() {
                 <TableRow className="bg-gray-50">
                   <TableHead>Property</TableHead>
                   <TableHead>Client</TableHead>
-                  <TableHead>Sale Price</TableHead>
-                  <TableHead>Rate</TableHead>
-                  <TableHead>Commission</TableHead>
+                  {isAdmin && <TableHead>Sale Price</TableHead>}
+                  {isAdmin && <TableHead>Rate</TableHead>}
+                  {isAdmin && <TableHead>Commission</TableHead>}
                   <TableHead>Date</TableHead>
                   <TableHead>Status</TableHead>
                 </TableRow>
@@ -202,9 +202,9 @@ export default function Commissions() {
                   <TableRow key={c.id} className="hover:bg-gray-50">
                     <TableCell className="font-medium text-sm">{c.property_title || "—"}</TableCell>
                     <TableCell className="text-sm">{c.client_name || "—"}</TableCell>
-                    <TableCell className="text-sm">€{c.sale_price?.toLocaleString()}</TableCell>
-                    <TableCell className="text-sm">{c.commission_rate}%</TableCell>
-                    <TableCell className="font-semibold text-sm text-[#c9a84c]">€{c.commission_amount?.toLocaleString()}</TableCell>
+                    {isAdmin && <TableCell className="text-sm">€{c.sale_price?.toLocaleString()}</TableCell>}
+                    {isAdmin && <TableCell className="text-sm">{c.commission_rate}%</TableCell>}
+                    {isAdmin && <TableCell className="font-semibold text-sm text-[#c9a84c]">€{c.commission_amount?.toLocaleString()}</TableCell>}
                     <TableCell className="text-sm text-gray-500">{c.deal_date ? format(new Date(c.deal_date), "MMM d, yyyy") : "—"}</TableCell>
                     <TableCell>
                       <Select value={c.status} onValueChange={v => updateStatus(c.id, v)}>
