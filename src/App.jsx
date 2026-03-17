@@ -52,11 +52,7 @@ const AuthenticatedApp = () => {
   // Render the main app
   return (
     <Routes>
-      <Route path="/" element={
-        <LayoutWrapper currentPageName="Dashboard">
-          <Dashboard />
-        </LayoutWrapper>
-      } />
+      <Route path="/" element={<PublicHome />} />
       <Route path="/Dashboard" element={
         <LayoutWrapper currentPageName="Dashboard">
           <Dashboard />
