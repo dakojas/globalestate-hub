@@ -124,9 +124,19 @@ function PublicPropertyInner() {
   };
 
   if (!property) {
+    const loadingTexts = {
+      sk: "Načítavam...",
+      en: "Loading...",
+      fr: "Chargement...",
+      it: "Caricamento...",
+      de: "Wird geladen...",
+      ru: "Загрузка...",
+      pl: "Ładowanie...",
+      hu: "Betöltés..."
+    };
     return (
       <div className="min-h-screen bg-[#0a1628] flex items-center justify-center">
-        <p className="text-white/60">{lang === "sk" ? "Načítavam..." : "Loading..."}</p>
+        <p className="text-white/60">{loadingTexts[lang] || loadingTexts.sk}</p>
       </div>
     );
   }
