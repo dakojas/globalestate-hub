@@ -39,7 +39,8 @@ function PublicHomeInner() {
     const matchType = filters.propertyType === "all" || p.property_type === filters.propertyType;
     const matchBudget = (!filters.minBudget || p.price >= Number(filters.minBudget)) &&
                         (!filters.maxBudget || p.price <= Number(filters.maxBudget));
-    return matchCountry && matchType && matchBudget && p.status === "available";
+    const matchPhase = filters.constructionPhase === "all" || p.construction_phase === filters.constructionPhase;
+    return matchCountry && matchType && matchBudget && matchPhase && p.status === "available";
   });
 
   return (
