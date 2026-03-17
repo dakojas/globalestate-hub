@@ -74,7 +74,7 @@ function PublicHomeInner() {
 
           <Card className="bg-white/10 backdrop-blur-lg border-white/20 max-w-4xl mx-auto">
             <CardContent className="p-6">
-              <div className="grid grid-cols-1 md:grid-cols-4 gap-4">
+              <div className="grid grid-cols-1 md:grid-cols-5 gap-4">
                 <Select value={filters.country} onValueChange={v => setFilters({...filters, country: v})}>
                   <SelectTrigger className="bg-white/10 border-white/20 text-white">
                     <SelectValue placeholder={tr("allCountries")} />
