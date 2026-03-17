@@ -25,6 +25,12 @@ export default function Commissions() {
   const [saving, setSaving] = useState(false);
   const queryClient = useQueryClient();
 
+  const { data: currentUser } = useQuery({
+    queryKey: ["current-user"],
+    queryFn: () => base44.auth.me(),
+  });
+  const isAdmin = currentUser?.role === "admin";
+
   const { data: commissions = [], isLoading } = useQuery({
     queryKey: ["commissions"],
     queryFn: () => base44.entities.Commission.list("-deal_date", 200),
