@@ -145,32 +145,36 @@ export default function Commissions() {
 
   return (
     <div className="space-y-6">
-      {/* Stats */}
-      <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
-        <Card className="border-0 shadow-sm">
-          <CardContent className="p-6 flex items-center gap-4">
-            <div className="w-12 h-12 rounded-2xl bg-emerald-50 flex items-center justify-center"><DollarSign className="w-6 h-6 text-emerald-600" /></div>
-            <div><p className="text-xs text-gray-400 uppercase tracking-wider">Earned</p><p className="text-2xl font-bold text-[#0a1628]">€{totalEarned.toLocaleString()}</p></div>
-          </CardContent>
-        </Card>
-        <Card className="border-0 shadow-sm">
-          <CardContent className="p-6 flex items-center gap-4">
-            <div className="w-12 h-12 rounded-2xl bg-amber-50 flex items-center justify-center"><Clock className="w-6 h-6 text-amber-600" /></div>
-            <div><p className="text-xs text-gray-400 uppercase tracking-wider">Pending</p><p className="text-2xl font-bold text-[#0a1628]">€{totalPending.toLocaleString()}</p></div>
-          </CardContent>
-        </Card>
-        <Card className="border-0 shadow-sm">
-          <CardContent className="p-6 flex items-center gap-4">
-            <div className="w-12 h-12 rounded-2xl bg-blue-50 flex items-center justify-center"><TrendingUp className="w-6 h-6 text-blue-600" /></div>
-            <div><p className="text-xs text-gray-400 uppercase tracking-wider">Total Deals</p><p className="text-2xl font-bold text-[#0a1628]">{dealCount}</p></div>
-          </CardContent>
-        </Card>
-      </div>
+      {/* Stats – only for admin */}
+      {isAdmin && (
+        <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
+          <Card className="border-0 shadow-sm">
+            <CardContent className="p-6 flex items-center gap-4">
+              <div className="w-12 h-12 rounded-2xl bg-emerald-50 flex items-center justify-center"><DollarSign className="w-6 h-6 text-emerald-600" /></div>
+              <div><p className="text-xs text-gray-400 uppercase tracking-wider">Earned</p><p className="text-2xl font-bold text-[#0a1628]">€{totalEarned.toLocaleString()}</p></div>
+            </CardContent>
+          </Card>
+          <Card className="border-0 shadow-sm">
+            <CardContent className="p-6 flex items-center gap-4">
+              <div className="w-12 h-12 rounded-2xl bg-amber-50 flex items-center justify-center"><Clock className="w-6 h-6 text-amber-600" /></div>
+              <div><p className="text-xs text-gray-400 uppercase tracking-wider">Pending</p><p className="text-2xl font-bold text-[#0a1628]">€{totalPending.toLocaleString()}</p></div>
+            </CardContent>
+          </Card>
+          <Card className="border-0 shadow-sm">
+            <CardContent className="p-6 flex items-center gap-4">
+              <div className="w-12 h-12 rounded-2xl bg-blue-50 flex items-center justify-center"><TrendingUp className="w-6 h-6 text-blue-600" /></div>
+              <div><p className="text-xs text-gray-400 uppercase tracking-wider">Total Deals</p><p className="text-2xl font-bold text-[#0a1628]">{dealCount}</p></div>
+            </CardContent>
+          </Card>
+        </div>
+      )}
 
       <div className="flex justify-end">
-        <Button onClick={() => setShowForm(true)} className="bg-[#0a1628] hover:bg-[#132039]">
-          <Plus className="w-4 h-4 mr-2" /> Record Commission
-        </Button>
+        {isAdmin && (
+          <Button onClick={() => setShowForm(true)} className="bg-[#0a1628] hover:bg-[#132039]">
+            <Plus className="w-4 h-4 mr-2" /> Record Commission
+          </Button>
+        )}
       </div>
 
       {/* Table */}
