@@ -7,6 +7,7 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@
 import { Card, CardContent } from "@/components/ui/card";
 import { MapPin, Bed, Maximize, Home, X } from "lucide-react";
 import CountryMap from "@/components/public/CountryMap";
+import Logo from "@/components/Logo";
 import { Link } from "react-router-dom";
 import { createPageUrl } from "@/utils";
 import { PublicLanguageProvider, usePublicLang } from "@/components/PublicLanguageContext";

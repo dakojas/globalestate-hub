@@ -12,6 +12,7 @@ import { createPageUrl } from "@/utils";
 import { toast } from "sonner";
 import { PublicLanguageProvider, usePublicLang } from "@/components/PublicLanguageContext";
 import PublicLangSwitcher from "@/components/PublicLangSwitcher";
+import Logo from "@/components/Logo";
 
 function PublicPropertyInner() {
   const urlParams = new URLSearchParams(window.location.search);

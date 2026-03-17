@@ -11,6 +11,7 @@ import { createPageUrl } from "@/utils";
 import { toast } from "sonner";
 import { PublicLanguageProvider, usePublicLang } from "@/components/PublicLanguageContext";
 import PublicLangSwitcher from "@/components/PublicLangSwitcher";
+import Logo from "@/components/Logo";
 
 const COUNTRIES = ["Albania","Bali","Hungary","Bulgaria","Dominican Republic","Egypt","Georgia","Mauritius","Oman","UAE","Spain","Italy","Thailand","Turkey","Other"];
 const PROPERTY_TYPES = ["apartment","villa","penthouse","studio","townhouse","land","commercial"];
