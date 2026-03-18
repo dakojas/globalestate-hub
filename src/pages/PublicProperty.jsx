@@ -6,7 +6,7 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 import { Badge } from "@/components/ui/badge";
-import { ArrowLeft, MapPin, Bed, Bath, Maximize, Check, Loader2 } from "lucide-react";
+import { ArrowLeft, MapPin, Bed, Bath, Maximize, Check, Loader2, X, ChevronLeft, ChevronRight } from "lucide-react";
 import { Link } from "react-router-dom";
 import { createPageUrl } from "@/utils";
 import { toast } from "sonner";
@@ -26,6 +26,7 @@ function PublicPropertyInner() {
   const [translatedDesc, setTranslatedDesc] = useState(null);
   const [translatedFeatures, setTranslatedFeatures] = useState(null);
   const [translating, setTranslating] = useState(false);
+  const [lightboxIdx, setLightboxIdx] = useState(null);
 
   const { data: property } = useQuery({
     queryKey: ["public-property", id],
@@ -37,8 +38,15 @@ function PublicPropertyInner() {
   // Auto-translate to selected language
   useEffect(() => {
     if (!property) return;
-    
-    // Check if we already have translation stored or cached
+
+    // No need to translate to SK (original language)
+    if (lang === "sk") {
+      setTranslatedDesc(null);
+      setTranslatedFeatures(null);
+      return;
+    }
+
+    // Check if we already have translation cached
     const cacheKey = `trans_${property.id}_${lang}`;
     const cached = sessionStorage.getItem(cacheKey);
     if (cached) {
@@ -48,15 +56,9 @@ function PublicPropertyInner() {
       return;
     }
 
-    // No need to translate to SK (original language)
-    if (lang === "sk") {
-      setTranslatedDesc(null);
-      setTranslatedFeatures(null);
-      return;
-    }
-
-    if (translating || translatedDesc) return;
-
+    // Reset and translate
+    setTranslatedDesc(null);
+    setTranslatedFeatures(null);
     setTranslating(true);
     const langMap = { en: "English", de: "German", fr: "French", it: "Italian", ru: "Russian", pl: "Polish", hu: "Hungarian" };
     const targetLang = langMap[lang] || "English";
@@ -75,7 +77,7 @@ function PublicPropertyInner() {
       setTranslatedFeatures(result.features);
       sessionStorage.setItem(cacheKey, JSON.stringify(result));
     }).finally(() => setTranslating(false));
-  }, [lang, property]);
+  }, [lang, property?.id]);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -146,6 +148,16 @@ function PublicPropertyInner() {
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-[#0a1628] via-[#132039] to-[#1a2844]">
+      {/* Lightbox */}
+      {lightboxIdx !== null && property?.images?.length > 0 && (
+        <div className="fixed inset-0 z-[100] bg-black/95 flex items-center justify-center" onClick={() => setLightboxIdx(null)}>
+          <button onClick={() => setLightboxIdx(null)} className="absolute top-4 right-4 text-white/70 hover:text-white"><X className="w-8 h-8" /></button>
+          <button onClick={e => { e.stopPropagation(); setLightboxIdx((lightboxIdx - 1 + property.images.length) % property.images.length); }} className="absolute left-4 text-white/70 hover:text-white"><ChevronLeft className="w-10 h-10" /></button>
+          <img src={property.images[lightboxIdx]} alt="" className="max-h-[90vh] max-w-[90vw] object-contain rounded-lg" onClick={e => e.stopPropagation()} />
+          <button onClick={e => { e.stopPropagation(); setLightboxIdx((lightboxIdx + 1) % property.images.length); }} className="absolute right-4 text-white/70 hover:text-white"><ChevronRight className="w-10 h-10" /></button>
+          <p className="absolute bottom-4 text-white/50 text-sm">{lightboxIdx + 1} / {property.images.length}</p>
+        </div>
+      )}
       {/* Header */}
       <header className="border-b border-white/10 bg-white/5 backdrop-blur-lg sticky top-0 z-50">
         <div className="max-w-7xl mx-auto px-6 py-4 flex items-center justify-between">
@@ -164,9 +176,9 @@ function PublicPropertyInner() {
         <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
           {/* Main Content */}
           <div className="lg:col-span-2 space-y-6">
-            <div className="rounded-2xl overflow-hidden bg-gray-900 aspect-video">
+            <div className="rounded-2xl overflow-hidden bg-gray-900 aspect-video cursor-pointer" onClick={() => setLightboxIdx(0)}>
               {property.images?.[0] ? (
-                <img src={property.images[0]} alt={property.title} className="w-full h-full object-cover" />
+                <img src={property.images[0]} alt={property.title} className="w-full h-full object-cover hover:scale-105 transition-transform duration-300" />
               ) : (
                 <div className="w-full h-full flex items-center justify-center"><MapPin className="w-20 h-20 text-white/20" /></div>
               )}
@@ -174,9 +186,9 @@ function PublicPropertyInner() {
 
             {property.images?.length > 1 && (
               <div className="flex gap-3 overflow-x-auto pb-2">
-                {property.images.slice(1, 5).map((img, i) => (
-                  <div key={i} className="w-32 h-24 rounded-lg overflow-hidden bg-gray-900 flex-shrink-0">
-                    <img src={img} alt="" className="w-full h-full object-cover" />
+                {property.images.slice(1).map((img, i) => (
+                  <div key={i} className="w-32 h-24 rounded-lg overflow-hidden bg-gray-900 flex-shrink-0 cursor-pointer" onClick={() => setLightboxIdx(i + 1)}>
+                    <img src={img} alt="" className="w-full h-full object-cover hover:scale-105 transition-transform duration-300" />
                   </div>
                 ))}
               </div>
@@ -236,7 +248,7 @@ function PublicPropertyInner() {
                 <div className="mb-6">
                   <p className="text-3xl font-bold text-[#c9a84c] mb-1">€{property.price?.toLocaleString()}</p>
                   {property.available_units && (
-                    <p className="text-sm text-white/60">{tr("available_units")}: {property.available_units}</p>
+                    <p className="text-sm text-white/60">{lang === "sk" ? "Voľné jednotky na predaj" : lang === "en" ? "Units available for sale" : lang === "de" ? "Verfügbare Einheiten" : lang === "fr" ? "Unités disponibles" : lang === "it" ? "Unità disponibili" : lang === "ru" ? "Доступные единицы" : lang === "pl" ? "Dostępne jednostki" : "Voľné jednotky na predaj"}: {property.available_units}</p>
                   )}
                 </div>
 
