@@ -23,12 +23,15 @@ const COUNTRY_NAMES = {
   hu: { Albania: "Albánia", Hungary: "Magyarország", Bulgaria: "Bulgária", Egypt: "Egyiptom", Georgia: "Grúzia", UAE: "EAE (Dubai)", Spain: "Spanyolország", Italy: "Olaszország", Thailand: "Thaiföld", Turkey: "Törökország" },
 };
 
-const PROPERTY_TYPES_DISPLAY = {
-  "studio": "Štúdio",
-  "1_bedroom": "1 Bedroom",
-  "2_bedroom": "2 Bedroom",
-  "penthouse": "Penthouse",
-  "vila": "Vila"
+const PROPERTY_TYPE_LABELS = {
+  sk: { studio: "Štúdio", "1_bedroom": "1 spálňa", "2_bedroom": "2 spálne", penthouse: "Penthouse", vila: "Vila" },
+  en: { studio: "Studio", "1_bedroom": "1 Bedroom", "2_bedroom": "2 Bedrooms", penthouse: "Penthouse", vila: "Villa" },
+  de: { studio: "Studio", "1_bedroom": "1 Schlafzimmer", "2_bedroom": "2 Schlafzimmer", penthouse: "Penthouse", vila: "Villa" },
+  fr: { studio: "Studio", "1_bedroom": "1 Chambre", "2_bedroom": "2 Chambres", penthouse: "Penthouse", vila: "Villa" },
+  it: { studio: "Monolocale", "1_bedroom": "1 Camera", "2_bedroom": "2 Camere", penthouse: "Penthouse", vila: "Villa" },
+  ru: { studio: "Студия", "1_bedroom": "1 спальня", "2_bedroom": "2 спальни", penthouse: "Пентхаус", vila: "Вилла" },
+  pl: { studio: "Studio", "1_bedroom": "1 sypialnia", "2_bedroom": "2 sypialnie", penthouse: "Penthouse", vila: "Willa" },
+  hu: { studio: "Stúdió", "1_bedroom": "1 hálószoba", "2_bedroom": "2 hálószoba", penthouse: "Penthouse", vila: "Villa" },
 };
 
 function PublicHomeInner() {
@@ -62,6 +65,8 @@ function PublicHomeInner() {
 
   const featured = properties.filter(p => p.is_featured && p.status === "available").sort((a, b) => new Date(b.created_date) - new Date(a.created_date));
   const displayFeatured = featured.slice(0, 6);
+
+  const getTypeName = (type) => (PROPERTY_TYPE_LABELS[lang]?.[type] || PROPERTY_TYPE_LABELS.en[type] || type);
 
   const getCountryName = (country) => {
     if (!country) return country;
@@ -142,11 +147,9 @@ function PublicHomeInner() {
                   </SelectTrigger>
                   <SelectContent>
                     <SelectItem value="all">{tr("allTypes")}</SelectItem>
-                    <SelectItem value="studio">Štúdio</SelectItem>
-                    <SelectItem value="1_bedroom">1 Bedroom</SelectItem>
-                    <SelectItem value="2_bedroom">2 Bedroom</SelectItem>
-                    <SelectItem value="penthouse">Penthouse</SelectItem>
-                    <SelectItem value="vila">Vila</SelectItem>
+                    {Object.keys(PROPERTY_TYPE_LABELS.en).map(type => (
+                      <SelectItem key={type} value={type}>{getTypeName(type)}</SelectItem>
+                    ))}
                   </SelectContent>
                 </Select>
                 <Select value={filters.constructionPhase} onValueChange={v => setFilters({...filters, constructionPhase: v})}>
