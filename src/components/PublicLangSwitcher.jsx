@@ -20,8 +20,9 @@ export default function PublicLangSwitcher() {
         <button
           key={l.code}
           onClick={() => changeLang(l.code)}
-          className={`px-2 py-1 rounded-full text-xs font-medium transition-all ${lang === l.code ? "bg-[#c9a84c] text-white" : "text-white/60 hover:text-white"}`}
+          className={`min-w-[44px] min-h-[32px] px-2 py-1.5 rounded-full text-xs font-medium transition-all cursor-pointer select-none ${lang === l.code ? "bg-[#c9a84c] text-white" : "text-white/60 hover:text-white hover:bg-white/10"}`}
           title={l.label}
+          type="button"
         >
           {l.flag} {l.label}
         </button>
