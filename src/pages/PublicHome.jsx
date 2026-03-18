@@ -480,9 +480,14 @@ function PublicHomeInner() {
           </div>
           <div className="border-t border-white/10 pt-6 flex flex-col sm:flex-row items-center justify-between gap-3">
             <p className="text-white/40 text-sm">© 2026 Nehnuteľnosti v zahraničí. {tr("rights")}</p>
-            <a href="https://www.nehnutelnostivzahranici.sk/ochrana-sukromia/" target="_blank" rel="noopener noreferrer" className="text-[#c9a84c] text-sm hover:underline">
-              {tr("privacy")}
-            </a>
+            <div className="flex items-center gap-4">
+              <Link to={createPageUrl("PublicFAQ")} className="text-[#c9a84c] text-sm hover:underline">
+                FAQ
+              </Link>
+              <a href="https://www.nehnutelnostivzahranici.sk/ochrana-sukromia/" target="_blank" rel="noopener noreferrer" className="text-[#c9a84c] text-sm hover:underline">
+                {tr("privacy")}
+              </a>
+            </div>
           </div>
         </div>
       </footer>
