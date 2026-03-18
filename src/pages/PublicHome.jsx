@@ -363,7 +363,7 @@ function PublicHomeInner() {
                       )}
                       <div className="absolute top-3 left-3"><span className="bg-[#c9a84c] text-white text-xs font-bold px-3 py-1 rounded-full">⭐ TOP</span></div>
                       <div className="absolute top-3 right-3 flex flex-col gap-1 items-end">
-                        <span className="bg-white/20 text-white text-xs font-bold px-3 py-1 rounded-full backdrop-blur">{property.country}</span>
+                        <span className="bg-white/20 text-white text-xs font-bold px-3 py-1 rounded-full backdrop-blur">{getCountryName(property.country)}</span>
                         {property.construction_phase && (
                           <span className={`text-white text-xs font-semibold px-2 py-0.5 rounded-full ${
                             property.construction_phase === "vo_vystavbe" ? "bg-orange-500" : "bg-emerald-600"
