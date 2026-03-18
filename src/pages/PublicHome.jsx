@@ -14,6 +14,15 @@ import { PublicLanguageProvider, usePublicLang } from "@/components/PublicLangua
 import PublicLangSwitcher from "@/components/PublicLangSwitcher";
 
 const COUNTRIES = ["Albania", "Bali", "Hungary", "Bulgaria", "Dominican Republic", "Egypt", "Georgia", "Mauritius", "Oman", "UAE", "Spain", "Italy", "Thailand", "Turkey"];
+
+const COUNTRY_NAMES = {
+  sk: { Albania: "Albánsko", Bali: "Bali", Hungary: "Maďarsko", Bulgaria: "Bulharsko", "Dominican Republic": "Dominikánska republika", Egypt: "Egypt", Georgia: "Gruzínsko", Mauritius: "Maurícius", Oman: "Omán", UAE: "SAE (Dubaj)", Spain: "Španielsko", Italy: "Taliansko", Thailand: "Thajsko", Turkey: "Turecko" },
+  de: { Albania: "Albanien", Hungary: "Ungarn", Bulgaria: "Bulgarien", "Dominican Republic": "Dominikanische Republik", Georgia: "Georgien", Mauritius: "Mauritius", UAE: "VAE (Dubai)", Spain: "Spanien", Italy: "Italien", Thailand: "Thailand", Turkey: "Türkei" },
+  ru: { Albania: "Албания", Hungary: "Венгрия", Bulgaria: "Болгария", "Dominican Republic": "Доминиканская Республика", Egypt: "Египет", Georgia: "Грузия", Mauritius: "Маврикий", UAE: "ОАЭ (Дубай)", Spain: "Испания", Italy: "Италия", Thailand: "Таиланд", Turkey: "Турция" },
+  pl: { Albania: "Albania", Hungary: "Węgry", Bulgaria: "Bułgaria", "Dominican Republic": "Dominikana", Egypt: "Egipt", Georgia: "Gruzja", UAE: "ZEA (Dubaj)", Spain: "Hiszpania", Italy: "Włochy", Thailand: "Tajlandia", Turkey: "Turcja" },
+  hu: { Albania: "Albánia", Hungary: "Magyarország", Bulgaria: "Bulgária", Egypt: "Egyiptom", Georgia: "Grúzia", UAE: "EAE (Dubai)", Spain: "Spanyolország", Italy: "Olaszország", Thailand: "Thaiföld", Turkey: "Törökország" },
+};
+
 const PROPERTY_TYPES_DISPLAY = {
   "studio": "Štúdio",
   "1_bedroom": "1 Bedroom",
@@ -53,6 +62,11 @@ function PublicHomeInner() {
 
   const featured = properties.filter(p => p.is_featured && p.status === "available").sort((a, b) => new Date(b.created_date) - new Date(a.created_date));
   const displayFeatured = featured.slice(0, 6);
+
+  const getCountryName = (country) => {
+    if (!country) return country;
+    return COUNTRY_NAMES[lang]?.[country] || country;
+  };
 
   const getDateLabel = () => {
     const labels = {
@@ -117,7 +131,7 @@ function PublicHomeInner() {
                   </SelectTrigger>
                   <SelectContent>
                     <SelectItem value="all">{tr("allCountries")}</SelectItem>
-                    {COUNTRIES.map(c => <SelectItem key={c} value={c}>{c}</SelectItem>)}
+                    {COUNTRIES.map(c => <SelectItem key={c} value={c}>{getCountryName(c)}</SelectItem>)}
                   </SelectContent>
                 </Select>
                 <Input type="number" placeholder={tr("minPrice")} value={filters.minBudget} onChange={e => setFilters({...filters, minBudget: e.target.value})} className="bg-white/10 border-white/20 text-white placeholder:text-white/50" />
@@ -401,7 +415,7 @@ function PublicHomeInner() {
                       <div className="w-full h-full flex items-center justify-center"><Home className="w-16 h-16 text-white/20" /></div>
                     )}
                     <div className="absolute top-3 right-3 flex flex-col gap-1 items-end">
-                      <span className="bg-[#c9a84c] text-white text-xs font-bold px-3 py-1 rounded-full">{property.country}</span>
+                      <span className="bg-[#c9a84c] text-white text-xs font-bold px-3 py-1 rounded-full">{getCountryName(property.country)}</span>
                       {property.construction_phase && (
                         <span className={`text-white text-xs font-semibold px-2 py-0.5 rounded-full ${
                           property.construction_phase === "vo_vystavbe" ? "bg-orange-500" : "bg-emerald-600"
@@ -433,6 +447,20 @@ function PublicHomeInner() {
           {filtered.length === 0 && (
             <div className="text-center py-20"><p className="text-white/40 text-lg">{tr("noProperties")}</p></div>
           )}
+        </div>
+      </section>
+
+      {/* Motto */}
+      <section className="py-16 px-6 bg-gradient-to-br from-gray-900 to-black">
+        <div className="max-w-3xl mx-auto text-center">
+          <p className="text-[#c9a84c] text-xs uppercase tracking-widest mb-6">NAŠE MOTTO</p>
+          <h3 className="text-4xl md:text-5xl font-bold text-white mb-4">
+            <em>{lang === "sk" ? "Svet je väčší, než si myslíte." : lang === "en" ? "The world is bigger than you think." : lang === "fr" ? "Le monde est plus grand que vous ne le pensez." : lang === "it" ? "Il mondo è più grande di quanto pensi." : lang === "de" ? "Die Welt ist größer als Sie denken." : lang === "ru" ? "Мир больше, чем вы думаете." : lang === "pl" ? "Świat jest większy niż myślisz." : lang === "hu" ? "A világ nagyobb, mint gondolod." : "Svet je väčší, než si myslíte."}</em>
+          </h3>
+          <p className="text-2xl text-white/70 mb-4">
+            <em>{lang === "sk" ? "Vaše možnosti tiež." : lang === "en" ? "So are your possibilities." : lang === "fr" ? "Vos possibilités aussi." : lang === "it" ? "Lo sono anche le tue possibilità." : lang === "de" ? "Ihre Möglichkeiten auch." : lang === "ru" ? "Ваши возможности тоже." : lang === "pl" ? "Twoje możliwości też." : lang === "hu" ? "A lehetőségeid is." : "Vaše možnosti tiež."}</em>
+          </p>
+          <p className="text-white/50 italic">{lang === "sk" ? "My sme tu preto, aby ste ich objavili." : lang === "en" ? "We're here to help you discover them." : lang === "fr" ? "Nous sommes là pour vous aider à les découvrir." : lang === "it" ? "Siamo qui per aiutarti a scoprirle." : lang === "de" ? "Wir sind hier, um Ihnen zu helfen, sie zu entdecken." : "My sme tu preto, aby ste ich objavili."}</p>
         </div>
       </section>
 
