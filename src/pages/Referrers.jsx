@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { useQuery, useQueryClient, useMutation } from "@tanstack/react-query";
 import { base44 } from "@/api/base44Client";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
@@ -214,7 +214,7 @@ export default function Referrers() {
           <p className="text-gray-400 text-lg">Zatiaľ žiadni tiperi</p>
           {isAdminOrAssistant && <Button onClick={() => setShowForm(true)} className="mt-4">
             Pridať prvého tipera
-          </Button>
+          </Button>}
         </div>
       )}
 
