@@ -25,7 +25,6 @@ export default function Layout({ children, currentPageName }) {
     { nameKey: "commissions", icon: DollarSign, page: "Commissions" },
     { nameKey: "referrers", icon: Users, page: "Referrers" },
     { nameKey: "reports", icon: BarChart3, page: "Reports" },
-    { nameKey: "map", icon: MapPin, page: "PropertyMap" },
     { nameKey: "team", icon: Users, page: "Team", divider: true },
     { nameKey: "publicSite", icon: Globe, page: "PublicHome" },
   ];
