@@ -4,7 +4,7 @@ import { createPageUrl } from "@/utils";
 import { base44 } from "@/api/base44Client";
 import {
   LayoutDashboard, Building2, Users, CalendarClock, DollarSign,
-  MapPin, Menu, X, LogOut, ChevronRight, Bell, Languages, UserPlus, BarChart3, Globe
+  MapPin, Menu, X, LogOut, ChevronRight, Bell, Languages, UserPlus, BarChart3, Globe, Upload
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
@@ -28,6 +28,7 @@ export default function Layout({ children, currentPageName }) {
     { nameKey: "partners", icon: Users, page: "Partners" },
     { nameKey: "realEstateAgencies", icon: Building2, page: "RealEstateAgencies" },
     { nameKey: "reports", icon: BarChart3, page: "Reports" },
+    { nameKey: "propertyImport", icon: Upload, page: "PropertyImport" },
     { nameKey: "team", icon: Users, page: "Team", divider: true },
     { nameKey: "publicSite", icon: Globe, page: "PublicHome" },
   ];
