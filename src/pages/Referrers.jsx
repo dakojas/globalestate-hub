@@ -12,7 +12,12 @@ import ReferrerForm from "@/components/referrers/ReferrerForm";
 export default function Referrers() {
   const [showForm, setShowForm] = useState(false);
   const [editingReferrer, setEditingReferrer] = useState(null);
+  const [currentUser, setCurrentUser] = useState(null);
   const queryClient = useQueryClient();
+
+  useEffect(() => {
+    base44.auth.me().then(setCurrentUser).catch(() => {});
+  }, []);
 
   const { data: users = [] } = useQuery({
     queryKey: ["users"],
@@ -29,7 +34,11 @@ export default function Referrers() {
     queryFn: () => base44.entities.Commission.list("-created_date", 500),
   });
 
-  const referrers = users.filter(u => u.role === "tiper");
+  const isAdminOrAssistant = currentUser?.role === "admin" || currentUser?.role === "assistant";
+  const allTipers = users.filter(u => u.role === "tiper");
+  const referrers = isAdminOrAssistant
+    ? allTipers
+    : allTipers.filter(u => u.email === currentUser?.email);
 
   const copyLink = (code) => {
     const link = `${window.location.origin}/PublicHome?ref=${code}`;
@@ -48,10 +57,12 @@ export default function Referrers() {
           <h2 className="text-2xl font-bold text-[#0a1628]">Tiperi / Partneri</h2>
           <p className="text-gray-500 text-sm mt-1">Správa tiperov a ich provízií</p>
         </div>
+        {isAdminOrAssistant && (
         <Button onClick={() => setShowForm(true)} className="bg-[#0a1628] hover:bg-[#132039]">
           <UserPlus className="w-4 h-4 mr-2" />
           Pridať tipera
         </Button>
+        )}
       </div>
 
       {/* Stats */}
@@ -181,7 +192,7 @@ export default function Referrers() {
                   </div>
                 )}
 
-                <div className="flex gap-2 pt-2">
+                {isAdminOrAssistant && <div className="flex gap-2 pt-2">
                   <Button 
                     size="sm" 
                     variant="outline" 
@@ -190,7 +201,7 @@ export default function Referrers() {
                   >
                     Upraviť
                   </Button>
-                </div>
+                </div>}
               </CardContent>
             </Card>
           );
@@ -201,7 +212,7 @@ export default function Referrers() {
         <div className="text-center py-20">
           <Users className="w-16 h-16 text-gray-300 mx-auto mb-4" />
           <p className="text-gray-400 text-lg">Zatiaľ žiadni tiperi</p>
-          <Button onClick={() => setShowForm(true)} className="mt-4">
+          {isAdminOrAssistant && <Button onClick={() => setShowForm(true)} className="mt-4">
             Pridať prvého tipera
           </Button>
         </div>
