@@ -1,5 +1,6 @@
 import React from "react";
 import { useQuery } from "@tanstack/react-query";
+import { useTranslation } from "@/components/LanguageContext";
 import { base44 } from "@/api/base44Client";
 import { Building2, Users, DollarSign, CalendarClock, UserPlus, TrendingUp } from "lucide-react";
 import { Skeleton } from "@/components/ui/skeleton";
@@ -11,6 +12,7 @@ import LeadSourceChart from "../components/dashboard/LeadSourceChart";
 import ClientMatches from "../components/dashboard/ClientMatches";
 
 export default function Dashboard() {
+  const { t } = useTranslation();
   const { data: properties = [], isLoading: loadingProps } = useQuery({
     queryKey: ["properties"],
     queryFn: () => base44.entities.Property.list("-created_date", 100),
@@ -63,12 +65,12 @@ export default function Dashboard() {
     <div className="space-y-6">
       {/* Stats */}
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-6 gap-4">
-        <StatCard title="New Leads" value={newLeads} subtitle="Waiting" icon={UserPlus} color="blue" />
-        <StatCard title="Total Clients" value={clients.length} subtitle={`${activeClients} active`} icon={Users} color="purple" />
-        <StatCard title="Properties" value={properties.length} subtitle={`${availableProperties} available`} icon={Building2} color="gold" />
-        <StatCard title="Referrer Leads" value={referrerLeads} subtitle="From partners" icon={TrendingUp} color="green" />
-        <StatCard title="Closed Deals" value={closedDeals} subtitle="Successful" icon={DollarSign} color="emerald" />
-        <StatCard title="Reminders" value={reminders.length} subtitle="Pending" icon={CalendarClock} color="red" />
+        <StatCard title={t('newLeads')} value={newLeads} subtitle={t('waiting')} icon={UserPlus} color="blue" />
+        <StatCard title={t('totalClients')} value={clients.length} subtitle={`${activeClients} ${t('activeCount')}`} icon={Users} color="purple" />
+        <StatCard title={t('properties')} value={properties.length} subtitle={`${availableProperties} ${t('availableCount')}`} icon={Building2} color="gold" />
+        <StatCard title={t('referrerLeads')} value={referrerLeads} subtitle={t('fromPartners')} icon={TrendingUp} color="green" />
+        <StatCard title={t('closedDeals')} value={closedDeals} subtitle={t('successful')} icon={DollarSign} color="emerald" />
+        <StatCard title={t('reminders')} value={reminders.length} subtitle={t('pending')} icon={CalendarClock} color="red" />
       </div>
 
       {/* Main grid */}
