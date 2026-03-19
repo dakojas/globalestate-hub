@@ -5,89 +5,128 @@ import { base44 } from "@/api/base44Client";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
-import { Plus, Search, LayoutGrid, List, Trash2, Loader2, Star } from "lucide-react";
+import { Plus, Search, Trash2, Loader2, Star, ArrowLeft } from "lucide-react";
 import { toast } from "sonner";
 import { Skeleton } from "@/components/ui/skeleton";
 import PropertyCard from "../components/properties/PropertyCard";
 import PropertyForm from "../components/properties/PropertyForm";
 
-const COUNTRIES = ["All", "Albania", "Bali", "Hungary", "Bulgaria", "Dominican Republic", "Egypt", "Georgia", "Mauritius", "Oman", "UAE", "Spain", "Italy", "Thailand", "Turkey"];
+const COUNTRIES = ["Albania", "Bali", "Hungary", "Bulgaria", "Dominican Republic", "Egypt", "Georgia", "Mauritius", "Oman", "UAE", "Spain", "Italy", "Thailand", "Turkey"];
+
+const COUNTRY_FLAGS = {
+  Albania: "🇦🇱", Bali: "🇮🇩", Hungary: "🇭🇺", Bulgaria: "🇧🇬",
+  "Dominican Republic": "🇩🇴", Egypt: "🇪🇬", Georgia: "🇬🇪",
+  Mauritius: "🇲🇺", Oman: "🇴🇲", UAE: "🇦🇪", Spain: "🇪🇸",
+  Italy: "🇮🇹", Thailand: "🇹🇭", Turkey: "🇹🇷"
+};
 
 export default function Properties() {
   const queryClient = useQueryClient();
   const [showForm, setShowForm] = useState(false);
   const [search, setSearch] = useState("");
-  const [countryFilter, setCountryFilter] = useState("All");
+  const [selectedCountry, setSelectedCountry] = useState(null);
   const [statusFilter, setStatusFilter] = useState("all");
   const [selectedIds, setSelectedIds] = useState(new Set());
   const [bulkDeleting, setBulkDeleting] = useState(false);
+
   const { data: properties = [], isLoading } = useQuery({
     queryKey: ["properties"],
     queryFn: () => base44.entities.Property.list("-created_date", 200),
   });
 
-  const toggleFeatured = async (propertyId, currentFeatured) => {
-    try {
-      await base44.entities.Property.update(propertyId, { is_featured: !currentFeatured });
-      queryClient.invalidateQueries({ queryKey: ["properties"] });
-      toast.success(!currentFeatured ? "Nehnuteľnosť je odteraz featured" : "Featured status odstránený");
-    } catch {
-      toast.error("Chyba pri aktualizácii");
-    }
-  };
+  const countsByCountry = COUNTRIES.reduce((acc, c) => {
+    acc[c] = properties.filter(p => p.country === c).length;
+    return acc;
+  }, {});
 
   const filtered = properties.filter(p => {
     const matchSearch = !search || p.title?.toLowerCase().includes(search.toLowerCase()) || p.city?.toLowerCase().includes(search.toLowerCase());
-    const matchCountry = countryFilter === "All" || p.country === countryFilter;
+    const matchCountry = !selectedCountry || p.country === selectedCountry;
     const matchStatus = statusFilter === "all" || p.status === statusFilter;
     return matchSearch && matchCountry && matchStatus;
   });
 
+  const toggleFeatured = async (propertyId, currentFeatured) => {
+    await base44.entities.Property.update(propertyId, { is_featured: !currentFeatured });
+    queryClient.invalidateQueries({ queryKey: ["properties"] });
+    toast.success(!currentFeatured ? "Nehnuteľnosť je odteraz featured" : "Featured status odstránený");
+  };
+
   const toggleSelect = (id) => {
     const newSelected = new Set(selectedIds);
-    if (newSelected.has(id)) {
-      newSelected.delete(id);
-    } else {
-      newSelected.add(id);
-    }
+    if (newSelected.has(id)) newSelected.delete(id);
+    else newSelected.add(id);
     setSelectedIds(newSelected);
   };
 
   const toggleSelectAll = () => {
-    if (selectedIds.size === filtered.length) {
-      setSelectedIds(new Set());
-    } else {
-      setSelectedIds(new Set(filtered.map(p => p.id)));
-    }
+    if (selectedIds.size === filtered.length) setSelectedIds(new Set());
+    else setSelectedIds(new Set(filtered.map(p => p.id)));
   };
 
   const handleBulkDelete = async () => {
     if (!selectedIds.size || !confirm(`Naozaj vymazať ${selectedIds.size} projektov?`)) return;
     setBulkDeleting(true);
-    try {
-      for (const id of selectedIds) {
-        await base44.entities.Property.delete(id);
-      }
-      queryClient.invalidateQueries({ queryKey: ["properties"] });
-      setSelectedIds(new Set());
-      toast.success(`${selectedIds.size} projektov vymazaných`);
-    } catch {
-      toast.error("Chyba pri vymazaní");
-    } finally {
-      setBulkDeleting(false);
+    for (const id of selectedIds) {
+      await base44.entities.Property.delete(id);
     }
+    queryClient.invalidateQueries({ queryKey: ["properties"] });
+    setSelectedIds(new Set());
+    toast.success(`${selectedIds.size} projektov vymazaných`);
+    setBulkDeleting(false);
   };
 
+  // Country grid view
+  if (!selectedCountry) {
+    return (
+      <div className="space-y-6">
+        <PendingApprovals />
+        <div>
+          <h2 className="text-2xl font-bold text-[#0a1628] mb-1">Nehnuteľnosti podľa krajín</h2>
+          <p className="text-gray-500 text-sm">Vyberte krajinu pre zobrazenie ponúk</p>
+        </div>
+        {isLoading ? (
+          <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-4">
+            {[1,2,3,4,5,6,7,8].map(i => <Skeleton key={i} className="h-32 rounded-2xl" />)}
+          </div>
+        ) : (
+          <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-4">
+            {COUNTRIES.map(country => (
+              <button
+                key={country}
+                onClick={() => { setSelectedCountry(country); setSearch(""); setStatusFilter("all"); setSelectedIds(new Set()); }}
+                className="flex flex-col items-center justify-center gap-3 p-6 bg-white rounded-2xl border border-gray-100 shadow-sm hover:shadow-md hover:border-[#c9a84c]/40 transition-all group text-center"
+              >
+                <span className="text-4xl">{COUNTRY_FLAGS[country]}</span>
+                <div>
+                  <p className="font-semibold text-[#0a1628] text-sm group-hover:text-[#c9a84c] transition-colors">{country}</p>
+                  <p className="text-xs text-gray-400 mt-0.5">{countsByCountry[country]} ponúk</p>
+                </div>
+              </button>
+            ))}
+          </div>
+        )}
+      </div>
+    );
+  }
+
+  // Country detail view
   return (
     <div className="space-y-6">
-      <PendingApprovals />
       {/* Header */}
       <div className="flex flex-col sm:flex-row gap-4 items-start sm:items-center justify-between">
-        <div>
-          <p className="text-sm text-gray-500">{filtered.length} properties found</p>
+        <div className="flex items-center gap-3">
+          <button onClick={() => setSelectedCountry(null)} className="flex items-center gap-1.5 text-gray-500 hover:text-[#0a1628] transition-colors text-sm">
+            <ArrowLeft className="w-4 h-4" /> Všetky krajiny
+          </button>
+          <span className="text-gray-300">/</span>
+          <div className="flex items-center gap-2">
+            <span className="text-2xl">{COUNTRY_FLAGS[selectedCountry]}</span>
+            <h2 className="text-xl font-bold text-[#0a1628]">{selectedCountry}</h2>
+          </div>
         </div>
         <Button onClick={() => setShowForm(true)} className="bg-[#0a1628] hover:bg-[#132039]">
-          <Plus className="w-4 h-4 mr-2" /> Add Property
+          <Plus className="w-4 h-4 mr-2" /> Pridať nehnuteľnosť
         </Button>
       </div>
 
@@ -106,15 +145,8 @@ export default function Properties() {
             </span>
           </div>
           <div className="flex items-center gap-3">
-            <Button variant="outline" size="sm" onClick={() => setSelectedIds(new Set())}>
-              Zrušiť
-            </Button>
-            <Button
-              size="sm"
-              onClick={handleBulkDelete}
-              disabled={bulkDeleting}
-              className="bg-red-600 hover:bg-red-700 text-white"
-            >
+            <Button variant="outline" size="sm" onClick={() => setSelectedIds(new Set())}>Zrušiť</Button>
+            <Button size="sm" onClick={handleBulkDelete} disabled={bulkDeleting} className="bg-red-600 hover:bg-red-700 text-white">
               {bulkDeleting ? <Loader2 className="w-4 h-4 mr-2 animate-spin" /> : <Trash2 className="w-4 h-4 mr-2" />}
               Vymazať vybratých ({selectedIds.size})
             </Button>
@@ -126,21 +158,15 @@ export default function Properties() {
       <div className="flex flex-col sm:flex-row gap-3">
         <div className="relative flex-1">
           <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-gray-400" />
-          <Input value={search} onChange={e => setSearch(e.target.value)} placeholder="Search properties..." className="pl-10" />
+          <Input value={search} onChange={e => setSearch(e.target.value)} placeholder="Hľadať nehnuteľnosti..." className="pl-10" />
         </div>
-        <Select value={countryFilter} onValueChange={setCountryFilter}>
-          <SelectTrigger className="w-48"><SelectValue /></SelectTrigger>
-          <SelectContent>
-            {COUNTRIES.map(c => <SelectItem key={c} value={c}>{c}</SelectItem>)}
-          </SelectContent>
-        </Select>
         <Select value={statusFilter} onValueChange={setStatusFilter}>
           <SelectTrigger className="w-40"><SelectValue /></SelectTrigger>
           <SelectContent>
-            <SelectItem value="all">All Status</SelectItem>
-            <SelectItem value="available">Available</SelectItem>
-            <SelectItem value="reserved">Reserved</SelectItem>
-            <SelectItem value="sold">Sold</SelectItem>
+            <SelectItem value="all">Všetky statusy</SelectItem>
+            <SelectItem value="available">Dostupné</SelectItem>
+            <SelectItem value="reserved">Rezervované</SelectItem>
+            <SelectItem value="sold">Predané</SelectItem>
             <SelectItem value="off_market">Off Market</SelectItem>
           </SelectContent>
         </Select>
@@ -153,8 +179,10 @@ export default function Properties() {
         </div>
       ) : filtered.length === 0 ? (
         <div className="text-center py-20">
-          <p className="text-gray-400 text-lg">No properties found</p>
-          <p className="text-gray-300 text-sm mt-1">Try adjusting your filters or add a new property</p>
+          <p className="text-gray-400 text-lg">Žiadne nehnuteľnosti v {selectedCountry}</p>
+          <Button onClick={() => setShowForm(true)} className="mt-4 bg-[#0a1628] hover:bg-[#132039]">
+            <Plus className="w-4 h-4 mr-2" /> Pridať prvú nehnuteľnosť
+          </Button>
         </div>
       ) : (
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
@@ -185,6 +213,7 @@ export default function Properties() {
         <PropertyForm
           open={showForm}
           onClose={() => setShowForm(false)}
+          defaultCountry={selectedCountry}
           onSaved={() => { setShowForm(false); queryClient.invalidateQueries({ queryKey: ["properties"] }); }}
         />
       )}
