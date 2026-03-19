@@ -15,7 +15,6 @@ const navItems = [
   { name: "Clients", icon: Users, page: "Clients" },
   { name: "Calendar", icon: CalendarClock, page: "Calendar" },
   { name: "Commissions", icon: DollarSign, page: "Commissions" },
-  { name: "Map", icon: MapPin, page: "PropertyMap" },
 ];
 
 export default function Layout({ children, currentPageName }) {
