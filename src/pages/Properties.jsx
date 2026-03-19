@@ -20,6 +20,13 @@ const COUNTRY_FLAGS = {
   Italy: "🇮🇹", Thailand: "🇹🇭", Turkey: "🇹🇷"
 };
 
+const COUNTRY_SK = {
+  Albania: "Albánsko", Bali: "Bali", Hungary: "Maďarsko", Bulgaria: "Bulharsko",
+  "Dominican Republic": "Dominikánska republika", Egypt: "Egypt", Georgia: "Gruzínsko",
+  Mauritius: "Maurícius", Oman: "Omán", UAE: "SAE (Dubaj)", Spain: "Španielsko",
+  Italy: "Taliansko", Thailand: "Thajsko", Turkey: "Turecko"
+};
+
 export default function Properties() {
   const queryClient = useQueryClient();
   const [showForm, setShowForm] = useState(false);
@@ -99,7 +106,7 @@ export default function Properties() {
               >
                 <span className="text-4xl">{COUNTRY_FLAGS[country]}</span>
                 <div>
-                  <p className="font-semibold text-[#0a1628] text-sm group-hover:text-[#c9a84c] transition-colors">{country}</p>
+                  <p className="font-semibold text-[#0a1628] text-sm group-hover:text-[#c9a84c] transition-colors">{COUNTRY_SK[country] || country}</p>
                   <p className="text-xs text-gray-400 mt-0.5">{countsByCountry[country]} ponúk</p>
                 </div>
               </button>
@@ -122,7 +129,7 @@ export default function Properties() {
           <span className="text-gray-300">/</span>
           <div className="flex items-center gap-2">
             <span className="text-2xl">{COUNTRY_FLAGS[selectedCountry]}</span>
-            <h2 className="text-xl font-bold text-[#0a1628]">{selectedCountry}</h2>
+            <h2 className="text-xl font-bold text-[#0a1628]">{COUNTRY_SK[selectedCountry] || selectedCountry}</h2>
           </div>
         </div>
         <Button onClick={() => setShowForm(true)} className="bg-[#0a1628] hover:bg-[#132039]">
@@ -179,7 +186,7 @@ export default function Properties() {
         </div>
       ) : filtered.length === 0 ? (
         <div className="text-center py-20">
-          <p className="text-gray-400 text-lg">Žiadne nehnuteľnosti v {selectedCountry}</p>
+          <p className="text-gray-400 text-lg">Žiadne nehnuteľnosti v {COUNTRY_SK[selectedCountry] || selectedCountry}</p>
           <Button onClick={() => setShowForm(true)} className="mt-4 bg-[#0a1628] hover:bg-[#132039]">
             <Plus className="w-4 h-4 mr-2" /> Pridať prvú nehnuteľnosť
           </Button>
