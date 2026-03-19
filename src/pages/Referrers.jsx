@@ -212,9 +212,11 @@ export default function Referrers() {
         <div className="text-center py-20">
           <Users className="w-16 h-16 text-gray-300 mx-auto mb-4" />
           <p className="text-gray-400 text-lg">Zatiaľ žiadni tiperi</p>
-          {isAdminOrAssistant && <Button onClick={() => setShowForm(true)} className="mt-4">
-            Pridať prvého tipera
-          </Button>}
+          {isAdminOrAssistant && (
+            <Button onClick={() => setShowForm(true)} className="mt-4">
+              Pridať prvého tipera
+            </Button>
+          )}
         </div>
       )}
 
