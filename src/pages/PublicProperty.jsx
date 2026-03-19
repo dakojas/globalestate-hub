@@ -252,6 +252,18 @@ function PublicPropertyInner() {
                   )}
                 </div>
 
+                <a
+                  href="https://calendly.com/nehnutelnostivzahranici/30min"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="flex items-center justify-center gap-2 w-full bg-[#c9a84c] hover:bg-[#b8973b] text-white font-semibold py-3 px-4 rounded-lg mb-5 transition-all"
+                >
+                  📅 {tr("bookConsultation")}
+                </a>
+                <div className="relative mb-5">
+                  <div className="absolute inset-0 flex items-center"><div className="w-full border-t border-white/10" /></div>
+                  <div className="relative flex justify-center"><span className="bg-transparent px-2 text-white/30 text-xs">{lang === "sk" ? "alebo" : "or"}</span></div>
+                </div>
                 <h3 className="text-lg font-semibold text-white mb-4">{tr("interested")}</h3>
                 <form onSubmit={handleSubmit} className="space-y-4">
                   <Input placeholder={tr("nameSurname")} value={formData.full_name} onChange={e => setFormData({...formData, full_name: e.target.value})} required className="bg-white/10 border-white/20 text-white placeholder:text-white/50" />

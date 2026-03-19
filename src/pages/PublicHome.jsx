@@ -126,6 +126,14 @@ function PublicHomeInner() {
             {tr("heroTitle")} <span className="text-[#c9a84c]">{tr("heroTitleHighlight")}</span>
           </h1>
           <p className="text-xl text-white/70 mb-12 max-w-2xl mx-auto">{tr("heroSubtitle")}</p>
+          <a
+            href="https://calendly.com/nehnutelnostivzahranici/30min"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="inline-flex items-center gap-2 bg-[#c9a84c] hover:bg-[#b8973b] text-white font-semibold px-8 py-3 rounded-full shadow-lg transition-all mb-12 text-base"
+          >
+            📅 {tr("bookConsultation")}
+          </a>
 
           <Card className="bg-white/10 backdrop-blur-lg border-white/20 max-w-4xl mx-auto">
             <CardContent className="p-6">
@@ -464,6 +472,21 @@ function PublicHomeInner() {
             <em>{lang === "sk" ? "Vaše možnosti tiež." : lang === "en" ? "So are your possibilities." : lang === "fr" ? "Vos possibilités aussi." : lang === "it" ? "Lo sono anche le tue possibilità." : lang === "de" ? "Ihre Möglichkeiten auch." : lang === "ru" ? "Ваши возможности тоже." : lang === "pl" ? "Twoje możliwości też." : lang === "hu" ? "A lehetőségeid is." : "Vaše možnosti tiež."}</em>
           </p>
           <p className="text-white/50 italic">{lang === "sk" ? "My sme tu preto, aby ste ich objavili." : lang === "en" ? "We're here to help you discover them." : lang === "fr" ? "Nous sommes là pour vous aider à les découvrir." : lang === "it" ? "Siamo qui per aiutarti a scoprirle." : lang === "de" ? "Wir sind hier, um Ihnen zu helfen, sie zu entdecken." : "My sme tu preto, aby ste ich objavili."}</p>
+        </div>
+      </section>
+
+      {/* Consultation CTA */}
+      <section className="py-12 px-6 bg-[#c9a84c]/10 border-t border-[#c9a84c]/20">
+        <div className="max-w-3xl mx-auto text-center">
+          <p className="text-white text-xl font-semibold mb-4">{tr("bookConsultation")}</p>
+          <a
+            href="https://calendly.com/nehnutelnostivzahranici/30min"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="inline-flex items-center gap-2 bg-[#c9a84c] hover:bg-[#b8973b] text-white font-bold px-10 py-4 rounded-full shadow-xl transition-all text-lg"
+          >
+            📅 {tr("bookConsultation")}
+          </a>
         </div>
       </section>
 

@@ -2,6 +2,7 @@ import React, { createContext, useContext, useState } from "react";
 
 const t = {
   fr: {
+    bookConsultation: "Prendre rendez-vous",
     aboutUs: "À propos de nous",
     offers: "Annonces",
     contact: "Contact",
@@ -72,6 +73,7 @@ const t = {
     privacy: "Politique de confidentialité (RGPD)",
   },
   it: {
+    bookConsultation: "Prenota una consulenza",
     aboutUs: "Chi siamo",
     offers: "Annunci",
     contact: "Contatti",
@@ -142,6 +144,7 @@ const t = {
     privacy: "Informativa sulla privacy (GDPR)",
   },
   ru: {
+    bookConsultation: "Записаться на консультацию",
     offers: "Предложения",
     contact: "Контакт",
     backToOffers: "Вернуться к предложениям",
@@ -211,6 +214,7 @@ const t = {
     privacy: "Политика конфиденциальности (GDPR)",
   },
   de: {
+    bookConsultation: "Beratung buchen",
     offers: "Angebote",
     contact: "Kontakt",
     backToOffers: "Zurück zu den Angeboten",
@@ -280,6 +284,7 @@ const t = {
     privacy: "Datenschutzrichtlinie (GDPR)",
   },
   pl: {
+    bookConsultation: "Umów konsultację",
     offers: "Oferty",
     contact: "Kontakt",
     backToOffers: "Wróć do ofert",
@@ -349,6 +354,7 @@ const t = {
     privacy: "Polityka prywatności (GDPR)",
   },
   hu: {
+    bookConsultation: "Konzultáció foglalása",
     offers: "Ajánlatok",
     contact: "Kapcsolat",
     backToOffers: "Vissza az ajánlatokhoz",
@@ -418,6 +424,7 @@ const t = {
     privacy: "Adatvédelmi irányelvek (GDPR)",
   },
   sk: {
+    bookConsultation: "Dohodnúť konzultáciu",
     // Nav
     aboutUs: "O nás",
     offers: "Ponuky",
@@ -496,6 +503,7 @@ const t = {
     privacy: "Ochrana osobných údajov (GDPR)",
   },
   en: {
+    bookConsultation: "Book a Consultation",
     // Nav
     aboutUs: "About Us",
     offers: "Listings",
