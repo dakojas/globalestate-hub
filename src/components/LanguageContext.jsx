@@ -89,7 +89,7 @@ const translations = {
     noClientsFound: "Nenašli sa žiadni klienti",
     logInteraction: "Zaznamenať interakciu",
     budget: "Rozpočet",
-    clients: "klienti",
+    clients: "Klienti",
     deleteClientConfirm: "Vymazať klienta",
 
     // Calendar page
