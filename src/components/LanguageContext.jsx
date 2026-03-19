@@ -225,6 +225,26 @@ const translations = {
     agencyNamePlaceholder: "Realitná kancelária XY",
     partnershipNotesLabel: "Podmienky spolupráce / poznámky",
 
+    // Reminder types
+    type_viewing: "Obhliadka",
+    type_contract_renewal: "Predĺženie zmluvy",
+    type_follow_up: "Sledovanie",
+    type_payment: "Platba",
+    type_other: "Iné",
+    // Priorities
+    priority_low: "Nízka",
+    priority_medium: "Stredná",
+    priority_high: "Vysoká",
+    // Reminder form
+    reminderTitle: "Názov *",
+    reminderType: "Typ",
+    reminderPriority: "Priorita",
+    reminderDueDate: "Dátum a čas",
+    reminderDescription: "Popis",
+    optional: "Voliteľné",
+    reminderCreated: "Pripomienka vytvorená",
+    create: "Vytvoriť",
+
     // Extra
     claimSuccess: "Lead úspešne prevzatý",
     clientDeleted: "Klient vymazaný",
@@ -430,6 +450,26 @@ const translations = {
     leadsByCountry: "Leads by Country",
     teamPerformanceTitle: "Team / Agent Performance",
     referrerPerformanceTitle: "Referrer Performance",
+
+    // Reminder types
+    type_viewing: "Viewing",
+    type_contract_renewal: "Contract Renewal",
+    type_follow_up: "Follow Up",
+    type_payment: "Payment",
+    type_other: "Other",
+    // Priorities
+    priority_low: "Low",
+    priority_medium: "Medium",
+    priority_high: "High",
+    // Reminder form
+    reminderTitle: "Title *",
+    reminderType: "Type",
+    reminderPriority: "Priority",
+    reminderDueDate: "Due Date & Time",
+    reminderDescription: "Description",
+    optional: "Optional",
+    reminderCreated: "Reminder created",
+    create: "Create",
 
     // Extra
     claimSuccess: "Lead successfully claimed",
