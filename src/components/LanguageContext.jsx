@@ -15,6 +15,7 @@ const translations = {
     map: "Mapa",
     team: "Tím",
     publicSite: "Verejný web",
+    realEstateAgencies: "Realitné kancelárie",
     
     // Common
     search: "Hľadať",
@@ -110,6 +111,7 @@ const translations = {
     map: "Map",
     team: "Team",
     publicSite: "Public Site",
+    realEstateAgencies: "Real Estate Agencies",
     
     // Common
     search: "Search",
