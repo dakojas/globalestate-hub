@@ -10,6 +10,13 @@ import { Upload, X, Plus, Loader2, FileText, Languages } from "lucide-react";
 import { toast } from "sonner";
 
 const COUNTRIES = ["Albania", "Bali", "Hungary", "Bulgaria", "Dominican Republic", "Egypt", "Georgia", "Mauritius", "Oman", "UAE", "Spain", "Italy", "Thailand", "Turkey"];
+
+const COUNTRY_SK = {
+  Albania: "Albánsko", Bali: "Bali", Hungary: "Maďarsko", Bulgaria: "Bulharsko",
+  "Dominican Republic": "Dominikánska republika", Egypt: "Egypt", Georgia: "Gruzínsko",
+  Mauritius: "Maurícius", Oman: "Omán", UAE: "SAE (Dubaj)", Spain: "Španielsko",
+  Italy: "Taliansko", Thailand: "Thajsko", Turkey: "Turecko"
+};
 const TYPES = ["studio", "1_bedroom", "2_bedroom", "penthouse", "vila"];
 const STATUSES = ["available", "reserved", "sold", "off_market"];
 const CURRENCIES = ["EUR", "USD", "GBP", "AED", "THB", "EGP", "IDR"];
@@ -120,7 +127,7 @@ export default function PropertyForm({ property, open, onClose, onSaved, default
               <Select value={form.country} onValueChange={v => handleChange("country", v)}>
                 <SelectTrigger><SelectValue placeholder="Select country" /></SelectTrigger>
                 <SelectContent>
-                  {COUNTRIES.map(c => <SelectItem key={c} value={c}>{c}</SelectItem>)}
+                  {COUNTRIES.map(c => <SelectItem key={c} value={c}>{COUNTRY_SK[c] || c}</SelectItem>)}
                 </SelectContent>
               </Select>
             </div>
