@@ -7,12 +7,14 @@ import { Textarea } from "@/components/ui/textarea";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { Dialog, DialogContent, DialogHeader, DialogTitle } from "@/components/ui/dialog";
 import { Loader2 } from "lucide-react";
+import { useTranslation } from "@/components/LanguageContext";
 import { toast } from "sonner";
 
 const TYPES = ["viewing", "contract_renewal", "follow_up", "payment", "other"];
 const PRIORITIES = ["low", "medium", "high"];
 
 export default function ReminderForm({ clients, properties, open, onClose, onSaved }) {
+  const { t } = useTranslation();
   const [form, setForm] = useState({
     title: "", description: "", type: "follow_up",
     due_date: new Date().toISOString().slice(0, 16),
@@ -24,7 +26,7 @@ export default function ReminderForm({ clients, properties, open, onClose, onSav
   const handleSubmit = async () => {
     setSaving(true);
     await base44.entities.Reminder.create({ ...form, due_date: new Date(form.due_date).toISOString() });
-    toast.success("Reminder created");
+    toast.success(t('reminderCreated'));
     setSaving(false);
     onSaved();
   };
@@ -32,49 +34,49 @@ export default function ReminderForm({ clients, properties, open, onClose, onSav
   return (
     <Dialog open={open} onOpenChange={onClose}>
       <DialogContent className="max-w-md">
-        <DialogHeader><DialogTitle>New Reminder</DialogTitle></DialogHeader>
+        <DialogHeader><DialogTitle>{t('newReminder')}</DialogTitle></DialogHeader>
         <div className="space-y-4 mt-4">
-          <div><Label>Title *</Label><Input value={form.title} onChange={e => setForm(f => ({ ...f, title: e.target.value }))} /></div>
+          <div><Label>{t('reminderTitle')}</Label><Input value={form.title} onChange={e => setForm(f => ({ ...f, title: e.target.value }))} /></div>
           <div className="grid grid-cols-2 gap-4">
             <div>
-              <Label>Type</Label>
+              <Label>{t('reminderType')}</Label>
               <Select value={form.type} onValueChange={v => setForm(f => ({ ...f, type: v }))}>
                 <SelectTrigger><SelectValue /></SelectTrigger>
-                <SelectContent>{TYPES.map(t => <SelectItem key={t} value={t}>{t.replace("_"," ")}</SelectItem>)}</SelectContent>
+                <SelectContent>{TYPES.map(type => <SelectItem key={type} value={type}>{t(`type_${type}`)}</SelectItem>)}</SelectContent>
               </Select>
             </div>
             <div>
-              <Label>Priority</Label>
+              <Label>{t('reminderPriority')}</Label>
               <Select value={form.priority} onValueChange={v => setForm(f => ({ ...f, priority: v }))}>
                 <SelectTrigger><SelectValue /></SelectTrigger>
-                <SelectContent>{PRIORITIES.map(p => <SelectItem key={p} value={p}>{p.charAt(0).toUpperCase() + p.slice(1)}</SelectItem>)}</SelectContent>
+                <SelectContent>{PRIORITIES.map(p => <SelectItem key={p} value={p}>{t(`priority_${p}`)}</SelectItem>)}</SelectContent>
               </Select>
             </div>
           </div>
-          <div><Label>Due Date & Time</Label><Input type="datetime-local" value={form.due_date} onChange={e => setForm(f => ({ ...f, due_date: e.target.value }))} /></div>
+          <div><Label>{t('reminderDueDate')}</Label><Input type="datetime-local" value={form.due_date} onChange={e => setForm(f => ({ ...f, due_date: e.target.value }))} /></div>
           {clients?.length > 0 && (
             <div>
-              <Label>Client</Label>
+              <Label>{t('client')}</Label>
               <Select value={form.client_id} onValueChange={v => setForm(f => ({ ...f, client_id: v }))}>
-                <SelectTrigger><SelectValue placeholder="Optional" /></SelectTrigger>
+                <SelectTrigger><SelectValue placeholder={t('optional')} /></SelectTrigger>
                 <SelectContent>{clients.map(c => <SelectItem key={c.id} value={c.id}>{c.full_name}</SelectItem>)}</SelectContent>
               </Select>
             </div>
           )}
           {properties?.length > 0 && (
             <div>
-              <Label>Property</Label>
+              <Label>{t('property')}</Label>
               <Select value={form.property_id} onValueChange={v => setForm(f => ({ ...f, property_id: v }))}>
-                <SelectTrigger><SelectValue placeholder="Optional" /></SelectTrigger>
+                <SelectTrigger><SelectValue placeholder={t('optional')} /></SelectTrigger>
                 <SelectContent>{properties.map(p => <SelectItem key={p.id} value={p.id}>{p.title}</SelectItem>)}</SelectContent>
               </Select>
             </div>
           )}
-          <div><Label>Description</Label><Textarea value={form.description} onChange={e => setForm(f => ({ ...f, description: e.target.value }))} rows={2} /></div>
+          <div><Label>{t('reminderDescription')}</Label><Textarea value={form.description} onChange={e => setForm(f => ({ ...f, description: e.target.value }))} rows={2} /></div>
           <div className="flex justify-end gap-3 pt-4 border-t">
-            <Button variant="outline" onClick={onClose}>Cancel</Button>
+            <Button variant="outline" onClick={onClose}>{t('cancel')}</Button>
             <Button onClick={handleSubmit} disabled={saving || !form.title} className="bg-[#0a1628] hover:bg-[#132039]">
-              {saving && <Loader2 className="w-4 h-4 mr-2 animate-spin" />} Create
+              {saving && <Loader2 className="w-4 h-4 mr-2 animate-spin" />} {t('create')}
             </Button>
           </div>
         </div>

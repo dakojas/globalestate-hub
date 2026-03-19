@@ -101,7 +101,7 @@ export default function Calendar() {
                   <div className="flex-1 min-w-0">
                     <div className="flex items-center gap-2 flex-wrap">
                       <h4 className={`font-semibold text-sm ${r.status === "completed" ? "line-through text-gray-400" : "text-[#0a1628]"}`}>{r.title}</h4>
-                      <Badge variant="outline" className={`text-[10px] ${priorityColors[r.priority] || priorityColors.medium}`}>{r.priority}</Badge>
+                      <Badge variant="outline" className={`text-[10px] ${priorityColors[r.priority] || priorityColors.medium}`}>{t(`priority_${r.priority}`) || r.priority}</Badge>
                     </div>
                     <div className="flex items-center gap-3 mt-1 text-xs text-gray-400">
                       <span className={`flex items-center gap-1 ${isOverdue ? "text-red-500 font-semibold" : ""}`}>
