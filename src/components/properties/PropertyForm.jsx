@@ -14,9 +14,9 @@ const TYPES = ["studio", "1_bedroom", "2_bedroom", "penthouse", "vila"];
 const STATUSES = ["available", "reserved", "sold", "off_market"];
 const CURRENCIES = ["EUR", "USD", "GBP", "AED", "THB", "EGP", "IDR"];
 
-export default function PropertyForm({ property, open, onClose, onSaved }) {
+export default function PropertyForm({ property, open, onClose, onSaved, defaultCountry }) {
   const [form, setForm] = useState(property || {
-    title: "", description: "", country: "", city: "", address: "",
+    title: "", description: "", country: defaultCountry || "", city: "", address: "",
     property_type: "apartment", status: "available", price: "", currency: "EUR",
     area_sqm: "", bedrooms: "", bathrooms: "", images: [], features: [],
     latitude: "", longitude: "", project_name: "", portal_links: [],
