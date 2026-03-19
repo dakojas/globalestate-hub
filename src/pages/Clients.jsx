@@ -14,6 +14,7 @@ import { Link } from "react-router-dom";
 import { createPageUrl } from "@/utils";
 import { useNavigate } from "react-router-dom";
 import ClientForm from "../components/clients/ClientForm";
+import { useTranslation } from "@/components/LanguageContext";
 import InteractionForm from "../components/clients/InteractionForm";
 
 const statusColors = {
@@ -25,6 +26,7 @@ const statusColors = {
 };
 
 export default function Clients() {
+  const { t } = useTranslation();
   const [showForm, setShowForm] = useState(false);
   const [editingClient, setEditingClient] = useState(null);
   const [interactionClient, setInteractionClient] = useState(null);
@@ -50,7 +52,7 @@ export default function Clients() {
   });
 
   const handleDelete = async (client) => {
-    if (!confirm(`Delete ${client.full_name}?`)) return;
+    if (!confirm(`${t('deleteClientConfirm')} ${client.full_name}?`)) return;
     await base44.entities.Client.delete(client.id);
     toast.success("Client deleted");
     queryClient.invalidateQueries({ queryKey: ["clients"] });
@@ -67,21 +69,21 @@ export default function Clients() {
   return (
     <div className="space-y-6">
       <div className="flex flex-col sm:flex-row gap-4 items-start sm:items-center justify-between">
-        <p className="text-sm text-gray-500">{filtered.length} clients</p>
+        <p className="text-sm text-gray-500">{filtered.length} {t('clients')}</p>
         <Button onClick={() => setShowForm(true)} className="bg-[#0a1628] hover:bg-[#132039]">
-          <Plus className="w-4 h-4 mr-2" /> Add Client
+          <Plus className="w-4 h-4 mr-2" /> {t('addClient')}
         </Button>
       </div>
 
       <div className="flex flex-col sm:flex-row gap-3">
         <div className="relative flex-1">
           <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-gray-400" />
-          <Input value={search} onChange={e => setSearch(e.target.value)} placeholder="Search clients..." className="pl-10" />
+          <Input value={search} onChange={e => setSearch(e.target.value)} placeholder={t('searchClients')} className="pl-10" />
         </div>
         <Select value={statusFilter} onValueChange={setStatusFilter}>
           <SelectTrigger className="w-40"><SelectValue /></SelectTrigger>
           <SelectContent>
-            <SelectItem value="all">All Status</SelectItem>
+            <SelectItem value="all">{t('allStatuses')}</SelectItem>
             {Object.keys(statusColors).map(s => <SelectItem key={s} value={s}>{s.charAt(0).toUpperCase() + s.slice(1)}</SelectItem>)}
           </SelectContent>
         </Select>
@@ -90,7 +92,7 @@ export default function Clients() {
       {isLoading ? (
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">{[1,2,3,4,5,6].map(i => <Skeleton key={i} className="h-48 rounded-2xl" />)}</div>
       ) : filtered.length === 0 ? (
-        <div className="text-center py-20"><p className="text-gray-400 text-lg">No clients found</p></div>
+        <div className="text-center py-20"><p className="text-gray-400 text-lg">{t('noClientsFound')}</p></div>
       ) : (
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
           {filtered.map(client => (
@@ -109,9 +111,9 @@ export default function Clients() {
                   <DropdownMenu>
                     <DropdownMenuTrigger asChild><Button variant="ghost" size="icon" className="h-8 w-8"><MoreVertical className="w-4 h-4" /></Button></DropdownMenuTrigger>
                     <DropdownMenuContent align="end">
-                      <DropdownMenuItem onClick={() => setInteractionClient(client)}><MessageSquare className="w-4 h-4 mr-2" />Log Interaction</DropdownMenuItem>
-                      <DropdownMenuItem onClick={() => setEditingClient(client)}><Pencil className="w-4 h-4 mr-2" />Edit</DropdownMenuItem>
-                      <DropdownMenuItem className="text-red-600" onClick={() => handleDelete(client)}><Trash2 className="w-4 h-4 mr-2" />Delete</DropdownMenuItem>
+                      <DropdownMenuItem onClick={() => setInteractionClient(client)}><MessageSquare className="w-4 h-4 mr-2" />{t('logInteraction')}</DropdownMenuItem>
+                       <DropdownMenuItem onClick={() => setEditingClient(client)}><Pencil className="w-4 h-4 mr-2" />{t('edit')}</DropdownMenuItem>
+                       <DropdownMenuItem className="text-red-600" onClick={() => handleDelete(client)}><Trash2 className="w-4 h-4 mr-2" />{t('delete')}</DropdownMenuItem>
                     </DropdownMenuContent>
                   </DropdownMenu>
                 </div>
@@ -120,7 +122,7 @@ export default function Clients() {
                   {client.phone && <p className="flex items-center gap-2"><Phone className="w-3.5 h-3.5" />{client.phone}</p>}
                 </div>
                 {(client.budget_min || client.budget_max) && (
-                  <p className="text-xs text-gray-400 mt-3">Budget: €{(client.budget_min || 0).toLocaleString()} – €{(client.budget_max || 0).toLocaleString()}</p>
+                  <p className="text-xs text-gray-400 mt-3">{t('budget')}: €{(client.budget_min || 0).toLocaleString()} – €{(client.budget_max || 0).toLocaleString()}</p>
                 )}
                 {client.preferred_countries?.length > 0 && (
                   <div className="flex flex-wrap gap-1 mt-2">
