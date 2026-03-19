@@ -54,7 +54,7 @@ export default function Clients() {
   const handleDelete = async (client) => {
     if (!confirm(`${t('deleteClientConfirm')} ${client.full_name}?`)) return;
     await base44.entities.Client.delete(client.id);
-    toast.success("Client deleted");
+    toast.success(t('clientDeleted'));
     queryClient.invalidateQueries({ queryKey: ["clients"] });
   };
 
@@ -105,7 +105,7 @@ export default function Clients() {
                     </div>
                     <div>
                       <Link to={createPageUrl(`ClientDetail?id=${client.id}`)} className="font-semibold text-[#0a1628] text-sm hover:underline">{client.full_name}</Link>
-                      <Badge className={`${statusColors[client.status]} text-xs ml-2`}>{client.status}</Badge>
+                      <Badge className={`${statusColors[client.status]} text-xs ml-2`}>{t(client.status) || client.status}</Badge>
                     </div>
                   </div>
                   <DropdownMenu>
