@@ -68,7 +68,7 @@ export default function Leads() {
       });
     },
     onSuccess: () => {
-      toast.success("Lead úspešne prevzatý");
+      toast.success(t('claimSuccess'));
       queryClient.invalidateQueries({ queryKey: ["leads"] });
     },
   });
@@ -106,31 +106,31 @@ export default function Leads() {
       <div className="grid grid-cols-1 md:grid-cols-5 gap-4">
         <Card className="border-0 shadow-sm">
           <CardContent className="p-4">
-            <p className="text-xs text-gray-500 uppercase mb-1">Celkom</p>
+            <p className="text-xs text-gray-500 uppercase mb-1">{t('total')}</p>
             <p className="text-2xl font-bold text-[#0a1628]">{stats.total}</p>
           </CardContent>
         </Card>
         <Card className="border-0 shadow-sm">
           <CardContent className="p-4">
-            <p className="text-xs text-gray-500 uppercase mb-1">Nové</p>
+            <p className="text-xs text-gray-500 uppercase mb-1">{t('newLeadsCount')}</p>
             <p className="text-2xl font-bold text-blue-600">{stats.new}</p>
           </CardContent>
         </Card>
         <Card className="border-0 shadow-sm">
           <CardContent className="p-4">
-            <p className="text-xs text-gray-500 uppercase mb-1">Moje leady</p>
+            <p className="text-xs text-gray-500 uppercase mb-1">{t('myLeads')}</p>
             <p className="text-2xl font-bold text-purple-600">{stats.myLeads}</p>
           </CardContent>
         </Card>
         <Card className="border-0 shadow-sm">
           <CardContent className="p-4">
-            <p className="text-xs text-gray-500 uppercase mb-1">Prevzaté</p>
+            <p className="text-xs text-gray-500 uppercase mb-1">{t('claimedCount')}</p>
             <p className="text-2xl font-bold text-green-600">{stats.claimed}</p>
           </CardContent>
         </Card>
         <Card className="border-0 shadow-sm">
           <CardContent className="p-4">
-            <p className="text-xs text-gray-500 uppercase mb-1">Od tiperov</p>
+            <p className="text-xs text-gray-500 uppercase mb-1">{t('fromReferrers')}</p>
             <p className="text-2xl font-bold text-[#c9a84c]">{stats.referrer}</p>
           </CardContent>
         </Card>
@@ -139,10 +139,10 @@ export default function Leads() {
       {/* Tabs */}
       <Tabs value={tab} onValueChange={setTab}>
         <TabsList>
-          <TabsTrigger value="all">Všetky ({filtered.length})</TabsTrigger>
-          <TabsTrigger value="new">Nové ({stats.new})</TabsTrigger>
-          <TabsTrigger value="unclaimed">Neprevzaté</TabsTrigger>
-          <TabsTrigger value="my">Moje ({stats.myLeads})</TabsTrigger>
+          <TabsTrigger value="all">{t('allLeadsTab')} ({filtered.length})</TabsTrigger>
+          <TabsTrigger value="new">{t('newLeadsTab')} ({stats.new})</TabsTrigger>
+          <TabsTrigger value="unclaimed">{t('unclaimedTab')}</TabsTrigger>
+          <TabsTrigger value="my">{t('myLeadsTab')} ({stats.myLeads})</TabsTrigger>
         </TabsList>
       </Tabs>
 
@@ -153,7 +153,7 @@ export default function Leads() {
           <Input 
             value={search} 
             onChange={e => setSearch(e.target.value)} 
-            placeholder="Hľadať leady..." 
+            placeholder={t('searchLeads')} 
             className="pl-10" 
           />
         </div>
@@ -162,17 +162,17 @@ export default function Leads() {
             <SelectValue placeholder="Status" />
           </SelectTrigger>
           <SelectContent>
-            <SelectItem value="all">Všetky statusy</SelectItem>
-            <SelectItem value="new_lead">Nový lead</SelectItem>
-            <SelectItem value="unclaimed">Neprevzatý</SelectItem>
-            <SelectItem value="claimed">Prevzatý</SelectItem>
-            <SelectItem value="contacted">Kontaktovaný</SelectItem>
-            <SelectItem value="qualified">Kvalifikovaný</SelectItem>
-            <SelectItem value="offers_sent">Ponuky odoslané</SelectItem>
-            <SelectItem value="viewing">Obhliadka</SelectItem>
-            <SelectItem value="reserved">Rezervácia</SelectItem>
-            <SelectItem value="closed">Uzavretý</SelectItem>
-            <SelectItem value="lost">Stratený</SelectItem>
+            <SelectItem value="all">{t('allStatuses')}</SelectItem>
+            <SelectItem value="new_lead">{t('new_lead')}</SelectItem>
+            <SelectItem value="unclaimed">{t('unclaimed')}</SelectItem>
+            <SelectItem value="claimed">{t('claimed')}</SelectItem>
+            <SelectItem value="contacted">{t('contacted')}</SelectItem>
+            <SelectItem value="qualified">{t('qualified')}</SelectItem>
+            <SelectItem value="offers_sent">{t('offers_sent')}</SelectItem>
+            <SelectItem value="viewing">{t('viewing')}</SelectItem>
+            <SelectItem value="reserved">{t('reserved')}</SelectItem>
+            <SelectItem value="closed">{t('closed')}</SelectItem>
+            <SelectItem value="lost">{t('lost')}</SelectItem>
           </SelectContent>
         </Select>
         <Select value={sourceFilter} onValueChange={setSourceFilter}>
@@ -180,7 +180,7 @@ export default function Leads() {
             <SelectValue placeholder="Zdroj" />
           </SelectTrigger>
           <SelectContent>
-            <SelectItem value="all">Všetky zdroje</SelectItem>
+            <SelectItem value="all">{t('allSources')}</SelectItem>
             <SelectItem value="direct_app">Direct App</SelectItem>
             <SelectItem value="referrer">Referrer</SelectItem>
             <SelectItem value="website">Website</SelectItem>
@@ -220,7 +220,7 @@ export default function Leads() {
                           {lead.lead_source === "referrer" ? "🎁 Referrer" : lead.lead_source}
                         </Badge>
                       )}
-                      {isMine && <Badge variant="outline" className="text-xs">Môj lead</Badge>}
+                      {isMine && <Badge variant="outline" className="text-xs">{t('myLead')}</Badge>}
                     </div>
 
                     <div className="grid grid-cols-1 md:grid-cols-3 gap-3 text-sm text-gray-600">
@@ -280,12 +280,12 @@ export default function Leads() {
                         className="bg-[#c9a84c] hover:bg-[#b8973b] text-white"
                       >
                         <UserPlus className="w-4 h-4 mr-1" />
-                        Prevziať
+                        {t('claimLead')}
                       </Button>
                     )}
                     <Link to={createPageUrl(`ClientDetail?id=${lead.id}`)}>
                       <Button size="sm" variant="outline" className="w-full">
-                        Detail
+                       {t('detail')}
                       </Button>
                     </Link>
                   </div>
@@ -298,7 +298,7 @@ export default function Leads() {
 
       {filtered.length === 0 && (
         <div className="text-center py-20">
-          <p className="text-gray-400 text-lg">Nenašli sa žiadne leady</p>
+          <p className="text-gray-400 text-lg">{t('noLeadsFound')}</p>
         </div>
       )}
     </div>
