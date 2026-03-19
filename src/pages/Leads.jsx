@@ -30,9 +30,28 @@ const statusColors = {
 
 const sourceColors = {
   direct_app: "bg-blue-50 text-blue-700",
+  facebook: "bg-blue-50 text-blue-700",
+  instagram: "bg-pink-50 text-pink-700",
   referrer: "bg-purple-50 text-purple-700",
+  real_estate_agency: "bg-teal-50 text-teal-700",
   website: "bg-green-50 text-green-700",
   social_media: "bg-pink-50 text-pink-700",
+  portal: "bg-amber-50 text-amber-700",
+  other: "bg-gray-50 text-gray-600",
+};
+
+const sourceLabels = {
+  direct_app: "Direct App",
+  facebook: "📘 Facebook",
+  instagram: "📸 Instagram",
+  referrer: "🤝 Tiper",
+  real_estate_agency: "🏠 Realitná kancelária",
+  website: "🌐 Web",
+  social_media: "Social Media",
+  portal: "Portal",
+  walk_in: "Walk-in",
+  whatsapp: "WhatsApp",
+  other: "Iné",
 };
 
 export default function Leads() {
@@ -182,9 +201,13 @@ export default function Leads() {
           <SelectContent>
             <SelectItem value="all">{t('allSources')}</SelectItem>
             <SelectItem value="direct_app">Direct App</SelectItem>
-            <SelectItem value="referrer">Referrer</SelectItem>
-            <SelectItem value="website">Website</SelectItem>
+            <SelectItem value="facebook">📘 Facebook</SelectItem>
+            <SelectItem value="instagram">📸 Instagram</SelectItem>
+            <SelectItem value="referrer">🤝 Tiper</SelectItem>
+            <SelectItem value="real_estate_agency">🏠 Realitná kancelária</SelectItem>
+            <SelectItem value="website">🌐 Web</SelectItem>
             <SelectItem value="social_media">Social Media</SelectItem>
+            <SelectItem value="other">Iné</SelectItem>
           </SelectContent>
         </Select>
       </div>
@@ -216,8 +239,8 @@ export default function Leads() {
                         {t(lead.status)}
                       </Badge>
                       {lead.lead_source && (
-                        <Badge variant="outline" className={`${sourceColors[lead.lead_source]} text-xs`}>
-                          {lead.lead_source === "referrer" ? "🎁 Referrer" : lead.lead_source}
+                        <Badge variant="outline" className={`${sourceColors[lead.lead_source] || "bg-gray-50 text-gray-600"} text-xs`}>
+                          {sourceLabels[lead.lead_source] || lead.lead_source}
                         </Badge>
                       )}
                       {isMine && <Badge variant="outline" className="text-xs">{t('myLead')}</Badge>}
