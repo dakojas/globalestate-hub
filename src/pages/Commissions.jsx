@@ -10,7 +10,7 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@
 import { Dialog, DialogContent, DialogHeader, DialogTitle } from "@/components/ui/dialog";
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
 import { Skeleton } from "@/components/ui/skeleton";
-import { Plus, DollarSign, TrendingUp, Clock, CheckCircle2, Loader2 } from "lucide-react";
+import { Plus, DollarSign, TrendingUp, Clock, CheckCircle2, Loader2, Pencil } from "lucide-react";
 import { format } from "date-fns";
 import { toast } from "sonner";
 
@@ -23,6 +23,8 @@ const statusColors = {
 export default function Commissions() {
   const [showForm, setShowForm] = useState(false);
   const [saving, setSaving] = useState(false);
+  const [editingCommission, setEditingCommission] = useState(null);
+  const [editValues, setEditValues] = useState({ commission_amount: "", commission_rate: "", sale_price: "" });
   const queryClient = useQueryClient();
 
   const { data: currentUser } = useQuery({
@@ -137,6 +139,19 @@ export default function Commissions() {
     queryClient.invalidateQueries({ queryKey: ["commissions"] });
   };
 
+  const handleEditSave = async () => {
+    setSaving(true);
+    await base44.entities.Commission.update(editingCommission.id, {
+      commission_amount: Number(editValues.commission_amount),
+      commission_rate: Number(editValues.commission_rate),
+      sale_price: Number(editValues.sale_price),
+    });
+    toast.success("Provízia aktualizovaná");
+    setSaving(false);
+    setEditingCommission(null);
+    queryClient.invalidateQueries({ queryKey: ["commissions"] });
+  };
+
   const updateStatus = async (id, status) => {
     await base44.entities.Commission.update(id, { status, ...(status === "paid" ? { payment_date: new Date().toISOString().slice(0, 10) } : {}) });
     toast.success("Status updated");
@@ -191,7 +206,8 @@ export default function Commissions() {
                   <TableHead>Commission</TableHead>
                   <TableHead>Date</TableHead>
                   <TableHead>Status</TableHead>
-                </TableRow>
+                  <TableHead></TableHead>
+                  </TableRow>
               </TableHeader>
               <TableBody>
                 {commissions.length === 0 ? (
@@ -205,7 +221,12 @@ export default function Commissions() {
                     <TableCell className="font-semibold text-sm text-[#c9a84c]">€{c.commission_amount?.toLocaleString()}</TableCell>
                     <TableCell className="text-sm text-gray-500">{c.deal_date ? format(new Date(c.deal_date), "MMM d, yyyy") : "—"}</TableCell>
                     <TableCell>
-                      <Select value={c.status} onValueChange={v => updateStatus(c.id, v)}>
+                      <button onClick={() => { setEditingCommission(c); setEditValues({ commission_amount: c.commission_amount || "", commission_rate: c.commission_rate || "", sale_price: c.sale_price || "" }); }} className="p-1.5 rounded hover:bg-gray-100 text-gray-400 hover:text-[#0a1628]">
+                        <Pencil className="w-4 h-4" />
+                      </button>
+                    </TableCell>
+                    <TableCell>
+                     <Select value={c.status} onValueChange={v => updateStatus(c.id, v)}>
                         <SelectTrigger className="w-28 h-8"><Badge className={`${statusColors[c.status]} text-xs`}>{c.status}</Badge></SelectTrigger>
                         <SelectContent>
                           <SelectItem value="pending">Pending</SelectItem>
