@@ -16,6 +16,7 @@ const translations = {
     map: "Mapa",
     team: "Tím",
     publicSite: "Verejný web",
+    propertyImport: "Import nehnuteľností",
 
     // Common
     search: "Hľadať",
@@ -268,6 +269,7 @@ const translations = {
     map: "Map",
     team: "Team",
     publicSite: "Public Site",
+    propertyImport: "Property Import",
 
     // Common
     search: "Search",
