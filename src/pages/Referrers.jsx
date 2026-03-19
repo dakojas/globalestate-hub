@@ -29,7 +29,7 @@ export default function Referrers() {
     queryFn: () => base44.entities.Commission.list("-created_date", 500),
   });
 
-  const referrers = users.filter(u => u.role === "referrer");
+  const referrers = users.filter(u => u.role === "tiper");
 
   const copyLink = (code) => {
     const link = `${window.location.origin}/PublicHome?ref=${code}`;

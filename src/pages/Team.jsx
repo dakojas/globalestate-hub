@@ -14,7 +14,9 @@ import { toast } from "sonner";
 
 const ROLES = [
   { value: "admin", label: "Admin", desc: "Plný prístup ku všetkému", color: "bg-red-100 text-red-700" },
-  { value: "user", label: "Agent", desc: "Prístup k nehnuteľnostiam a klientom", color: "bg-blue-100 text-blue-700" },
+  { value: "assistant", label: "Agent", desc: "Prístup k nehnuteľnostiam a klientom", color: "bg-blue-100 text-blue-700" },
+  { value: "tiper", label: "Tiper", desc: "Prístup len k sekcii Tiper", color: "bg-purple-100 text-purple-700" },
+  { value: "partner", label: "Partner", desc: "Prístup len k sekcii Partner", color: "bg-amber-100 text-amber-700" },
 ];
 
 export default function Team() {
