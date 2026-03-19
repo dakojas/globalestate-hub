@@ -20,6 +20,7 @@ import PublicHome from '@/pages/PublicHome';
 import PublicProperty from '@/pages/PublicProperty';
 import Leads from '@/pages/Leads';
 import Referrers from '@/pages/Referrers';
+import Partners from '@/pages/Partners';
 import Reports from '@/pages/Reports';
 import PropertyImport from '@/pages/PropertyImport';
 import Team from '@/pages/Team';
@@ -81,6 +82,7 @@ const AuthenticatedApp = () => {
       <Route path="/PropertyMap" element={<ProtectedRoute><LayoutWrapper currentPageName="PropertyMap"><PropertyMap /></LayoutWrapper></ProtectedRoute>} />
       <Route path="/Leads" element={<ProtectedRoute><LayoutWrapper currentPageName="Leads"><Leads /></LayoutWrapper></ProtectedRoute>} />
       <Route path="/Referrers" element={<ProtectedRoute><LayoutWrapper currentPageName="Referrers"><Referrers /></LayoutWrapper></ProtectedRoute>} />
+      <Route path="/Partners" element={<ProtectedRoute><LayoutWrapper currentPageName="Partners"><Partners /></LayoutWrapper></ProtectedRoute>} />
       <Route path="/Reports" element={<ProtectedRoute><LayoutWrapper currentPageName="Reports"><Reports /></LayoutWrapper></ProtectedRoute>} />
       <Route path="/PropertyImport" element={<ProtectedRoute><LayoutWrapper currentPageName="PropertyImport"><PropertyImport /></LayoutWrapper></ProtectedRoute>} />
       <Route path="/Team" element={<ProtectedRoute><LayoutWrapper currentPageName="Team"><Team /></LayoutWrapper></ProtectedRoute>} />
