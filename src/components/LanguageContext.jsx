@@ -224,6 +224,14 @@ const translations = {
     agencyNameRequired: "Zadajte názov kancelárie",
     agencyNamePlaceholder: "Realitná kancelária XY",
     partnershipNotesLabel: "Podmienky spolupráce / poznámky",
+
+    // Extra
+    claimSuccess: "Lead úspešne prevzatý",
+    clientDeleted: "Klient vymazaný",
+    revenue: "Provízie",
+    referrerCol: "Tiper",
+    conversionRateCol: "Konverzia",
+    noData: "Žiadne dáta",
   },
   en: {
     // Navigation
@@ -422,6 +430,14 @@ const translations = {
     leadsByCountry: "Leads by Country",
     teamPerformanceTitle: "Team / Agent Performance",
     referrerPerformanceTitle: "Referrer Performance",
+
+    // Extra
+    claimSuccess: "Lead successfully claimed",
+    clientDeleted: "Client deleted",
+    revenue: "Revenue",
+    referrerCol: "Referrer",
+    conversionRateCol: "Conversion",
+    noData: "No data",
 
     // Real Estate Agencies
     realEstateAgenciesTitle: "Real Estate Agencies",
