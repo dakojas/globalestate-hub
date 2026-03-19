@@ -24,7 +24,7 @@ export default function Partners() {
     queryFn: () => base44.entities.User.list(),
   });
 
-  const isAdmin = currentUser?.role === "admin" || currentUser?.role === "assistant" || currentUser?.role === "user";
+  const isAdmin = currentUser?.role === "admin" || currentUser?.role === "assistant";
   const partners = isAdmin
     ? users.filter(u => u.role === "partner")
     : users.filter(u => u.email === currentUser?.email && u.role === "partner");
