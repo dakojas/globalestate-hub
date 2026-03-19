@@ -22,7 +22,7 @@ const ROLES = [
 export default function Team() {
   const [inviteOpen, setInviteOpen] = useState(false);
   const [email, setEmail] = useState("");
-  const [role, setRole] = useState("user");
+  const [role, setRole] = useState("assistant");
   const [inviting, setInviting] = useState(false);
   const queryClient = useQueryClient();
 
@@ -75,7 +75,7 @@ export default function Team() {
                 <p className="font-semibold text-sm text-[#0a1628]">{r.label}</p>
                 <p className="text-xs text-gray-500 mt-0.5">{r.desc}</p>
                 <Badge className={`${r.color} border-0 text-xs mt-1`}>
-                  {users.filter(u => u.role === r.value).length} členov
+                  {users.filter(u => r.value === 'assistant' ? (u.role === 'assistant' || u.role === 'user') : u.role === r.value).length} členov
                 </Badge>
               </div>
             </CardContent>
