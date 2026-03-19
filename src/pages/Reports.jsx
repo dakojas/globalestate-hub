@@ -6,8 +6,10 @@ import { Badge } from "@/components/ui/badge";
 import { Tabs, TabsList, TabsTrigger, TabsContent } from "@/components/ui/tabs";
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
 import { TrendingUp, Users, DollarSign, Target, Award } from "lucide-react";
+import { useTranslation } from "@/components/LanguageContext";
 
 export default function Reports() {
+  const { t } = useTranslation();
   const [period, setPeriod] = useState("all");
 
   const { data: clients = [] } = useQuery({
@@ -83,8 +85,8 @@ export default function Reports() {
   return (
     <div className="space-y-6">
       <div>
-        <h2 className="text-2xl font-bold text-[#0a1628]">Reporting & Analytics</h2>
-        <p className="text-gray-500 text-sm mt-1">Prehľad výkonnosti a štatistík</p>
+        <h2 className="text-2xl font-bold text-[#0a1628]">{t('reporting')}</h2>
+        <p className="text-gray-500 text-sm mt-1">{t('performanceOverview')}</p>
       </div>
 
       {/* KPIs */}
@@ -96,7 +98,7 @@ export default function Reports() {
                 <DollarSign className="w-5 h-5 text-green-600" />
               </div>
               <div>
-                <p className="text-xs text-gray-500">Total Revenue</p>
+                <p className="text-xs text-gray-500">{t('totalRevenue')}</p>
                 <p className="text-xl font-bold">€{totalRevenue.toLocaleString()}</p>
               </div>
             </div>
@@ -109,7 +111,7 @@ export default function Reports() {
                 <TrendingUp className="w-5 h-5 text-blue-600" />
               </div>
               <div>
-                <p className="text-xs text-gray-500">Avg Deal Size</p>
+                <p className="text-xs text-gray-500">{t('avgDealSize')}</p>
                 <p className="text-xl font-bold">€{Math.round(avgDealSize).toLocaleString()}</p>
               </div>
             </div>
@@ -122,7 +124,7 @@ export default function Reports() {
                 <Target className="w-5 h-5 text-purple-600" />
               </div>
               <div>
-                <p className="text-xs text-gray-500">Conversion Rate</p>
+                <p className="text-xs text-gray-500">{t('conversionRate')}</p>
                 <p className="text-xl font-bold">{conversionRate.toFixed(1)}%</p>
               </div>
             </div>
@@ -135,7 +137,7 @@ export default function Reports() {
                 <Award className="w-5 h-5 text-amber-600" />
               </div>
               <div>
-                <p className="text-xs text-gray-500">Total Deals</p>
+                <p className="text-xs text-gray-500">{t('totalDeals')}</p>
                 <p className="text-xl font-bold">{commissions.length}</p>
               </div>
             </div>
@@ -145,26 +147,26 @@ export default function Reports() {
 
       <Tabs defaultValue="sources" className="space-y-6">
         <TabsList>
-          <TabsTrigger value="sources">Zdroje leadov</TabsTrigger>
-          <TabsTrigger value="countries">Krajiny</TabsTrigger>
-          <TabsTrigger value="team">Výkonnosť tímu</TabsTrigger>
-          <TabsTrigger value="referrers">Výkonnosť tiperov</TabsTrigger>
+          <TabsTrigger value="sources">{t('leadSources')}</TabsTrigger>
+          <TabsTrigger value="countries">{t('countries')}</TabsTrigger>
+          <TabsTrigger value="team">{t('teamPerformance')}</TabsTrigger>
+          <TabsTrigger value="referrers">{t('referrerPerformance')}</TabsTrigger>
         </TabsList>
 
         <TabsContent value="sources">
           <Card className="border-0 shadow-sm">
             <CardHeader>
-              <CardTitle className="text-base">Leady podľa zdrojov</CardTitle>
+              <CardTitle className="text-base">{t('leadsBySource')}</CardTitle>
             </CardHeader>
             <CardContent>
               <Table>
                 <TableHeader>
                   <TableRow>
-                    <TableHead>Zdroj</TableHead>
-                    <TableHead>Celkom leadov</TableHead>
-                    <TableHead>Uzavreté</TableHead>
-                    <TableHead>Stratené</TableHead>
-                    <TableHead>Konverzia</TableHead>
+                    <TableHead>{t('source')}</TableHead>
+                    <TableHead>{t('totalLeads')}</TableHead>
+                    <TableHead>{t('closedTable')}</TableHead>
+                    <TableHead>{t('lostTable')}</TableHead>
+                    <TableHead>{t('conversionRateCol')}</TableHead>
                   </TableRow>
                 </TableHeader>
                 <TableBody>
@@ -190,16 +192,16 @@ export default function Reports() {
         <TabsContent value="countries">
           <Card className="border-0 shadow-sm">
             <CardHeader>
-              <CardTitle className="text-base">Leady podľa krajín</CardTitle>
+              <CardTitle className="text-base">{t('leadsByCountry')}</CardTitle>
             </CardHeader>
             <CardContent>
               <Table>
                 <TableHeader>
                   <TableRow>
-                    <TableHead>Krajina</TableHead>
-                    <TableHead>Celkom leadov</TableHead>
-                    <TableHead>Uzavreté</TableHead>
-                    <TableHead>Konverzia</TableHead>
+                    <TableHead>{t('country')}</TableHead>
+                    <TableHead>{t('totalLeads')}</TableHead>
+                    <TableHead>{t('closedTable')}</TableHead>
+                    <TableHead>{t('conversionRateCol')}</TableHead>
                   </TableRow>
                 </TableHeader>
                 <TableBody>
@@ -226,13 +228,17 @@ export default function Reports() {
         <TabsContent value="team">
           <Card className="border-0 shadow-sm">
             <CardHeader>
-              <CardTitle className="text-base">Výkonnosť asistentiek / tímu</CardTitle>
+              <CardTitle className="text-base">{t('teamPerformanceTitle')}</CardTitle>
             </CardHeader>
             <CardContent>
               <Table>
                 <TableHeader>
                   <TableRow>
-                    <TableHead>Meno</TableHead>
+                    <TableHead>{t('name')}</TableHead>
+                    <TableHead>{t('assignedLeads')}</TableHead>
+                    <TableHead>{t('closedDealsTable')}</TableHead>
+                    <TableHead>{t('conversionRateCol')}</TableHead>
+                    <TableHead>{t('revenue')}</TableHead>
                     <TableHead>Pridelené leady</TableHead>
                     <TableHead>Uzavreté dealy</TableHead>
                     <TableHead>Konverzia</TableHead>
@@ -266,18 +272,18 @@ export default function Reports() {
         <TabsContent value="referrers">
           <Card className="border-0 shadow-sm">
             <CardHeader>
-              <CardTitle className="text-base">Výkonnosť tiperov</CardTitle>
+              <CardTitle className="text-base">{t('referrerPerformanceTitle')}</CardTitle>
             </CardHeader>
             <CardContent>
               <Table>
                 <TableHeader>
                   <TableRow>
-                    <TableHead>Tiper</TableHead>
-                    <TableHead>Kód</TableHead>
-                    <TableHead>Leady</TableHead>
-                    <TableHead>Uzavreté</TableHead>
-                    <TableHead>Konverzia</TableHead>
-                    <TableHead>Provízie</TableHead>
+                    <TableHead>{t('referrerCol')}</TableHead>
+                    <TableHead>{t('code')}</TableHead>
+                    <TableHead>{t('totalLeads')}</TableHead>
+                    <TableHead>{t('closedTable')}</TableHead>
+                    <TableHead>{t('conversionRateCol')}</TableHead>
+                    <TableHead>{t('revenue')}</TableHead>
                   </TableRow>
                 </TableHeader>
                 <TableBody>
