@@ -138,11 +138,10 @@ export default function Layout({ children, currentPageName }) {
             <div className="flex items-center gap-3">
               <button
                 onClick={() => changeLanguage(language === 'sk' ? 'en' : 'sk')}
-                className="flex items-center gap-1.5 px-2.5 py-1.5 rounded-lg bg-gray-100 hover:bg-gray-200 transition-colors"
-                title="Zmeniť jazyk / Change language"
-              >
-                <Languages className="w-4 h-4 text-gray-600" />
-                <span className="text-xs font-semibold text-gray-700 uppercase">{language}</span>
+              title={language === 'sk' ? 'Switch to English' : 'Prepnúť na slovenčinu'}
+            >
+              <Languages className="w-4 h-4 text-gray-600" />
+              <span className="text-xs font-semibold text-gray-700 uppercase">{language === 'sk' ? '🇸🇰 SK' : '🇬🇧 EN'}
               </button>
               <Link to={createPageUrl("Calendar")} className="relative">
               <Bell className="w-5 h-5 text-gray-500 hover:text-[var(--navy)]" />
