@@ -10,6 +10,7 @@ import { Plus, Check, Eye, FileText, Phone, CreditCard, MoreHorizontal, Clock } 
 import { format, isPast, isToday, isTomorrow, isThisWeek } from "date-fns";
 import { toast } from "sonner";
 import ReminderForm from "../components/calendar/ReminderForm";
+import { useTranslation } from "@/components/LanguageContext";
 
 const typeIcons = { viewing: Eye, contract_renewal: FileText, follow_up: Phone, payment: CreditCard, other: MoreHorizontal };
 const typeColors = {
@@ -26,6 +27,7 @@ const priorityColors = {
 };
 
 export default function Calendar() {
+  const { t, language } = useTranslation();
   const [showForm, setShowForm] = useState(false);
   const [tab, setTab] = useState("upcoming");
   const queryClient = useQueryClient();
@@ -45,7 +47,7 @@ export default function Calendar() {
 
   const markCompleted = async (r) => {
     await base44.entities.Reminder.update(r.id, { status: "completed" });
-    toast.success("Marked as completed");
+    toast.success(language === 'sk' ? 'Označené ako hotové' : 'Marked as completed');
     queryClient.invalidateQueries({ queryKey: ["all-reminders"] });
   };
 
@@ -58,9 +60,9 @@ export default function Calendar() {
 
   const getDateLabel = (dateStr) => {
     const d = new Date(dateStr);
-    if (isToday(d)) return "Today";
-    if (isTomorrow(d)) return "Tomorrow";
-    if (isPast(d)) return "Overdue";
+    if (isToday(d)) return t('today');
+    if (isTomorrow(d)) return t('tomorrow');
+    if (isPast(d)) return t('overdueLabel');
     if (isThisWeek(d)) return format(d, "EEEE");
     return format(d, "MMM d, yyyy");
   };
@@ -70,21 +72,21 @@ export default function Calendar() {
       <div className="flex flex-col sm:flex-row gap-4 items-start sm:items-center justify-between">
         <Tabs value={tab} onValueChange={setTab}>
           <TabsList>
-            <TabsTrigger value="upcoming">Upcoming ({reminders.filter(r => r.status === "pending").length})</TabsTrigger>
-            <TabsTrigger value="overdue">Overdue ({reminders.filter(r => r.status === "pending" && isPast(new Date(r.due_date))).length})</TabsTrigger>
-            <TabsTrigger value="completed">Completed</TabsTrigger>
-            <TabsTrigger value="all">All</TabsTrigger>
+            <TabsTrigger value="upcoming">{t('upcoming')} ({reminders.filter(r => r.status === "pending").length})</TabsTrigger>
+            <TabsTrigger value="overdue">{t('overdue')} ({reminders.filter(r => r.status === "pending" && isPast(new Date(r.due_date))).length})</TabsTrigger>
+            <TabsTrigger value="completed">{t('completed')}</TabsTrigger>
+            <TabsTrigger value="all">{t('all')}</TabsTrigger>
           </TabsList>
         </Tabs>
         <Button onClick={() => setShowForm(true)} className="bg-[#0a1628] hover:bg-[#132039]">
-          <Plus className="w-4 h-4 mr-2" /> New Reminder
+          <Plus className="w-4 h-4 mr-2" /> {t('newReminder')}
         </Button>
       </div>
 
       {isLoading ? (
         <div className="space-y-3">{[1,2,3,4].map(i => <Skeleton key={i} className="h-20 rounded-xl" />)}</div>
       ) : filtered.length === 0 ? (
-        <div className="text-center py-20"><p className="text-gray-400 text-lg">No reminders found</p></div>
+        <div className="text-center py-20"><p className="text-gray-400 text-lg">{t('noRemindersFound')}</p></div>
       ) : (
         <div className="space-y-3">
           {filtered.map(r => {
@@ -112,7 +114,7 @@ export default function Calendar() {
                   </div>
                   {r.status === "pending" && (
                     <Button variant="outline" size="sm" onClick={() => markCompleted(r)} className="flex-shrink-0">
-                      <Check className="w-4 h-4 mr-1" /> Done
+                      <Check className="w-4 h-4 mr-1" /> {t('done')}
                     </Button>
                   )}
                 </CardContent>
