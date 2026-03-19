@@ -243,6 +243,33 @@ export default function Commissions() {
         </Card>
       )}
 
+      {/* Edit Commission Dialog */}
+      <Dialog open={!!editingCommission} onOpenChange={() => setEditingCommission(null)}>
+        <DialogContent className="max-w-sm">
+          <DialogHeader><DialogTitle>Upraviť províziu</DialogTitle></DialogHeader>
+          <div className="space-y-4 mt-4">
+            <div>
+              <Label>Predajná cena (€)</Label>
+              <Input type="number" value={editValues.sale_price} onChange={e => setEditValues(v => ({ ...v, sale_price: e.target.value }))} />
+            </div>
+            <div>
+              <Label>Sadzba provízie (%)</Label>
+              <Input type="number" step="0.1" value={editValues.commission_rate} onChange={e => setEditValues(v => ({ ...v, commission_rate: e.target.value }))} />
+            </div>
+            <div>
+              <Label>Výška provízie (€)</Label>
+              <Input type="number" value={editValues.commission_amount} onChange={e => setEditValues(v => ({ ...v, commission_amount: e.target.value }))} />
+            </div>
+            <div className="flex justify-end gap-3 pt-4 border-t">
+              <Button variant="outline" onClick={() => setEditingCommission(null)}>Zrušiť</Button>
+              <Button onClick={handleEditSave} disabled={saving} className="bg-[#0a1628] hover:bg-[#132039]">
+                {saving && <Loader2 className="w-4 h-4 mr-2 animate-spin" />} Uložiť
+              </Button>
+            </div>
+          </div>
+        </DialogContent>
+      </Dialog>
+
       {/* Form Dialog */}
       <Dialog open={showForm} onOpenChange={setShowForm}>
         <DialogContent className="max-w-md">
