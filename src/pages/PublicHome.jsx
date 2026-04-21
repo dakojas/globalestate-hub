@@ -199,6 +199,8 @@ function PublicHomeInner() {
               propertiesByCountry={propertiesByCountry}
               selectedCountry={filters.country}
               onSelectCountry={handleMapSelect}
+              getCountryName={getCountryName}
+              lang={lang}
             />
             {filters.country !== "all" && (
               <button
