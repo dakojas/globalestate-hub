@@ -17,10 +17,13 @@ const COUNTRIES = ["Albania", "Bali", "Hungary", "Bulgaria", "Dominican Republic
 
 const COUNTRY_NAMES = {
   sk: { Albania: "Albánsko", Bali: "Bali", Hungary: "Maďarsko", Bulgaria: "Bulharsko", "Dominican Republic": "Dominikánska republika", Egypt: "Egypt", Georgia: "Gruzínsko", Mauritius: "Maurícius", Oman: "Omán", UAE: "SAE (Dubaj)", Spain: "Španielsko", Italy: "Taliansko", Thailand: "Thajsko", Turkey: "Turecko" },
-  de: { Albania: "Albanien", Hungary: "Ungarn", Bulgaria: "Bulgarien", "Dominican Republic": "Dominikanische Republik", Georgia: "Georgien", Mauritius: "Mauritius", UAE: "VAE (Dubai)", Spain: "Spanien", Italy: "Italien", Thailand: "Thailand", Turkey: "Türkei" },
-  ru: { Albania: "Албания", Hungary: "Венгрия", Bulgaria: "Болгария", "Dominican Republic": "Доминиканская Республика", Egypt: "Египет", Georgia: "Грузия", Mauritius: "Маврикий", UAE: "ОАЭ (Дубай)", Spain: "Испания", Italy: "Италия", Thailand: "Таиланд", Turkey: "Турция" },
-  pl: { Albania: "Albania", Hungary: "Węgry", Bulgaria: "Bułgaria", "Dominican Republic": "Dominikana", Egypt: "Egipt", Georgia: "Gruzja", UAE: "ZEA (Dubaj)", Spain: "Hiszpania", Italy: "Włochy", Thailand: "Tajlandia", Turkey: "Turcja" },
-  hu: { Albania: "Albánia", Hungary: "Magyarország", Bulgaria: "Bulgária", Egypt: "Egyiptom", Georgia: "Grúzia", UAE: "EAE (Dubai)", Spain: "Spanyolország", Italy: "Olaszország", Thailand: "Thaiföld", Turkey: "Törökország" },
+  en: { Albania: "Albania", Bali: "Bali", Hungary: "Hungary", Bulgaria: "Bulgaria", "Dominican Republic": "Dominican Republic", Egypt: "Egypt", Georgia: "Georgia", Mauritius: "Mauritius", Oman: "Oman", UAE: "UAE (Dubai)", Spain: "Spain", Italy: "Italy", Thailand: "Thailand", Turkey: "Turkey" },
+  de: { Albania: "Albanien", Bali: "Bali", Hungary: "Ungarn", Bulgaria: "Bulgarien", "Dominican Republic": "Dominikanische Republik", Egypt: "Ägypten", Georgia: "Georgien", Mauritius: "Mauritius", Oman: "Oman", UAE: "VAE (Dubai)", Spain: "Spanien", Italy: "Italien", Thailand: "Thailand", Turkey: "Türkei" },
+  fr: { Albania: "Albanie", Bali: "Bali", Hungary: "Hongrie", Bulgaria: "Bulgarie", "Dominican Republic": "République dominicaine", Egypt: "Égypte", Georgia: "Géorgie", Mauritius: "Maurice", Oman: "Oman", UAE: "EAU (Dubaï)", Spain: "Espagne", Italy: "Italie", Thailand: "Thaïlande", Turkey: "Turquie" },
+  it: { Albania: "Albania", Bali: "Bali", Hungary: "Ungheria", Bulgaria: "Bulgaria", "Dominican Republic": "Repubblica Dominicana", Egypt: "Egitto", Georgia: "Georgia", Mauritius: "Mauritius", Oman: "Oman", UAE: "EAU (Dubai)", Spain: "Spagna", Italy: "Italia", Thailand: "Tailandia", Turkey: "Turchia" },
+  ru: { Albania: "Албания", Bali: "Бали", Hungary: "Венгрия", Bulgaria: "Болгария", "Dominican Republic": "Доминиканская Республика", Egypt: "Египет", Georgia: "Грузия", Mauritius: "Маврикий", Oman: "Оман", UAE: "ОАЭ (Дубай)", Spain: "Испания", Italy: "Италия", Thailand: "Таиланд", Turkey: "Турция" },
+  pl: { Albania: "Albania", Bali: "Bali", Hungary: "Węgry", Bulgaria: "Bułgaria", "Dominican Republic": "Dominikana", Egypt: "Egipt", Georgia: "Gruzja", Mauritius: "Mauritius", Oman: "Oman", UAE: "ZEA (Dubaj)", Spain: "Hiszpania", Italy: "Włochy", Thailand: "Tajlandia", Turkey: "Turcja" },
+  hu: { Albania: "Albánia", Bali: "Bali", Hungary: "Magyarország", Bulgaria: "Bulgária", "Dominican Republic": "Dominikai Köztársaság", Egypt: "Egyiptom", Georgia: "Grúzia", Mauritius: "Mauritius", Oman: "Omán", UAE: "EAE (Dubai)", Spain: "Spanyolország", Italy: "Olaszország", Thailand: "Thaiföld", Turkey: "Törökország" },
 };
 
 const PROPERTY_TYPE_LABELS = {
@@ -202,7 +205,7 @@ function PublicHomeInner() {
                 onClick={() => handleMapSelect("all")}
                 className="absolute top-3 right-3 z-[1000] bg-[#c9a84c] hover:bg-[#b8973b] text-white text-xs font-semibold px-3 py-1.5 rounded-full flex items-center gap-1 shadow-lg"
               >
-                <X className="w-3 h-3" /> {filters.country}
+                <X className="w-3 h-3" /> {getCountryName(filters.country)}
               </button>
             )}
           </div>
