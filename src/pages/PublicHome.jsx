@@ -192,7 +192,7 @@ function PublicHomeInner() {
             <h2 className="text-2xl font-bold text-white">{tr("exploreMap")}</h2>
             <p className="text-white/50 text-sm mt-1">{tr("exploreMapSub")}</p>
           </div>
-          <div className="relative rounded-2xl overflow-hidden border border-white/10" style={{ height: 420 }}>
+          <div className="relative rounded-2xl overflow-hidden border border-white/10 bg-white/5 backdrop-blur-lg" style={{ minHeight: 180 }}>
             <CountryMap
               propertiesByCountry={propertiesByCountry}
               selectedCountry={filters.country}
