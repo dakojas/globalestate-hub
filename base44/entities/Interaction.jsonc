@@ -1,0 +1,48 @@
+{
+  "name": "Interaction",
+  "type": "object",
+  "properties": {
+    "client_id": {
+      "type": "string",
+      "description": "ID of the related client"
+    },
+    "property_id": {
+      "type": "string",
+      "description": "ID of the related property (optional)"
+    },
+    "type": {
+      "type": "string",
+      "enum": [
+        "call",
+        "email",
+        "viewing",
+        "meeting",
+        "whatsapp",
+        "note"
+      ],
+      "description": "Type of interaction"
+    },
+    "summary": {
+      "type": "string",
+      "description": "Summary of the interaction"
+    },
+    "date": {
+      "type": "string",
+      "format": "date-time",
+      "description": "When the interaction happened"
+    },
+    "outcome": {
+      "type": "string",
+      "description": "Outcome or next steps"
+    },
+    "agent_email": {
+      "type": "string",
+      "description": "Agent who handled interaction"
+    }
+  },
+  "required": [
+    "client_id",
+    "type",
+    "summary"
+  ]
+}

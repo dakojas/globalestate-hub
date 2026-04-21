@@ -1,4 +1,4 @@
-import React, { createContext, useContext, useState } from "react";
+import React, { createContext, useContext, useState, useEffect } from "react";
 
 const t = {
   fr: {
@@ -583,20 +583,53 @@ const t = {
   },
 };
 
+// Map country code → language (only languages we support)
+const COUNTRY_LANG_MAP = {
+  SK: "sk", CZ: "sk", // Slovak + Czech → sk
+  DE: "de", AT: "de", CH: "de", // German-speaking → de
+  PL: "pl",           // Polish → pl
+  HU: "hu",           // Hungarian → hu
+  IT: "it",           // Italian → it
+  FR: "fr", BE: "fr", LU: "fr", MC: "fr", // French-speaking → fr
+  RU: "ru", BY: "ru", KZ: "ru", UA: "ru", // Russian-speaking → ru
+};
+
+const SUPPORTED_LANGS = ["sk", "en", "de", "pl", "hu", "it", "fr", "ru"];
+
+async function detectLangFromIP() {
+  try {
+    const res = await fetch("https://ipapi.co/json/");
+    const data = await res.json();
+    const countryCode = data.country_code;
+    return COUNTRY_LANG_MAP[countryCode] || "en";
+  } catch {
+    return "en";
+  }
+}
+
 const PublicLanguageContext = createContext();
 
 export function PublicLanguageProvider({ children }) {
-  const [lang, setLang] = useState(() => localStorage.getItem("pub_lang") || "sk");
+  const [lang, setLang] = useState(() => localStorage.getItem("pub_lang") || null);
+
+  useEffect(() => {
+    if (!lang) {
+      detectLangFromIP().then((detectedLang) => {
+        setLang(detectedLang);
+        // Don't save to localStorage so next visit re-detects (unless user manually picks)
+      });
+    }
+  }, []);
 
   const changeLang = (l) => {
     localStorage.setItem("pub_lang", l);
     setLang(l);
   };
 
-  const tr = (key) => t[lang]?.[key] || key;
+  const tr = (key) => t[lang]?.[key] || t["en"]?.[key] || key;
 
   return (
-    <PublicLanguageContext.Provider value={{ lang, changeLang, tr }}>
+    <PublicLanguageContext.Provider value={{ lang: lang || "en", changeLang, tr }}>
       {children}
     </PublicLanguageContext.Provider>
   );

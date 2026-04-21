@@ -1,0 +1,230 @@
+{
+  "name": "Property",
+  "type": "object",
+  "properties": {
+    "title": {
+      "type": "string",
+      "description": "Property title"
+    },
+    "description": {
+      "type": "string",
+      "description": "Detailed property description (SK)"
+    },
+    "description_en": {
+      "type": "string",
+      "description": "English description (AI translated)"
+    },
+    "country": {
+      "type": "string",
+      "enum": [
+        "Albania",
+        "Bali",
+        "Hungary",
+        "Bulgaria",
+        "Croatia",
+        "Dominican Republic",
+        "Egypt",
+        "Georgia",
+        "Mauritius",
+        "Oman",
+        "UAE",
+        "Spain",
+        "Italy",
+        "Thailand",
+        "Turkey"
+      ],
+      "description": "Country where property is located"
+    },
+    "city": {
+      "type": "string",
+      "description": "City or area"
+    },
+    "address": {
+      "type": "string",
+      "description": "Full address"
+    },
+    "property_type": {
+      "type": "string",
+      "enum": [
+        "studio",
+        "1_bedroom",
+        "2_bedroom",
+        "penthouse",
+        "vila"
+      ],
+      "description": "Type of property"
+    },
+    "status": {
+      "type": "string",
+      "enum": [
+        "available",
+        "reserved",
+        "sold",
+        "off_market"
+      ],
+      "default": "available",
+      "description": "Listing status"
+    },
+    "construction_phase": {
+      "type": "string",
+      "enum": [
+        "vo_vystavbe",
+        "dokoncene"
+      ],
+      "description": "F\u00e1za v\u00fdstavby: vo_vystavbe = Off Plan / vo v\u00fdstavbe, dokoncene = Dokon\u010den\u00e9"
+    },
+    "price": {
+      "type": "number",
+      "description": "Price in EUR"
+    },
+    "currency": {
+      "type": "string",
+      "enum": [
+        "EUR",
+        "USD",
+        "GBP",
+        "AED",
+        "THB",
+        "EGP",
+        "IDR"
+      ],
+      "default": "EUR"
+    },
+    "area_sqm": {
+      "type": "number",
+      "description": "Area in square meters"
+    },
+    "bedrooms": {
+      "type": "number"
+    },
+    "bathrooms": {
+      "type": "number"
+    },
+    "images": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      },
+      "description": "Array of image URLs"
+    },
+    "features": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      },
+      "description": "Property features"
+    },
+    "latitude": {
+      "type": "number",
+      "description": "GPS latitude"
+    },
+    "longitude": {
+      "type": "number",
+      "description": "GPS longitude"
+    },
+    "project_name": {
+      "type": "string",
+      "description": "Development/project name"
+    },
+    "portal_links": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "portal_name": {
+            "type": "string"
+          },
+          "url": {
+            "type": "string"
+          }
+        }
+      }
+    },
+    "assigned_agent": {
+      "type": "string",
+      "description": "Email of assigned agent"
+    },
+    "commission_rate": {
+      "type": "number",
+      "description": "Commission percentage"
+    },
+    "notes": {
+      "type": "string"
+    },
+    "is_public": {
+      "type": "boolean",
+      "default": true,
+      "description": "Visible on public website"
+    },
+    "is_featured": {
+      "type": "boolean",
+      "default": false,
+      "description": "Display in featured section (top priority)"
+    },
+    "investment_purpose": {
+      "type": "string",
+      "enum": [
+        "investment",
+        "residence",
+        "vacation",
+        "rental"
+      ],
+      "description": "Investment purpose"
+    },
+    "developer": {
+      "type": "string",
+      "description": "Developer/partner name"
+    },
+    "available_units": {
+      "type": "number",
+      "description": "Number of available units"
+    },
+    "company_commission": {
+      "type": "number",
+      "description": "Company commission (%)"
+    },
+    "referrer_commission": {
+      "type": "number",
+      "description": "Referrer commission (%)"
+    },
+    "slug": {
+      "type": "string",
+      "description": "URL-friendly identifier"
+    },
+    "brochure_url": {
+      "type": "string",
+      "description": "URL of the property brochure PDF"
+    },
+    "approval_status": {
+      "type": "string",
+      "enum": [
+        "approved",
+        "pending_review",
+        "rejected"
+      ],
+      "default": "approved",
+      "description": "Admin approval status for owner-submitted listings"
+    },
+    "owner_submitted": {
+      "type": "boolean",
+      "default": false
+    },
+    "original_language": {
+      "type": "string"
+    },
+    "owner_name": {
+      "type": "string"
+    },
+    "owner_email": {
+      "type": "string"
+    },
+    "owner_phone": {
+      "type": "string"
+    }
+  },
+  "required": [
+    "title",
+    "country",
+    "price"
+  ]
+}

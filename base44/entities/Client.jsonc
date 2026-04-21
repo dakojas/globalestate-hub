@@ -1,0 +1,117 @@
+{
+  "name": "Client",
+  "type": "object",
+  "properties": {
+    "full_name": {
+      "type": "string",
+      "description": "Client full name"
+    },
+    "email": {
+      "type": "string",
+      "description": "Email address"
+    },
+    "phone": {
+      "type": "string",
+      "description": "Phone number"
+    },
+    "nationality": {
+      "type": "string"
+    },
+    "status": {
+      "type": "string",
+      "enum": [
+        "new_lead",
+        "unclaimed",
+        "claimed",
+        "contacted",
+        "qualified",
+        "offers_sent",
+        "viewing",
+        "reserved",
+        "closed",
+        "lost"
+      ],
+      "default": "new_lead"
+    },
+    "lead_source": {
+      "type": "string",
+      "enum": [
+        "direct_app",
+        "facebook",
+        "instagram",
+        "referrer",
+        "real_estate_agency",
+        "website",
+        "social_media",
+        "portal",
+        "walk_in",
+        "whatsapp",
+        "other"
+      ],
+      "default": "direct_app",
+      "description": "Source of the lead"
+    },
+    "referrer_id": {
+      "type": "string",
+      "description": "ID of the referrer (tiper) if applicable"
+    },
+    "referrer_code": {
+      "type": "string",
+      "description": "Referrer tracking code used"
+    },
+    "source": {
+      "type": "string",
+      "enum": [
+        "website",
+        "referral",
+        "social_media",
+        "portal",
+        "walk_in",
+        "whatsapp",
+        "other"
+      ],
+      "description": "How the client found us"
+    },
+    "budget_min": {
+      "type": "number",
+      "description": "Minimum budget in EUR"
+    },
+    "budget_max": {
+      "type": "number",
+      "description": "Maximum budget in EUR"
+    },
+    "preferred_countries": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      },
+      "description": "Countries client is interested in"
+    },
+    "preferred_property_types": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      },
+      "description": "Preferred property types"
+    },
+    "assigned_agent": {
+      "type": "string",
+      "description": "Email of assigned agent"
+    },
+    "claimed_by": {
+      "type": "string",
+      "description": "Email of team member who claimed this lead"
+    },
+    "claimed_at": {
+      "type": "string",
+      "format": "date-time",
+      "description": "When the lead was claimed"
+    },
+    "notes": {
+      "type": "string"
+    }
+  },
+  "required": [
+    "full_name"
+  ]
+}

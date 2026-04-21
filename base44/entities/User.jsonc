@@ -1,0 +1,35 @@
+{
+  "name": "User",
+  "type": "object",
+  "properties": {
+    "role": {
+      "type": "string",
+      "enum": [
+        "admin",
+        "assistant",
+        "tiper",
+        "partner"
+      ],
+      "default": "assistant",
+      "description": "User role: admin, assistant (team member), tiper (referrer), partner"
+    },
+    "commission_rate": {
+      "type": "number",
+      "description": "Commission rate (%)"
+    },
+    "referrer_code": {
+      "type": "string",
+      "description": "Unique referrer tracking code"
+    },
+    "phone": {
+      "type": "string",
+      "description": "Phone number"
+    },
+    "is_active": {
+      "type": "boolean",
+      "default": true,
+      "description": "Active user status"
+    }
+  },
+  "required": []
+}

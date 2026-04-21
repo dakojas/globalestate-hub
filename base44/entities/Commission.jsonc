@@ -1,0 +1,66 @@
+{
+  "name": "Commission",
+  "type": "object",
+  "properties": {
+    "property_id": {
+      "type": "string",
+      "description": "Related property ID"
+    },
+    "client_id": {
+      "type": "string",
+      "description": "Buyer client ID"
+    },
+    "agent_email": {
+      "type": "string",
+      "description": "Agent who earned the commission"
+    },
+    "sale_price": {
+      "type": "number",
+      "description": "Final sale price in EUR"
+    },
+    "commission_rate": {
+      "type": "number",
+      "description": "Commission percentage"
+    },
+    "commission_amount": {
+      "type": "number",
+      "description": "Calculated commission amount"
+    },
+    "status": {
+      "type": "string",
+      "enum": [
+        "pending",
+        "invoiced",
+        "paid"
+      ],
+      "default": "pending"
+    },
+    "deal_date": {
+      "type": "string",
+      "format": "date",
+      "description": "Date deal was closed"
+    },
+    "payment_date": {
+      "type": "string",
+      "format": "date",
+      "description": "Date commission was paid"
+    },
+    "property_title": {
+      "type": "string",
+      "description": "Property title for quick reference"
+    },
+    "client_name": {
+      "type": "string",
+      "description": "Client name for quick reference"
+    },
+    "notes": {
+      "type": "string"
+    }
+  },
+  "required": [
+    "property_id",
+    "sale_price",
+    "commission_rate",
+    "commission_amount"
+  ]
+}
