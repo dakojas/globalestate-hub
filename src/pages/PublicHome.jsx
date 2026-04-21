@@ -63,8 +63,17 @@ function PublicHomeInner() {
     return matchCountry && matchType && matchBudget && matchPhase && p.status === "available";
   });
 
-  const featured = properties.filter(p => p.is_featured && p.status === "available").sort((a, b) => new Date(b.created_date) - new Date(a.created_date));
-  const displayFeatured = featured.slice(0, 6);
+  const pickFromCountry = (country, count) =>
+    properties.filter(p => p.status === "available" && p.country === country)
+      .sort((a, b) => new Date(b.created_date) - new Date(a.created_date))
+      .slice(0, count);
+
+  const displayFeatured = [
+    ...pickFromCountry("Egypt", 2),
+    ...pickFromCountry("Georgia", 2),
+    ...pickFromCountry("Albania", 2),
+    ...pickFromCountry("Thailand", 1),
+  ];
 
   const getTypeName = (type) => (PROPERTY_TYPE_LABELS[lang]?.[type] || PROPERTY_TYPE_LABELS.en[type] || type);
 
