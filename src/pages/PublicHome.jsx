@@ -217,147 +217,93 @@ function PublicHomeInner() {
       {/* Brand Story Section */}
       <section className="py-16 px-6 bg-white/5 backdrop-blur-lg border-t border-b border-white/10">
         <div className="max-w-5xl mx-auto">
-          <div className="text-center mb-12">
-            {lang === "sk" && (
-              <>
-                <h2 className="text-4xl md:text-5xl font-bold text-white mb-4"><em>Začali sme ako malý slovenský sen.</em></h2>
-                <p className="text-xl text-white/70 max-w-2xl mx-auto"><em>Stali sme sa bránou do celého sveta.</em></p>
-              </>
-            )}
-            {lang === "en" && (
-              <>
-                <h2 className="text-4xl md:text-5xl font-bold text-white mb-4"><em>We started as a small Slovak dream.</em></h2>
-                <p className="text-xl text-white/70 max-w-2xl mx-auto"><em>We became a gateway to the whole world.</em></p>
-              </>
-            )}
-            {lang === "fr" && (
-              <>
-                <h2 className="text-4xl md:text-5xl font-bold text-white mb-4"><em>Nous avons commencé comme un petit rêve slovaque.</em></h2>
-                <p className="text-xl text-white/70 max-w-2xl mx-auto"><em>Nous sommes devenus une porte vers le monde entier.</em></p>
-              </>
-            )}
-            {lang === "it" && (
-              <>
-                <h2 className="text-4xl md:text-5xl font-bold text-white mb-4"><em>Abbiamo iniziato come un piccolo sogno slovacco.</em></h2>
-                <p className="text-xl text-white/70 max-w-2xl mx-auto"><em>Siamo diventati un portale verso il mondo intero.</em></p>
-              </>
-            )}
-            {lang === "de" && (
-              <>
-                <h2 className="text-4xl md:text-5xl font-bold text-white mb-4"><em>Wir begannen als ein kleiner slowakischer Traum.</em></h2>
-                <p className="text-xl text-white/70 max-w-2xl mx-auto"><em>Wir wurden ein Tor zur ganzen Welt.</em></p>
-              </>
-            )}
-            {lang === "pl" && (
-              <>
-                <h2 className="text-4xl md:text-5xl font-bold text-white mb-4"><em>Zaczęliśmy jako mały słowacki sen.</em></h2>
-                <p className="text-xl text-white/70 max-w-2xl mx-auto"><em>Staliśmy się bramą do całego świata.</em></p>
-              </>
-            )}
-            {lang === "ru" && (
-              <>
-                <h2 className="text-4xl md:text-5xl font-bold text-white mb-4"><em>Мы начали как маленькая словацкая мечта.</em></h2>
-                <p className="text-xl text-white/70 max-w-2xl mx-auto"><em>Мы стали воротами в весь мир.</em></p>
-              </>
-            )}
-            {lang === "hu" && (
-              <>
-                <h2 className="text-4xl md:text-5xl font-bold text-white mb-4"><em>Egy kis szlovák álomként kezdtünk.</em></h2>
-                <p className="text-xl text-white/70 max-w-2xl mx-auto"><em>Az egész világ kapujává váltunk.</em></p>
-              </>
-            )}
-          </div>
+          {(() => {
+            const headers = {
+              sk: { title: "Začali sme ako malý slovenský sen.", sub: "Stali sme sa bránou do celého sveta." },
+              en: { title: "We started as a small Slovak dream.", sub: "We became a gateway to the whole world." },
+              de: { title: "Wir begannen als ein kleiner slowakischer Traum.", sub: "Wir wurden ein Tor zur ganzen Welt." },
+              fr: { title: "Nous avons commencé comme un petit rêve slovaque.", sub: "Nous sommes devenus une porte vers le monde entier." },
+              it: { title: "Abbiamo iniziato come un piccolo sogno slovacco.", sub: "Siamo diventati un portale verso il mondo intero." },
+              ru: { title: "Мы начали как маленькая словацкая мечта.", sub: "Мы стали воротами в весь мир." },
+              pl: { title: "Zaczęliśmy jako mały słowacki sen.", sub: "Staliśmy się bramą do całego świata." },
+              hu: { title: "Egy kis szlovák álomként kezdtünk.", sub: "Az egész világ kapujává váltunk." },
+            };
+            const h = headers[lang] || headers.en;
+            return (
+              <div className="text-center mb-12">
+                <h2 className="text-4xl md:text-5xl font-bold text-white mb-4"><em>{h.title}</em></h2>
+                <p className="text-xl text-white/70 max-w-2xl mx-auto"><em>{h.sub}</em></p>
+              </div>
+            );
+          })()}
 
-          <div className="grid md:grid-cols-2 gap-8 mb-8">
-            <div className="bg-white rounded-xl p-8">
-              {lang === "sk" && (
-                <>
-                  <p className="text-[#c9a84c] text-xs uppercase tracking-widest font-semibold mb-4">KAPITOLA I – ZAČIATOK</p>
-                  <h3 className="text-2xl font-bold text-gray-900 mb-4">Jeden nápad. Jeden sen.</h3>
-                  <p className="text-gray-700 text-sm leading-relaxed">Bolo to jednoduché: Slováci chceli nehnuteľnosti v zahraničí. Jazyk bol cudzi, trh neznámy. Tak vznikla stránka Nehnuteľnosti v zahraničí — nie ako veľká korporacia, ale ako odpoveď na konkrétnu potrebu konkrétnych ľudí.</p>
-                </>
-              )}
-              {lang === "en" && (
-                <>
-                  <p className="text-[#c9a84c] text-xs uppercase tracking-widest font-semibold mb-4">CHAPTER I – BEGINNING</p>
-                  <h3 className="text-2xl font-bold text-gray-900 mb-4">One idea. One dream.</h3>
-                  <p className="text-gray-700 text-sm leading-relaxed">It was simple: Slovaks wanted property abroad, but didn't know where to start. The language was foreign. The market unknown. So Nehnuteľnosti v zahraničí was born — not as a big corporation, but as an answer to a specific need of specific people.</p>
-                </>
-              )}
-              {lang === "fr" && (
-                <>
-                  <p className="text-[#c9a84c] text-xs uppercase tracking-widest font-semibold mb-4">CHAPITRE I – DÉBUT</p>
-                  <h3 className="text-2xl font-bold text-gray-900 mb-4">Une idée. Un rêve.</h3>
-                  <p className="text-gray-700 text-sm leading-relaxed">C'était simple : les Slovaques voulaient des propriétés à l'étranger. La langue était étrangère, le marché inconnu. Ainsi est née la page Nehnuteľnosti v zahraničí — non comme une grande corporation, mais comme une réponse à un besoin spécifique.</p>
-                </>
-              )}
-              {lang === "it" && (
-                <>
-                  <p className="text-[#c9a84c] text-xs uppercase tracking-widest font-semibold mb-4">CAPITOLO I – INIZIO</p>
-                  <h3 className="text-2xl font-bold text-gray-900 mb-4">Un'idea. Un sogno.</h3>
-                  <p className="text-gray-700 text-sm leading-relaxed">Era semplice: gli slovacchi volevano proprietà all'estero, ma non sapevano da dove iniziare. La lingua era straniera. Il mercato sconosciuto. Così è nata la pagina Nehnuteľnosti v zahraničí — non come una grande corporation, ma come una risposta a un bisogno specifico.</p>
-                </>
-              )}
-              {lang === "de" && (
-                <>
-                  <p className="text-[#c9a84c] text-xs uppercase tracking-widest font-semibold mb-4">KAPITEL I – BEGINN</p>
-                  <h3 className="text-2xl font-bold text-gray-900 mb-4">Eine Idee. Ein Traum.</h3>
-                  <p className="text-gray-700 text-sm leading-relaxed">Es war einfach: Slowaken wollten Immobilien im Ausland. Die Sprache war fremd, der Markt unbekannt. So entstand Nehnuteľnosti v zahraničí — nicht als großes Unternehmen, sondern als Antwort auf ein spezifisches Bedürfnis.</p>
-                </>
-              )}
-              {lang === "pl" && (
-                <>
-                  <p className="text-[#c9a84c] text-xs uppercase tracking-widest font-semibold mb-4">ROZDZIAŁ I – POCZĄTEK</p>
-                  <h3 className="text-2xl font-bold text-gray-900 mb-4">Jeden pomysł. Jeden sen.</h3>
-                  <p className="text-gray-700 text-sm leading-relaxed">To było proste: Słowacy chcieli nieruchomości za granicą, ale nie wiedzieli, od czego zacząć. Język był obcy, rynek nieznany. Tak powstała strona Nehnuteľnosti v zahraničí — nie jako duża korporacja, ale jako odpowiedź na konkretną potrzebę.</p>
-                </>
-              )}
-            </div>
-            <div className="bg-white rounded-xl p-8">
-              {lang === "sk" && (
-                <>
-                  <p className="text-[#c9a84c] text-xs uppercase tracking-widest font-semibold mb-4">KAPITOLA II – RAST</p>
-                  <h3 className="text-2xl font-bold text-gray-900 mb-4">Klienti nás vzali so sebou.</h3>
-                  <p className="text-gray-700 text-sm leading-relaxed">Prvá kúpa v Egypte. Potom Dubaj. Potom Bali. Každý spokojný klient otvoril nové dvere — do novej krajiny, k novému developerovi. Tím rástol, portfólio rástlo, ale záväzok zostal rovnaký.</p>
-                </>
-              )}
-              {lang === "en" && (
-                <>
-                  <p className="text-[#c9a84c] text-xs uppercase tracking-widest font-semibold mb-4">CHAPTER II – GROWTH</p>
-                  <h3 className="text-2xl font-bold text-gray-900 mb-4">Clients took us with them.</h3>
-                  <p className="text-gray-700 text-sm leading-relaxed">First purchase in Egypt. Then Dubai. Then Bali. Every satisfied client opened new doors — to new countries, to new developers. The team grew. The portfolio grew. But the commitment stayed the same.</p>
-                </>
-              )}
-              {lang === "fr" && (
-                <>
-                  <p className="text-[#c9a84c] text-xs uppercase tracking-widest font-semibold mb-4">CHAPITRE II – CROISSANCE</p>
-                  <h3 className="text-2xl font-bold text-gray-900 mb-4">Les clients nous ont emmenés.</h3>
-                  <p className="text-gray-700 text-sm leading-relaxed">Premier achat en Égypte. Puis Dubaï. Puis Bali. Chaque client satisfait a ouvert de nouvelles portes — vers de nouveaux pays, vers de nouveaux promoteurs. L'équipe a grandi. Le portefeuille a grandi. Mais l'engagement est resté le même.</p>
-                </>
-              )}
-              {lang === "it" && (
-                <>
-                  <p className="text-[#c9a84c] text-xs uppercase tracking-widest font-semibold mb-4">CAPITOLO II – CRESCITA</p>
-                  <h3 className="text-2xl font-bold text-gray-900 mb-4">I clienti ci hanno portato.</h3>
-                  <p className="text-gray-700 text-sm leading-relaxed">Primo acquisto in Egitto. Poi Dubai. Poi Bali. Ogni cliente soddisfatto ha aperto nuove porte — verso nuovi paesi, verso nuovi sviluppatori. Il team è cresciuto. Il portafoglio è cresciuto. Ma l'impegno è rimasto lo stesso.</p>
-                </>
-              )}
-              {lang === "de" && (
-                <>
-                  <p className="text-[#c9a84c] text-xs uppercase tracking-widest font-semibold mb-4">KAPITEL II – WACHSTUM</p>
-                  <h3 className="text-2xl font-bold text-gray-900 mb-4">Kunden nahmen uns mit.</h3>
-                  <p className="text-gray-700 text-sm leading-relaxed">Erster Kauf in Ägypten. Dann Dubai. Dann Bali. Jeder zufriedene Kunde öffnete neue Türen — zu neuen Ländern, zu neuen Entwicklern. Das Team wuchs. Das Portfolio wuchs. Aber die Verpflichtung blieb gleich.</p>
-                </>
-              )}
-              {lang === "pl" && (
-                <>
-                  <p className="text-[#c9a84c] text-xs uppercase tracking-widest font-semibold mb-4">ROZDZIAŁ II – WZROST</p>
-                  <h3 className="text-2xl font-bold text-gray-900 mb-4">Klienci zabrali nas ze sobą.</h3>
-                  <p className="text-gray-700 text-sm leading-relaxed">Pierwszy zakup w Egipcie. Potem Dubaj. Potem Bali. Każdy zadowolony klient otworzył nowe drzwi — do nowych krajów, do nowych deweloperów. Zespół rósł. Portfolio rosło. Ale zaangażowanie pozostało takie samo.</p>
-                </>
-              )}
-            </div>
-          </div>
+          {(() => {
+            const chapters = {
+              sk: {
+                c1label: "KAPITOLA I – ZAČIATOK", c1title: "Jeden nápad. Jeden sen.",
+                c1text: "Bolo to jednoduché: Slováci chceli nehnuteľnosti v zahraničí. Jazyk bol cudzi, trh neznámy. Tak vznikla stránka Nehnuteľnosti v zahraničí — nie ako veľká korporácia, ale ako odpoveď na konkrétnu potrebu konkrétnych ľudí.",
+                c2label: "KAPITOLA II – RAST", c2title: "Klienti nás vzali so sebou.",
+                c2text: "Prvá kúpa v Egypte. Potom Dubaj. Potom Bali. Každý spokojný klient otvoril nové dvere — do novej krajiny, k novému developerovi. Tím rástol, portfólio rástlo, ale záväzok zostal rovnaký.",
+              },
+              en: {
+                c1label: "CHAPTER I – BEGINNING", c1title: "One idea. One dream.",
+                c1text: "It was simple: Slovaks wanted property abroad, but didn't know where to start. The language was foreign. The market unknown. So Nehnuteľnosti v zahraničí was born — not as a big corporation, but as an answer to a specific need of specific people.",
+                c2label: "CHAPTER II – GROWTH", c2title: "Clients took us with them.",
+                c2text: "First purchase in Egypt. Then Dubai. Then Bali. Every satisfied client opened new doors — to new countries, to new developers. The team grew. The portfolio grew. But the commitment stayed the same.",
+              },
+              de: {
+                c1label: "KAPITEL I – BEGINN", c1title: "Eine Idee. Ein Traum.",
+                c1text: "Es war einfach: Slowaken wollten Immobilien im Ausland. Die Sprache war fremd, der Markt unbekannt. So entstand Nehnuteľnosti v zahraničí — nicht als großes Unternehmen, sondern als Antwort auf ein spezifisches Bedürfnis.",
+                c2label: "KAPITEL II – WACHSTUM", c2title: "Kunden nahmen uns mit.",
+                c2text: "Erster Kauf in Ägypten. Dann Dubai. Dann Bali. Jeder zufriedene Kunde öffnete neue Türen — zu neuen Ländern, zu neuen Entwicklern. Das Team wuchs. Das Portfolio wuchs. Aber die Verpflichtung blieb gleich.",
+              },
+              fr: {
+                c1label: "CHAPITRE I – DÉBUT", c1title: "Une idée. Un rêve.",
+                c1text: "C'était simple : les Slovaques voulaient des propriétés à l'étranger. La langue était étrangère, le marché inconnu. Ainsi est née la page Nehnuteľnosti v zahraničí — non comme une grande corporation, mais comme une réponse à un besoin spécifique.",
+                c2label: "CHAPITRE II – CROISSANCE", c2title: "Les clients nous ont emmenés.",
+                c2text: "Premier achat en Égypte. Puis Dubaï. Puis Bali. Chaque client satisfait a ouvert de nouvelles portes — vers de nouveaux pays, vers de nouveaux promoteurs. L'équipe a grandi. Le portefeuille a grandi. Mais l'engagement est resté le même.",
+              },
+              it: {
+                c1label: "CAPITOLO I – INIZIO", c1title: "Un'idea. Un sogno.",
+                c1text: "Era semplice: gli slovacchi volevano proprietà all'estero, ma non sapevano da dove iniziare. La lingua era straniera. Il mercato sconosciuto. Così è nata la pagina Nehnuteľnosti v zahraničí — non come una grande corporation, ma come una risposta a un bisogno specifico.",
+                c2label: "CAPITOLO II – CRESCITA", c2title: "I clienti ci hanno portato.",
+                c2text: "Primo acquisto in Egitto. Poi Dubai. Poi Bali. Ogni cliente soddisfatto ha aperto nuove porte — verso nuovi paesi, verso nuovi sviluppatori. Il team è cresciuto. Il portafoglio è cresciuto. Ma l'impegno è rimasto lo stesso.",
+              },
+              ru: {
+                c1label: "ГЛАВА I – НАЧАЛО", c1title: "Одна идея. Одна мечта.",
+                c1text: "Всё было просто: словаки хотели недвижимость за рубежом, но не знали, с чего начать. Язык был чужим, рынок — неизвестным. Так появился портал Nehnuteľnosti v zahraničí — не как большая корпорация, а как ответ на конкретную потребность конкретных людей.",
+                c2label: "ГЛАВА II – РОСТ", c2title: "Клиенты взяли нас с собой.",
+                c2text: "Первая покупка в Египте. Потом Дубай. Потом Бали. Каждый довольный клиент открывал новые двери — в новые страны, к новым застройщикам. Команда росла. Портфолио росло. Но обязательство оставалось прежним.",
+              },
+              pl: {
+                c1label: "ROZDZIAŁ I – POCZĄTEK", c1title: "Jeden pomysł. Jeden sen.",
+                c1text: "To było proste: Słowacy chcieli nieruchomości za granicą, ale nie wiedzieli, od czego zacząć. Język był obcy, rynek nieznany. Tak powstała strona Nehnuteľnosti v zahraničí — nie jako duża korporacja, ale jako odpowiedź na konkretną potrzebę.",
+                c2label: "ROZDZIAŁ II – WZROST", c2title: "Klienci zabrali nas ze sobą.",
+                c2text: "Pierwszy zakup w Egipcie. Potem Dubaj. Potem Bali. Każdy zadowolony klient otworzył nowe drzwi — do nowych krajów, do nowych deweloperów. Zespół rósł. Portfolio rosło. Ale zaangażowanie pozostało takie samo.",
+              },
+              hu: {
+                c1label: "I. FEJEZET – KEZDET", c1title: "Egy ötlet. Egy álom.",
+                c1text: "Egyszerű volt: a szlovákok külföldi ingatlant akartak, de nem tudták, hol kezdjék. A nyelv idegen volt, a piac ismeretlen. Így született a Nehnuteľnosti v zahraničí — nem nagy vállalatként, hanem konkrét emberek konkrét igényére adott válaszként.",
+                c2label: "II. FEJEZET – NÖVEKEDÉS", c2title: "Az ügyfelek elvittek minket.",
+                c2text: "Első vásárlás Egyiptomban. Aztán Dubai. Aztán Bali. Minden elégedett ügyfél új ajtókat nyitott — új országok, új fejlesztők felé. A csapat nőtt. A portfólió nőtt. De az elkötelezettség ugyanaz maradt.",
+              },
+            };
+            const c = chapters[lang] || chapters.en;
+            return (
+              <div className="grid md:grid-cols-2 gap-8 mb-8">
+                <div className="bg-white rounded-xl p-8">
+                  <p className="text-[#c9a84c] text-xs uppercase tracking-widest font-semibold mb-4">{c.c1label}</p>
+                  <h3 className="text-2xl font-bold text-gray-900 mb-4">{c.c1title}</h3>
+                  <p className="text-gray-700 text-sm leading-relaxed">{c.c1text}</p>
+                </div>
+                <div className="bg-white rounded-xl p-8">
+                  <p className="text-[#c9a84c] text-xs uppercase tracking-widest font-semibold mb-4">{c.c2label}</p>
+                  <h3 className="text-2xl font-bold text-gray-900 mb-4">{c.c2title}</h3>
+                  <p className="text-gray-700 text-sm leading-relaxed">{c.c2text}</p>
+                </div>
+              </div>
+            );
+          })()}
 
           <div className="text-center">
             <Link to={createPageUrl("PublicAbout")} className="inline-block text-[#c9a84c] hover:text-[#b8973b] transition-colors font-semibold text-sm uppercase tracking-widest">
