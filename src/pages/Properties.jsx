@@ -11,17 +11,17 @@ import { Skeleton } from "@/components/ui/skeleton";
 import PropertyCard from "../components/properties/PropertyCard";
 import PropertyForm from "../components/properties/PropertyForm";
 
-const COUNTRIES = ["Albania", "Bali", "Hungary", "Bulgaria", "Dominican Republic", "Egypt", "Georgia", "Mauritius", "Oman", "UAE", "Spain", "Italy", "Thailand", "Turkey"];
+const COUNTRIES = ["Albania", "Bali", "Hungary", "Bulgaria", "Croatia", "Dominican Republic", "Egypt", "Georgia", "Mauritius", "Oman", "UAE", "Spain", "Italy", "Thailand", "Turkey"];
 
 const COUNTRY_FLAGS = {
-  Albania: "🇦🇱", Bali: "🇮🇩", Hungary: "🇭🇺", Bulgaria: "🇧🇬",
+  Albania: "🇦🇱", Bali: "🇮🇩", Hungary: "🇭🇺", Bulgaria: "🇧🇬", Croatia: "🇭🇷",
   "Dominican Republic": "🇩🇴", Egypt: "🇪🇬", Georgia: "🇬🇪",
   Mauritius: "🇲🇺", Oman: "🇴🇲", UAE: "🇦🇪", Spain: "🇪🇸",
   Italy: "🇮🇹", Thailand: "🇹🇭", Turkey: "🇹🇷"
 };
 
 const COUNTRY_SK = {
-  Albania: "Albánsko", Bali: "Bali", Hungary: "Maďarsko", Bulgaria: "Bulharsko",
+  Albania: "Albánsko", Bali: "Bali", Hungary: "Maďarsko", Bulgaria: "Bulharsko", Croatia: "Chorvátsko",
   "Dominican Republic": "Dominikánska republika", Egypt: "Egypt", Georgia: "Gruzínsko",
   Mauritius: "Maurícius", Oman: "Omán", UAE: "SAE (Dubaj)", Spain: "Španielsko",
   Italy: "Taliansko", Thailand: "Thajsko", Turkey: "Turecko"
