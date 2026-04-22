@@ -49,7 +49,7 @@ const FAQ_DATA = {
       {
         title: "O NÁS A SPOLUPRÁCI",
         items: [
-          { q: "Koľko stojia vaše služby?", a: "Pre kupujúceho sú naše realitné služby bezplatné. Naša odmena pochádza od developera ako štandardná maklérska provízia. Zariadenie apartmánov a property management sú spoplatnené samostatne — cenu určujeme vždy individuálne podľa rozsahu." },
+          { q: "Koľko stojia vaše služby?", a: "Naša maklérska provízia je 4 % z predajnej ceny a hradí ju kupujúci. Pri projektoch s hodnotou pod 100 000 EUR je provízia stanovená fixne na 4 000 EUR. Zariadenie apartmánov a property management sú spoplatnené samostatne — cenu určujeme vždy individuálne podľa rozsahu." },
           { q: "V akých krajinách pôsobíte?", a: "Aktuálne máme projekty v Egypte, Dubaji, Albánsku, Bulharsku, Turecku, Chorvátsku, Španielsku, Taliansku, Thajsku, Bali, Gruzínsku, Maďarsku, Mauríciu, Ománe a ďalších. Ak hľadáte konkrétnu krajinu ktorú tu nevidíte — napíšte nám, veľmi pravdepodobne vám vieme pomôcť aj tam." },
           { q: "Môžem sa na vás spoľahnúť — ste overená firma?", a: "Sme slovenská firma s reálnymi klientmi a reálnymi referenciami. Stovky spokojných klientov, overené recenzie na Google a Facebooku, tím maklérov s osobnou zodpovednosťou. Nie sme anonymná platforma — za každým obchodom stojí konkrétny človek s tvárou a menom. To je náš záväzok od prvého dňa." },
         ]
