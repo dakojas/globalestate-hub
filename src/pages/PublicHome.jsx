@@ -158,7 +158,12 @@ function PublicHomeInner() {
             <h1 className="text-5xl md:text-6xl font-bold text-white mb-3 leading-tight">
               {tr("heroTitle")} <span className="text-[#c9a84c]">{tr("heroTitleHighlight")}</span>
             </h1>
-            <p className="text-white/50 text-lg mb-6 max-w-xl">{tr("heroSubtitle")}</p>
+            <p className="text-white/70 text-xl font-semibold mb-2 max-w-2xl">
+              {lang === "sk" ? "Začnite svoj príbeh v zahraničí s nami!" : lang === "en" ? "Start your story abroad with us!" : lang === "de" ? "Beginnen Sie Ihre Geschichte im Ausland mit uns!" : lang === "fr" ? "Commencez votre histoire à l'étranger avec nous !" : lang === "it" ? "Inizia la tua storia all'estero con noi!" : lang === "ru" ? "Начните свою историю за рубежом с нами!" : lang === "pl" ? "Zacznij swoją historię za granicą z nami!" : lang === "hu" ? "Kezdje el külföldi történetét velünk!" : "Začnite svoj príbeh v zahraničí s nami!"}
+            </p>
+            <p className="text-white/50 text-base mb-6 max-w-2xl">
+              {lang === "sk" ? "Ak hľadáte miesto, kde by ste mohli napísať novú kapitolu vášho života alebo hľadáte atraktívnu investičnú príležitosť, sme tu pre vás." : lang === "en" ? "Whether you're looking for a place to write a new chapter of your life or seeking an attractive investment opportunity, we are here for you." : lang === "de" ? "Ob Sie einen Ort suchen, an dem Sie ein neues Kapitel Ihres Lebens schreiben können, oder eine attraktive Investitionsmöglichkeit suchen – wir sind für Sie da." : lang === "fr" ? "Que vous cherchiez un endroit pour écrire un nouveau chapitre de votre vie ou une opportunité d'investissement attrayante, nous sommes là pour vous." : lang === "it" ? "Che tu stia cercando un posto dove scrivere un nuovo capitolo della tua vita o un'attraente opportunità di investimento, siamo qui per te." : lang === "ru" ? "Если вы ищете место, где можно написать новую главу вашей жизни, или ищете привлекательную инвестиционную возможность — мы здесь для вас." : lang === "pl" ? "Jeśli szukasz miejsca, gdzie możesz napisać nowy rozdział swojego życia lub szukasz atrakcyjnej okazji inwestycyjnej, jesteśmy tu dla Ciebie." : lang === "hu" ? "Legyen szó arról, hogy helyet keres, ahol élete új fejezetét írhatná, vagy vonzó befektetési lehetőséget keres, mi itt vagyunk Önért." : "Ak hľadáte miesto, kde by ste mohli napísať novú kapitolu vášho života alebo hľadáte atraktívnu investičnú príležitosť, sme tu pre vás."}
+            </p>
             <a href="https://calendly.com/nehnutelnostivzahranici/30min" target="_blank" rel="noopener noreferrer"
               className="inline-flex items-center gap-2 bg-[#c9a84c] hover:bg-[#b8973b] text-black font-bold px-6 py-2.5 rounded text-sm transition-all">
               📅 {tr("bookConsultation")}
@@ -236,6 +241,64 @@ function PublicHomeInner() {
                 <X className="w-3 h-3" /> {getCountryName(filters.country)}
               </button>
             )}
+          </div>
+        </div>
+      </section>
+
+      {/* O nás / Brand story */}
+      <section className="px-6 py-14" style={{ background: "#0a0f1e" }}>
+        <div className="max-w-7xl mx-auto">
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-12 items-center">
+            <div>
+              <p className="text-[#c9a84c] text-xs uppercase tracking-[0.3em] font-semibold mb-3">
+                {lang === "sk" ? "O nás" : lang === "en" ? "About Us" : lang === "de" ? "Über uns" : lang === "fr" ? "À propos" : lang === "it" ? "Chi siamo" : lang === "ru" ? "О нас" : lang === "pl" ? "O nas" : "O nás"}
+              </p>
+              <h2 className="text-3xl md:text-4xl font-bold text-white mb-4 leading-tight">
+                {lang === "sk" ? "Začali sme malý slovenský sen." : lang === "en" ? "We started a small Slovak dream." : lang === "de" ? "Wir haben einen kleinen slowakischen Traum gestartet." : lang === "fr" ? "Nous avons commencé un petit rêve slovaque." : lang === "it" ? "Abbiamo iniziato un piccolo sogno slovacco." : lang === "ru" ? "Мы начали с маленькой словацкой мечты." : lang === "pl" ? "Zaczęliśmy od małego słowackiego marzenia." : "Začali sme malý slovenský sen."}
+              </h2>
+              <p className="text-white/60 leading-relaxed mb-4">
+                {lang === "sk"
+                  ? "Sme slovenská realitná kancelária špecializujúca sa na predaj zahraničných nehnuteľností. Pomáhame Slovákom a klientom z celej Európy investovať do nehnuteľností v top destináciách sveta."
+                  : lang === "en"
+                  ? "We are a Slovak real estate agency specializing in selling properties abroad. We help Slovaks and clients from across Europe invest in properties in the world's top destinations."
+                  : lang === "de"
+                  ? "Wir sind eine slowakische Immobilienagentur, die sich auf den Verkauf von Immobilien im Ausland spezialisiert hat. Wir helfen Slowaken und Kunden aus ganz Europa, in Immobilien in den besten Zielen der Welt zu investieren."
+                  : lang === "fr"
+                  ? "Nous sommes une agence immobilière slovaque spécialisée dans la vente de propriétés à l'étranger. Nous aidons les Slovaques et les clients de toute l'Europe à investir dans des propriétés dans les meilleures destinations du monde."
+                  : "We are a Slovak real estate agency specializing in selling properties abroad. We help clients from across Europe invest in the world's top destinations."}
+              </p>
+              <div className="flex flex-wrap gap-6 mt-6">
+                <div>
+                  <p className="text-3xl font-bold text-[#c9a84c]">500+</p>
+                  <p className="text-white/50 text-sm">{lang === "sk" ? "spokojných klientov" : "satisfied clients"}</p>
+                </div>
+                <div>
+                  <p className="text-3xl font-bold text-[#c9a84c]">15+</p>
+                  <p className="text-white/50 text-sm">{lang === "sk" ? "krajín sveta" : "countries worldwide"}</p>
+                </div>
+                <div>
+                  <p className="text-3xl font-bold text-[#c9a84c]">7+</p>
+                  <p className="text-white/50 text-sm">{lang === "sk" ? "rokov skúseností" : "years of experience"}</p>
+                </div>
+              </div>
+              <Link to={createPageUrl("PublicAbout")} className="inline-flex items-center gap-2 mt-8 text-[#c9a84c] hover:text-[#e8d5a0] font-semibold text-sm transition-colors border border-[#c9a84c]/40 hover:border-[#c9a84c] px-5 py-2.5 rounded">
+                {lang === "sk" ? "Zistiť viac o nás →" : lang === "en" ? "Learn more about us →" : "Zistiť viac →"}
+              </Link>
+            </div>
+            <div className="grid grid-cols-2 gap-3">
+              {[
+                { icon: "🌍", title: lang === "sk" ? "Overení developeri" : "Verified Developers", desc: lang === "sk" ? "Spolupracujeme len s preverenými partnermi" : "We work only with verified partners" },
+                { icon: "💰", title: lang === "sk" ? "Výhodné podmienky" : "Favorable Terms", desc: lang === "sk" ? "Splátkové kalendáre bez bankového úveru" : "Payment plans without bank loans" },
+                { icon: "🏡", title: lang === "sk" ? "Správa nehnuteľnosti" : "Property Management", desc: lang === "sk" ? "Postaráme sa o váš apartmán" : "We take care of your apartment" },
+                { icon: "📋", title: lang === "sk" ? "Právna podpora" : "Legal Support", desc: lang === "sk" ? "Kompletná právna dokumentácia" : "Complete legal documentation" },
+              ].map((item, i) => (
+                <div key={i} className="rounded-xl p-4" style={{ background: "rgba(13,27,53,0.7)", border: "1px solid rgba(201,168,76,0.2)" }}>
+                  <p className="text-2xl mb-2">{item.icon}</p>
+                  <p className="text-white font-semibold text-sm mb-1">{item.title}</p>
+                  <p className="text-white/40 text-xs leading-relaxed">{item.desc}</p>
+                </div>
+              ))}
+            </div>
           </div>
         </div>
       </section>
