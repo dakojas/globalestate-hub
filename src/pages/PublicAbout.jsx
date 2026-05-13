@@ -7,6 +7,102 @@ import { PublicLanguageProvider, usePublicLang } from "@/components/PublicLangua
 import PublicLangSwitcher from "@/components/PublicLangSwitcher";
 
 const brandStory = {
+  sk: {
+    hero: {
+      title: "Začali sme ako malý slovenský sen.",
+      subtitle: "Stali sme sa bránou do celého sveta."
+    },
+    chapter1: {
+      label: "KAPITOLA I – ZAČIATOK",
+      title: "Jeden nápad. Jedna stránka. Jeden sen.",
+      content: "Bolo to jednoduché: Slováci chceli nehnuteľnosti v zahraničí, ale nikde kde začať. Jazyk bol cudzi. Trh neznámy. Právne prostredie neprehľadné. A nikto im nehovoril v ich jazyku, s ich dôverou, z ich sveta.\n\nTak vznikla stránka Nehnuteľnosti v zahraničí — nie ako veľká korporácia, ale ako odpoveď na konkrétnu potrebu konkrétnych ľudí. Lokálny portál s jasným poslaním: pribiližiť vzdialený svet na dosah ruky."
+    },
+    chapter2: {
+      label: "KAPITOLA II – RAST",
+      title: "Klienti nás vzali so sebou.",
+      content: "Nikto nás nemusel presvedčiť o tom, že svet je malý. Naši klienti nám to ukázali.\n\nPrvá kúpa v Egypte. Potom Dubaj. Potom Bali. Každý spokojný klient otvoril nové dvere — do novej krajiny, k novému developerovi, k novej komunite ľudí, ktorí chcú investovať mimo hranic.\n\nTím rástol. Portfólio rástlo. Ale závázok zostal rovnaký: každý klient dostane rovnakú starostlivosť ako ten prvý.",
+      timeline: [
+        { label: "Vznik", desc: "Slovenský portál ide online. Prvé projekty, prví klienti, prvé sny splnené na cudzej pôde." },
+        { label: "Expanzia", desc: "Egypt, Dubaj, Albánsko, Turecko. Tím rastie. Makléri v Dubaji. Partneri na mieste. Klient nekupuje naslepo." },
+        { label: "Dnes", desc: "16 krajín. Stovky spokojných klientov. Globálna sieť. Lokálna duša. Každý projekt overený. Každý klient vitaný." },
+        { label: "Zajtra", desc: "Rast bez kompromisov. Viac krajín. Viac príbehov. Jeden závázok — byť pre každého klienta ako sme boli pre toho prvého." }
+      ]
+    },
+    chapter3: {
+      label: "KAPITOLA III – DNES",
+      title: "Globálni. Ale stále vaši.",
+      content: "Dnes pôsobíme v 16 krajinách. Náš tím hovorí viacerými jazykmi, pozná lokálne trhy, pozná developerov osobne. Ale jedno sa nezmenilo.\n\nKeď nám zavoláte, neodpovedá vám call centrum. Odpovie vám človek, ktorý pozná vás, váš rozpočet a váš sen. Tak to bolo od začiatku. Tak to zostane.\n\nNie sme globálna korporácia s lokálnou pobočkou. Sme lokálna firma s globálnym dosahom. To je rozdiel, ktorý cítite pri každom jednání."
+    },
+    motto: {
+      title: "Svet je väčší, než si myslíte.",
+      subtitle: "Vaše možnosti tiež.",
+      closing: "My sme tu preto, aby ste ich objavili."
+    }
+  },
+  en: {
+    hero: {
+      title: "We started as a small Slovak dream.",
+      subtitle: "We became a gateway to the whole world."
+    },
+    chapter1: {
+      label: "CHAPTER I – BEGINNING",
+      title: "One idea. One page. One dream.",
+      content: "It was simple: Slovaks wanted property abroad, but didn't know where to start. The language was foreign. The market unknown. The legal landscape impenetrable. And nobody spoke to them in their language, with their trust, from their world.\n\nSo Nehnuteľnosti v zahraničí was born — not as a big corporation, but as an answer to a specific need of specific people. A local portal with a clear mission: to bring the distant world within reach."
+    },
+    chapter2: {
+      label: "CHAPTER II – GROWTH",
+      title: "Clients took us with them.",
+      content: "Nobody had to convince us that the world is small. Our clients showed us.\n\nFirst purchase in Egypt. Then Dubai. Then Bali. Every satisfied client opened new doors — to new countries, to new developers, to new communities of people who want to invest beyond borders.\n\nThe team grew. The portfolio grew. But the commitment stayed the same: every client gets the same care as the first one.",
+      timeline: [
+        { label: "Beginning", desc: "Slovak portal goes online. First projects, first clients, first dreams fulfilled on foreign soil." },
+        { label: "Expansion", desc: "Egypt, Dubai, Albania, Turkey. Team grows. Brokers in Dubai. Partners on the ground. Client doesn't buy blind." },
+        { label: "Today", desc: "16 countries. Hundreds of satisfied clients. Global network. Local soul. Every project verified. Every client welcomed." },
+        { label: "Tomorrow", desc: "Growth without compromise. More countries. More stories. One commitment — to be for every client what we were for the first one." }
+      ]
+    },
+    chapter3: {
+      label: "CHAPTER III – TODAY",
+      title: "Global. But still yours.",
+      content: "Today we operate in 16 countries. Our team speaks multiple languages, knows local markets, knows developers personally. But one thing hasn't changed.\n\nWhen you call us, a call center doesn't answer. A person answers who knows you, your budget, and your dream. That's how it was from the beginning. That's how it will stay.\n\nWe are not a global corporation with a local office. We are a local company with global reach. That is the difference you feel in every conversation."
+    },
+    motto: {
+      title: "The world is bigger than you think.",
+      subtitle: "So are your possibilities.",
+      closing: "We're here to help you discover them."
+    }
+  },
+  de: {
+    hero: {
+      title: "Wir haben als kleiner slowakischer Traum begonnen.",
+      subtitle: "Wir wurden zu einem Tor zur ganzen Welt.",
+    },
+    chapter1: {
+      label: "KAPITEL I – ANFANG",
+      title: "Eine Idee. Eine Seite. Ein Traum.",
+      content: "Es war einfach: Slowaken wollten Immobilien im Ausland, wussten aber nicht, wo sie anfangen sollten. Die Sprache war fremd. Der Markt unbekannt. Das rechtliche Umfeld undurchdringlich. Und niemand sprach mit ihnen in ihrer Sprache, mit ihrem Vertrauen, aus ihrer Welt.\n\nSo entstand die Seite Nehnuteľnosti v zahraničí – nicht als großes Unternehmen, sondern als Antwort auf einen spezifischen Bedarf von spezifischen Menschen. Ein lokales Portal mit einer klaren Mission: die ferne Welt in greifbare Nähe zu bringen."
+    },
+    chapter2: {
+      label: "KAPITEL II – WACHSTUM",
+      title: "Die Kunden haben uns mitgenommen.",
+      content: "Niemand musste uns davon überzeugen, dass die Welt klein ist. Unsere Kunden haben es uns gezeigt.\n\nErster Kauf in Ägypten. Dann Dubai. Dann Bali. Jeder zufriedene Kunde öffnete neue Türen – in neue Länder, zu neuen Entwicklern, zu neuen Gemeinschaften von Menschen, die über Grenzen hinaus investieren wollen.\n\nDas Team wuchs. Das Portfolio wuchs. Aber das Engagement blieb dasselbe: Jeder Kunde erhält die gleiche Fürsorge wie der erste.",
+      timeline: [
+        { label: "Gründung", desc: "Slowakisches Portal geht online. Erste Projekte, erste Kunden, erste Träume auf fremdem Boden erfüllt." },
+        { label: "Expansion", desc: "Ägypten, Dubai, Albanien, Türkei. Team wächst. Makler in Dubai. Partner vor Ort. Der Kunde kauft nicht blind." },
+        { label: "Heute", desc: "16 Länder. Hunderte zufriedene Kunden. Globales Netzwerk. Lokale Seele. Jedes Projekt geprüft. Jeder Kunde willkommen." },
+        { label: "Morgen", desc: "Wachstum ohne Kompromisse. Mehr Länder. Mehr Geschichten. Ein Engagement – für jeden Kunden das zu sein, was wir für den ersten waren." }
+      ]
+    },
+    chapter3: {
+      label: "KAPITEL III – HEUTE",
+      title: "Global. Aber immer noch Ihres.",
+      content: "Heute sind wir in 16 Ländern tätig. Unser Team spricht mehrere Sprachen, kennt die lokalen Märkte, kennt Entwickler persönlich. Aber eines hat sich nicht geändert.\n\nWenn Sie uns anrufen, antwortet kein Callcenter. Es antwortet ein Mensch, der Sie kennt, Ihr Budget und Ihren Traum. So war es von Anfang an. So wird es bleiben.\n\nWir sind kein globales Unternehmen mit einer lokalen Niederlassung. Wir sind ein lokales Unternehmen mit globaler Reichweite. Das ist der Unterschied, den Sie in jedem Gespräch spüren."
+    },
+    motto: {
+      title: "Die Welt ist größer als Sie denken.",
+      subtitle: "Ihre Möglichkeiten auch.",
+      closing: "Wir sind hier, um Ihnen zu helfen, sie zu entdecken."
+    }
+  },
   fr: {
     hero: {
       title: "Nous avons commencé comme un petit rêve slovaque.",
@@ -71,6 +167,38 @@ const brandStory = {
       closing: "Siamo qui per aiutarti a scoprirle."
     }
   },
+  ru: {
+    hero: {
+      title: "Мы начали как маленькая словацкая мечта.",
+      subtitle: "Мы стали воротами в целый мир.",
+    },
+    chapter1: {
+      label: "ГЛАВА I – НАЧАЛО",
+      title: "Одна идея. Одна страница. Одна мечта.",
+      content: "Всё было просто: словаки хотели недвижимость за рубежом, но не знали, с чего начать. Язык был чужим. Рынок — неизвестным. Правовая среда — непроходимой. И никто не говорил с ними на их языке, с их доверием, из их мира.\n\nТак появилась страница Nehnuteľnosti v zahraničí — не как большая корпорация, а как ответ на конкретную потребность конкретных людей. Локальный портал с чёткой миссией: приблизить далёкий мир к вашим рукам."
+    },
+    chapter2: {
+      label: "ГЛАВА II – РОСТ",
+      title: "Клиенты взяли нас с собой.",
+      content: "Никому не нужно было убеждать нас в том, что мир мал. Наши клиенты показали нам это.\n\nПервая покупка в Египте. Потом Дубай. Потом Бали. Каждый довольный клиент открывал новые двери — в новые страны, к новым застройщикам, к новым сообществам людей, желающих инвестировать за пределами границ.\n\nКоманда росла. Портфель рос. Но обязательство оставалось прежним: каждый клиент получает такую же заботу, как первый.",
+      timeline: [
+        { label: "Основание", desc: "Словацкий портал выходит в онлайн. Первые проекты, первые клиенты, первые мечты, осуществлённые на чужой земле." },
+        { label: "Расширение", desc: "Египет, Дубай, Албания, Турция. Команда растёт. Брокеры в Дубае. Партнёры на месте. Клиент не покупает вслепую." },
+        { label: "Сегодня", desc: "16 стран. Сотни довольных клиентов. Глобальная сеть. Локальная душа. Каждый проект проверен. Каждый клиент приветствован." },
+        { label: "Завтра", desc: "Рост без компромиссов. Больше стран. Больше историй. Одно обязательство — быть для каждого клиента тем, чем мы были для первого." }
+      ]
+    },
+    chapter3: {
+      label: "ГЛАВА III – СЕГОДНЯ",
+      title: "Глобальные. Но всё равно ваши.",
+      content: "Сегодня мы работаем в 16 странах. Наша команда говорит на нескольких языках, знает местные рынки, знает застройщиков лично. Но одно не изменилось.\n\nКогда вы нам звоните, отвечает не колл-центр. Отвечает человек, который знает вас, ваш бюджет и вашу мечту. Так было с самого начала. Так и останется.\n\nМы не глобальная корпорация с местным офисом. Мы местная компания с глобальным охватом. Это разница, которую вы почувствуете в каждом разговоре."
+    },
+    motto: {
+      title: "Мир больше, чем вы думаете.",
+      subtitle: "Ваши возможности тоже.",
+      closing: "Мы здесь, чтобы помочь вам их открыть."
+    }
+  },
   pl: {
     hero: {
       title: "Zaczęliśmy jako mały słowacki sen.",
@@ -103,100 +231,36 @@ const brandStory = {
       closing: "Jesteśmy tu, aby pomóc Ci je odkryć."
     }
   },
-  en: {
+  hu: {
     hero: {
-      title: "We started as a small Slovak dream.",
-      subtitle: "We became a gateway to the whole world.",
+      title: "Kis szlovák álomként kezdtük.",
+      subtitle: "Az egész világ kapujává váltunk.",
     },
     chapter1: {
-      label: "CHAPTER I – BEGINNING",
-      title: "One idea. One page. One dream.",
-      content: "It was simple: Slovaks wanted property abroad, but didn't know where to start. The language was foreign. The market unknown. The legal landscape impenetrable. And nobody spoke to them in their language, with their trust, from their world.\n\nSo Nehnuteľnosti v zahraničí was born — not as a big corporation, but as an answer to a specific need of specific people. A local portal with a clear mission: to bring the distant world within reach."
+      label: "I. FEJEZET – KEZDETEK",
+      title: "Egy ötlet. Egy oldal. Egy álom.",
+      content: "Egyszerű volt: a szlovákok külföldön akartak ingatlant vásárolni, de nem tudták, hol kezdjék. A nyelv idegen volt. A piac ismeretlen. A jogi környezet átláthatatlan. És senki sem szólt hozzájuk a saját nyelvükön, a saját bizalmukkal, a saját világukból.\n\nÍgy született meg a Nehnuteľnosti v zahraničí oldal – nem nagy vállalatként, hanem konkrét emberek konkrét szükségletére adott válaszként. Egy helyi portál egyértelmű küldetéssel: a távoli világot kézközelbe hozni."
     },
     chapter2: {
-      label: "CHAPTER II – GROWTH",
-      title: "Clients took us with them.",
-      content: "Nobody had to convince us that the world is small. Our clients showed us.\n\nFirst purchase in Egypt. Then Dubai. Then Bali. Every satisfied client opened new doors — to new countries, to new developers, to new communities of people who want to invest beyond borders.\n\nThe team grew. The portfolio grew. But the commitment stayed the same: every client gets the same care as the first one.",
+      label: "II. FEJEZET – NÖVEKEDÉS",
+      title: "Az ügyfelek magukkal vittek minket.",
+      content: "Senki sem kellett meggyőzni arról, hogy a világ kicsi. Ügyfeleink megmutatták nekünk.\n\nElső vétel Egyiptomban. Aztán Dubai. Aztán Bali. Minden elégedett ügyfél új ajtókat nyitott meg – új országokba, új fejlesztőkhöz, olyan emberek új közösségeihez, akik határon túl akarnak befektetni.\n\nA csapat nőtt. A portfólió nőtt. De az elkötelezettség ugyanaz maradt: minden ügyfél ugyanolyan gondoskodást kap, mint az első.",
       timeline: [
-        { label: "Beginning", desc: "Slovak portal goes online. First projects, first clients, first dreams fulfilled on foreign soil." },
-        { label: "Expansion", desc: "Egypt, Dubai, Albania, Turkey. Team grows. Brokers in Dubai. Partners on the ground. Client doesn't buy blind." },
-        { label: "Today", desc: "16 countries. Hundreds of satisfied clients. Global network. Local soul. Every project verified. Every client welcomed." },
-        { label: "Tomorrow", desc: "Growth without compromise. More countries. More stories. One commitment — to be for every client what we were for the first one." }
+        { label: "Alapítás", desc: "A szlovák portál elindul. Első projektek, első ügyfelek, első megvalósított álmok idegen földön." },
+        { label: "Terjeszkedés", desc: "Egyiptom, Dubai, Albánia, Törökország. A csapat nő. Brókerek Dubaiban. Partnerek helyszínen. Az ügyfél nem vak szemmel vásárol." },
+        { label: "Ma", desc: "16 ország. Több száz elégedett ügyfél. Globális hálózat. Helyi lélek. Minden projekt ellenőrzött. Minden ügyfél üdvözölt." },
+        { label: "Holnap", desc: "Kompromisszum nélküli növekedés. Több ország. Több történet. Egy elkötelezettség – minden ügyfélnek azt nyújtani, amit az elsőnek." }
       ]
     },
     chapter3: {
-      label: "CHAPTER III – TODAY",
-      title: "Global. But still yours.",
-      content: "Today we operate in 16 countries. Our team speaks multiple languages, knows local markets, knows developers personally. But one thing hasn't changed.\n\nWhen you call us, a call center doesn't answer. A person answers who knows you, your budget, and your dream. That's how it was from the beginning. That's how it will stay.\n\nWe are not a global corporation with a local office. We are a local company with global reach. That is the difference you feel in every conversation."
+      label: "III. FEJEZET – MA",
+      title: "Globális. De mindig a tiétek.",
+      content: "Ma 16 országban tevékenykedünk. Csapatunk több nyelven beszél, ismeri a helyi piacokat, személyesen ismeri a fejlesztőket. De egy dolog nem változott.\n\nHa felhívnak minket, nem egy call center válaszol. Egy ember válaszol, aki ismeri Önt, a költségvetését és az álmát. Így volt a kezdetektől. Így marad.\n\nNem egy helyi irodával rendelkező globális vállalat vagyunk. Helyi cég vagyunk globális hatósugarral. Ezt érzik minden beszélgetésben."
     },
     motto: {
-      title: "The world is bigger than you think.",
-      subtitle: "So are your possibilities.",
-      closing: "We're here to help you discover them."
-    }
-  },
-  sk: {
-    hero: {
-      title: "Začali sme ako malý slovenský sen.",
-      subtitle: "Stali sme sa bránou do celého sveta."
-    },
-    chapter1: {
-      label: "KAPITOLA I – ZAČIATOK",
-      title: "Jeden nápad. Jedna stránka. Jeden sen.",
-      content: "Bolo to jednoduché: Slováci chceli nehnuteľnosti v zahraničí, ale nikde kde začať. Jazyk bol cudzi. Trh neznámy. Právne prostredie neprehľadné. A nikto im nehovoril v ich jazyku, s ich dôverou, z ich sveta.\n\nTak vznikla stránka Nehnuteľnosti v zahraničí — nie ako veľká korporácia, ale ako odpoveď na konkrétnu potrebu konkrétnych ľudí. Lokálny portál s jasným poslaním: pribiližiť vzdialený svet na dosah ruky."
-    },
-    chapter2: {
-      label: "KAPITOLA II – RAST",
-      title: "Klienti nás vzali so sebou.",
-      content: "Nikto nás nemusel presvedčiť o tom, že svet je malý. Naši klienti nám to ukázali.\n\nPrvá kúpa v Egypte. Potom Dubaj. Potom Bali. Každý spokojný klient otvoril nové dvere — do novej krajiny, k novému developerovi, k novej komunite ľudí, ktorí chcú investovať mimo hranic.\n\nTím rástol. Portfólio rástlo. Ale závázok zostal rovnaký: každý klient dostane rovnakú starostlivosť ako ten prvý.",
-      timeline: [
-        { label: "Vznik", desc: "Slovenský portál ide online. Prvé projekty, prví klienti, prvé sny splnené na cudzej pôde." },
-        { label: "Expanzia", desc: "Egypt, Dubaj, Albánsko, Turecko. Tím rastie. Makléri v Dubaji. Partneri na mieste. Klient nekupuje naslepo." },
-        { label: "Dnes", desc: "16 krajín. Stovky spokojných klientov. Globálna sieť. Lokálna duša. Každý projekt overený. Každý klient vitaný." },
-        { label: "Zajtra", desc: "Rast bez kompromisov. Viac krajín. Viac príbehov. Jeden závázok — byť pre každého klienta ako sme boli pre toho prvého." }
-      ]
-    },
-    chapter3: {
-      label: "KAPITOLA III – DNES",
-      title: "Globálni. Ale stále vaši.",
-      content: "Dnes pôsobíme v 16 krajinách. Náš tím hovorí viacerými jazykmi, pozná lokálne trhy, pozná developerov osobne. Ale jedno sa nezmenilo.\n\nKeď nám zavoláte, neodpovedá vám call centrum. Odpovie vám človek, ktorý pozná vás, váš rozpočet a váš sen. Tak to bolo od začiatku. Tak to zostane.\n\nNie sme globálna korporácia s lokálnou pobočkou. Sme lokálna firma s globálnym dosahom. To je rozdiel, ktorý cítite pri každom jednání."
-    },
-    motto: {
-      title: "Svet je väčší, než si myslíte.",
-      subtitle: "Vaše možnosti tiež.",
-      closing: "My sme tu preto, aby ste ich objavili."
-    }
-  },
-  en: {
-    hero: {
-      title: "We started as a small Slovak dream.",
-      subtitle: "We became a gateway to the whole world."
-    },
-    chapter1: {
-      label: "CHAPTER I – BEGINNING",
-      title: "One idea. One page. One dream.",
-      content: "It was simple: Slovaks wanted property abroad, but didn't know where to start. The language was foreign. The market unknown. The legal landscape impenetrable. And nobody spoke to them in their language, with their trust, from their world.\n\nSo Nehnuteľnosti v zahraničí was born — not as a big corporation, but as an answer to a specific need of specific people. A local portal with a clear mission: to bring the distant world within reach."
-    },
-    chapter2: {
-      label: "CHAPTER II – GROWTH",
-      title: "Clients took us with them.",
-      content: "Nobody had to convince us that the world is small. Our clients showed us.\n\nFirst purchase in Egypt. Then Dubai. Then Bali. Every satisfied client opened new doors — to new countries, to new developers, to new communities of people who want to invest beyond borders.\n\nThe team grew. The portfolio grew. But the commitment stayed the same: every client gets the same care as the first one.",
-      timeline: [
-        { label: "Beginning", desc: "Slovak portal goes online. First projects, first clients, first dreams fulfilled on foreign soil." },
-        { label: "Expansion", desc: "Egypt, Dubai, Albania, Turkey. Team grows. Brokers in Dubai. Partners on the ground. Client doesn't buy blind." },
-        { label: "Today", desc: "16 countries. Hundreds of satisfied clients. Global network. Local soul. Every project verified. Every client welcomed." },
-        { label: "Tomorrow", desc: "Growth without compromise. More countries. More stories. One commitment — to be for every client what we were for the first one." }
-      ]
-    },
-    chapter3: {
-      label: "CHAPTER III – TODAY",
-      title: "Global. But still yours.",
-      content: "Today we operate in 16 countries. Our team speaks multiple languages, knows local markets, knows developers personally. But one thing hasn't changed.\n\nWhen you call us, a call center doesn't answer. A person answers who knows you, your budget, and your dream. That's how it was from the beginning. That's how it will stay.\n\nWe are not a global corporation with a local office. We are a local company with global reach. That is the difference you feel in every conversation."
-    },
-    motto: {
-      title: "The world is bigger than you think.",
-      subtitle: "So are your possibilities.",
-      closing: "We're here to help you discover them."
+      title: "A világ nagyobb, mint gondolja.",
+      subtitle: "A lehetőségei is.",
+      closing: "Azért vagyunk itt, hogy segítsünk megtalálni őket."
     }
   }
 };
@@ -221,7 +285,6 @@ function PublicAboutInner() {
       <div className="max-w-3xl mx-auto px-6 py-16 space-y-16">
         {/* Hero */}
         <div className="bg-gradient-to-br from-gray-900 to-black rounded-2xl p-10 border border-white/10">
-          <p className="text-[#c9a84c] text-xs uppercase tracking-widest mb-6">{story.hero.meta}</p>
           <h1 className="text-5xl font-bold text-white mb-4">
             <em>{story.hero.title}</em>
           </h1>

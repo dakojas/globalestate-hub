@@ -145,6 +145,7 @@ const t = {
   },
   ru: {
     bookConsultation: "Записаться на консультацию",
+    aboutUs: "О нас",
     offers: "Предложения",
     contact: "Контакт",
     backToOffers: "Вернуться к предложениям",
@@ -215,6 +216,7 @@ const t = {
   },
   de: {
     bookConsultation: "Beratung buchen",
+    aboutUs: "Über uns",
     offers: "Angebote",
     contact: "Kontakt",
     backToOffers: "Zurück zu den Angeboten",
@@ -285,6 +287,7 @@ const t = {
   },
   pl: {
     bookConsultation: "Umów konsultację",
+    aboutUs: "O nas",
     offers: "Oferty",
     contact: "Kontakt",
     backToOffers: "Wróć do ofert",
@@ -355,6 +358,7 @@ const t = {
   },
   hu: {
     bookConsultation: "Konzultáció foglalása",
+    aboutUs: "Rólunk",
     offers: "Ajánlatok",
     contact: "Kapcsolat",
     backToOffers: "Vissza az ajánlatokhoz",
