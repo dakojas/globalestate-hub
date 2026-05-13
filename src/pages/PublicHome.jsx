@@ -398,10 +398,7 @@ function PublicHomeInner() {
             <p className="text-white/30 text-xs">© 2026 Nehnuteľnosti v zahraničí. {tr("rights")}</p>
             <div className="flex items-center gap-4">
               <Link to={createPageUrl("PublicFAQ")} className="text-[#c9a84c]/60 hover:text-[#c9a84c] text-xs transition-colors">FAQ</Link>
-              <a href="https://www.nehnutelnostivzahranici.sk/ochrana-sukromia/" target="_blank" rel="noopener noreferrer"
-                className="text-[#c9a84c]/60 hover:text-[#c9a84c] text-xs transition-colors">{tr("privacy")}</a>
-              <Link to={createPageUrl("PublicReklamacnyPoriadok")} className="text-[#c9a84c]/60 hover:text-[#c9a84c] text-xs transition-colors">Reklamačný poriadok</Link>
-              <Link to={createPageUrl("PublicPouceniePreKlienta")} className="text-[#c9a84c]/60 hover:text-[#c9a84c] text-xs transition-colors">Poučenie pre klienta</Link>
+              <Link to={createPageUrl("PublicGDPR")} className="text-[#c9a84c]/60 hover:text-[#c9a84c] text-xs transition-colors">{tr("privacy")}</Link>
             </div>
           </div>
         </div>
