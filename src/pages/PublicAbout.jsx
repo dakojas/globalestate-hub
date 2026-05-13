@@ -8,6 +8,15 @@ import PublicLangSwitcher from "@/components/PublicLangSwitcher";
 
 const brandStory = {
   sk: {
+    team: { label: "TÍM", title: "Spoznajte náš tím", motto_label: "NAŠE MOTTO",
+      members: [
+        { name: "Dávid", role: "Zakladateľ projektu" },
+        { name: "Monika", role: "Realitná maklérka – Dubaj" },
+        { name: "Alenka", role: "Realitná maklérka" },
+        { name: "Ladislav", role: "Zariaďovanie apartmánov" },
+        { name: "Alexandra", role: "Realitná maklérka" },
+      ]
+    },
     hero: {
       title: "Začali sme ako malý slovenský sen.",
       subtitle: "Stali sme sa bránou do celého sveta."
@@ -40,6 +49,15 @@ const brandStory = {
     }
   },
   en: {
+    team: { label: "TEAM", title: "Meet our team", motto_label: "OUR MOTTO",
+      members: [
+        { name: "Dávid", role: "Project founder" },
+        { name: "Monika", role: "Real estate agent – Dubai" },
+        { name: "Alenka", role: "Real estate agent" },
+        { name: "Ladislav", role: "Apartment furnishing" },
+        { name: "Alexandra", role: "Real estate agent" },
+      ]
+    },
     hero: {
       title: "We started as a small Slovak dream.",
       subtitle: "We became a gateway to the whole world."
@@ -72,6 +90,15 @@ const brandStory = {
     }
   },
   de: {
+    team: { label: "TEAM", title: "Lernen Sie unser Team kennen", motto_label: "UNSER MOTTO",
+      members: [
+        { name: "Dávid", role: "Projektgründer" },
+        { name: "Monika", role: "Immobilienmaklerin – Dubai" },
+        { name: "Alenka", role: "Immobilienmaklerin" },
+        { name: "Ladislav", role: "Wohnungseinrichtung" },
+        { name: "Alexandra", role: "Immobilienmaklerin" },
+      ]
+    },
     hero: {
       title: "Wir haben als kleiner slowakischer Traum begonnen.",
       subtitle: "Wir wurden zu einem Tor zur ganzen Welt.",
@@ -104,6 +131,15 @@ const brandStory = {
     }
   },
   fr: {
+    team: { label: "ÉQUIPE", title: "Rencontrez notre équipe", motto_label: "NOTRE DEVISE",
+      members: [
+        { name: "Dávid", role: "Fondateur du projet" },
+        { name: "Monika", role: "Agent immobilier – Dubaï" },
+        { name: "Alenka", role: "Agent immobilier" },
+        { name: "Ladislav", role: "Ameublement d'appartements" },
+        { name: "Alexandra", role: "Agent immobilier" },
+      ]
+    },
     hero: {
       title: "Nous avons commencé comme un petit rêve slovaque.",
       subtitle: "Nous sommes devenus une porte vers le monde entier.",
@@ -136,6 +172,15 @@ const brandStory = {
     }
   },
   it: {
+    team: { label: "TEAM", title: "Incontra il nostro team", motto_label: "IL NOSTRO MOTTO",
+      members: [
+        { name: "Dávid", role: "Fondatore del progetto" },
+        { name: "Monika", role: "Agente immobiliare – Dubai" },
+        { name: "Alenka", role: "Agente immobiliare" },
+        { name: "Ladislav", role: "Arredamento appartamenti" },
+        { name: "Alexandra", role: "Agente immobiliare" },
+      ]
+    },
     hero: {
       title: "Abbiamo iniziato come un piccolo sogno slovacco.",
       subtitle: "Siamo diventati un portale verso il mondo intero.",
@@ -168,6 +213,15 @@ const brandStory = {
     }
   },
   ru: {
+    team: { label: "КОМАНДА", title: "Познакомьтесь с нашей командой", motto_label: "НАШ ДЕВИЗ",
+      members: [
+        { name: "Dávid", role: "Основатель проекта" },
+        { name: "Monika", role: "Агент по недвижимости – Дубай" },
+        { name: "Alenka", role: "Агент по недвижимости" },
+        { name: "Ladislav", role: "Меблировка квартир" },
+        { name: "Alexandra", role: "Агент по недвижимости" },
+      ]
+    },
     hero: {
       title: "Мы начали как маленькая словацкая мечта.",
       subtitle: "Мы стали воротами в целый мир.",
@@ -200,6 +254,15 @@ const brandStory = {
     }
   },
   pl: {
+    team: { label: "ZESPÓŁ", title: "Poznaj nasz zespół", motto_label: "NASZE MOTTO",
+      members: [
+        { name: "Dávid", role: "Założyciel projektu" },
+        { name: "Monika", role: "Agent nieruchomości – Dubaj" },
+        { name: "Alenka", role: "Agent nieruchomości" },
+        { name: "Ladislav", role: "Urządzanie apartamentów" },
+        { name: "Alexandra", role: "Agent nieruchomości" },
+      ]
+    },
     hero: {
       title: "Zaczęliśmy jako mały słowacki sen.",
       subtitle: "Staliśmy się bramą do całego świata.",
@@ -232,6 +295,15 @@ const brandStory = {
     }
   },
   hu: {
+    team: { label: "CSAPAT", title: "Ismerje meg csapatunkat", motto_label: "MOTTÓNK",
+      members: [
+        { name: "Dávid", role: "Projektalapító" },
+        { name: "Monika", role: "Ingatlanügynök – Dubai" },
+        { name: "Alenka", role: "Ingatlanügynök" },
+        { name: "Ladislav", role: "Lakásberendezés" },
+        { name: "Alexandra", role: "Ingatlanügynök" },
+      ]
+    },
     hero: {
       title: "Kis szlovák álomként kezdtük.",
       subtitle: "Az egész világ kapujává váltunk.",
@@ -327,22 +399,22 @@ function PublicAboutInner() {
 
         {/* Team */}
         <div className="bg-white rounded-2xl p-10">
-          <p className="text-[#c9a84c] text-xs uppercase tracking-widest font-semibold mb-4">TÍM</p>
-          <h2 className="text-4xl font-bold text-gray-900 mb-8">Spoznajte náš tím</h2>
+          <p className="text-[#c9a84c] text-xs uppercase tracking-widest font-semibold mb-4">{story.team.label}</p>
+          <h2 className="text-4xl font-bold text-gray-900 mb-8">{story.team.title}</h2>
           <div className="grid grid-cols-2 sm:grid-cols-3 gap-6">
             {[
-              { name: "Dávid", role: "Zakladateľ projektu", img: "https://www.nehnutelnostivzahranici.sk/wp-content/uploads/2024/05/PHOTO-2025-02-17-12-09-56.jpg" },
-              { name: "Monika", role: "Realitná maklérka – Dubaj", img: "https://www.nehnutelnostivzahranici.sk/wp-content/uploads/2024/05/monika.png" },
-              { name: "Alenka", role: "Realitná maklérka", img: "https://www.nehnutelnostivzahranici.sk/wp-content/uploads/2024/05/9622a8bd-bf71-4c92-bec9-b01c00441d50.jpg" },
-              { name: "Ladislav", role: "Zariaďovanie apartmánov", img: "https://www.nehnutelnostivzahranici.sk/wp-content/uploads/2024/05/laco.png" },
-              { name: "Alexandra", role: "Realitná maklérka", img: "https://www.nehnutelnostivzahranici.sk/wp-content/uploads/2025/02/WhatsApp-Image-2025-02-26-at-12.33.19.jpeg" },
+              { img: "https://www.nehnutelnostivzahranici.sk/wp-content/uploads/2024/05/PHOTO-2025-02-17-12-09-56.jpg" },
+              { img: "https://www.nehnutelnostivzahranici.sk/wp-content/uploads/2024/05/monika.png" },
+              { img: "https://www.nehnutelnostivzahranici.sk/wp-content/uploads/2024/05/9622a8bd-bf71-4c92-bec9-b01c00441d50.jpg" },
+              { img: "https://www.nehnutelnostivzahranici.sk/wp-content/uploads/2024/05/laco.png" },
+              { img: "https://www.nehnutelnostivzahranici.sk/wp-content/uploads/2025/02/WhatsApp-Image-2025-02-26-at-12.33.19.jpeg" },
             ].map((member, i) => (
               <div key={i} className="text-center">
                 <div className="w-20 h-20 rounded-full overflow-hidden mx-auto mb-3 bg-gray-100">
-                  <img src={member.img} alt={member.name} className="w-full h-full object-cover" />
+                  <img src={member.img} alt={story.team.members[i]?.name} className="w-full h-full object-cover" />
                 </div>
-                <p className="font-bold text-gray-900 text-base">{member.name}</p>
-                <p className="text-sm text-gray-500">{member.role}</p>
+                <p className="font-bold text-gray-900 text-base">{story.team.members[i]?.name}</p>
+                <p className="text-sm text-gray-500">{story.team.members[i]?.role}</p>
               </div>
             ))}
           </div>
@@ -350,7 +422,7 @@ function PublicAboutInner() {
 
         {/* Motto */}
         <div className="bg-gradient-to-br from-gray-900 to-black rounded-2xl p-10 border border-white/10 text-center">
-          <p className="text-[#c9a84c] text-xs uppercase tracking-widest mb-6">NAŠE MOTTO</p>
+          <p className="text-[#c9a84c] text-xs uppercase tracking-widest mb-6">{story.team.motto_label}</p>
           <h3 className="text-4xl font-bold text-white mb-3">
             <em>{story.motto.title}</em>
           </h3>
