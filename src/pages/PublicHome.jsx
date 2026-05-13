@@ -400,6 +400,8 @@ function PublicHomeInner() {
               <Link to={createPageUrl("PublicFAQ")} className="text-[#c9a84c]/60 hover:text-[#c9a84c] text-xs transition-colors">FAQ</Link>
               <a href="https://www.nehnutelnostivzahranici.sk/ochrana-sukromia/" target="_blank" rel="noopener noreferrer"
                 className="text-[#c9a84c]/60 hover:text-[#c9a84c] text-xs transition-colors">{tr("privacy")}</a>
+              <Link to={createPageUrl("PublicReklamacnyPoriadok")} className="text-[#c9a84c]/60 hover:text-[#c9a84c] text-xs transition-colors">Reklamačný poriadok</Link>
+              <Link to={createPageUrl("PublicPouceniePreKlienta")} className="text-[#c9a84c]/60 hover:text-[#c9a84c] text-xs transition-colors">Poučenie pre klienta</Link>
             </div>
           </div>
         </div>

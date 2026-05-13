@@ -28,6 +28,7 @@ import Team from '@/pages/Team';
 import PublicSubmit from '@/pages/PublicSubmit';
 import PublicAbout from '@/pages/PublicAbout';
 import PublicFAQ from '@/pages/PublicFAQ';
+import PublicGDPR from '@/pages/PublicGDPR';
 
 const LayoutWrapper = ({ children, currentPageName }) =>
   <Layout currentPageName={currentPageName}>{children}</Layout>;
@@ -71,6 +72,7 @@ const AuthenticatedApp = () => {
       <Route path="/PublicSubmit" element={<PublicSubmit />} />
       <Route path="/PublicAbout" element={<PublicAbout />} />
       <Route path="/PublicFAQ" element={<PublicFAQ />} />
+      <Route path="/PublicGDPR" element={<PublicGDPR />} />
 
       {/* Protected routes - login required */}
       <Route path="/Dashboard" element={<ProtectedRoute><LayoutWrapper currentPageName="Dashboard"><Dashboard /></LayoutWrapper></ProtectedRoute>} />

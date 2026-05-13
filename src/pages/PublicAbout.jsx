@@ -360,6 +360,16 @@ function PublicAboutInner() {
           <p className="text-white/60 italic">{story.motto.closing}</p>
         </div>
       </div>
+
+      {/* Footer */}
+      <footer style={{ background: "#080d1a", borderTop: "1px solid rgba(201,168,76,0.15)" }} className="px-6 py-8 text-center">
+        <div className="flex flex-wrap items-center justify-center gap-4 mb-3">
+          <Link to="/PublicReklamacnyPoriadok" className="text-[#c9a84c]/60 hover:text-[#c9a84c] text-xs transition-colors">Reklamačný poriadok</Link>
+          <Link to="/PublicPouceniePreKlienta" className="text-[#c9a84c]/60 hover:text-[#c9a84c] text-xs transition-colors">Poučenie pre klienta</Link>
+          <a href="https://www.nehnutelnostivzahranici.sk/ochrana-sukromia/" target="_blank" rel="noopener noreferrer" className="text-[#c9a84c]/60 hover:text-[#c9a84c] text-xs transition-colors">GDPR</a>
+        </div>
+        <p className="text-white/30 text-xs">© 2026 Nehnuteľnosti v zahraničí. Všetky práva vyhradené.</p>
+      </footer>
     </div>
   );
 }
