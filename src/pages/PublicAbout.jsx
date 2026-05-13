@@ -325,6 +325,29 @@ function PublicAboutInner() {
           <p className="text-gray-700 leading-relaxed whitespace-pre-wrap">{story.chapter3.content}</p>
         </div>
 
+        {/* Team */}
+        <div className="bg-white rounded-2xl p-10">
+          <p className="text-[#c9a84c] text-xs uppercase tracking-widest font-semibold mb-4">TÍM</p>
+          <h2 className="text-4xl font-bold text-gray-900 mb-8">Spoznajte náš tím</h2>
+          <div className="grid grid-cols-2 sm:grid-cols-3 gap-6">
+            {[
+              { name: "Dávid", role: "Zakladateľ projektu", img: "https://www.nehnutelnostivzahranici.sk/wp-content/uploads/2024/05/PHOTO-2025-02-17-12-09-56.jpg" },
+              { name: "Monika", role: "Realitná maklérka – Dubaj", img: "https://www.nehnutelnostivzahranici.sk/wp-content/uploads/2024/05/monika.png" },
+              { name: "Alenka", role: "Realitná maklérka", img: "https://www.nehnutelnostivzahranici.sk/wp-content/uploads/2024/05/9622a8bd-bf71-4c92-bec9-b01c00441d50.jpg" },
+              { name: "Ladislav", role: "Zariaďovanie apartmánov", img: "https://www.nehnutelnostivzahranici.sk/wp-content/uploads/2024/05/laco.png" },
+              { name: "Alexandra", role: "Realitná maklérka", img: "https://www.nehnutelnostivzahranici.sk/wp-content/uploads/2025/02/WhatsApp-Image-2025-02-26-at-12.33.19.jpeg" },
+            ].map((member, i) => (
+              <div key={i} className="text-center">
+                <div className="w-20 h-20 rounded-full overflow-hidden mx-auto mb-3 bg-gray-100">
+                  <img src={member.img} alt={member.name} className="w-full h-full object-cover" />
+                </div>
+                <p className="font-bold text-gray-900 text-base">{member.name}</p>
+                <p className="text-sm text-gray-500">{member.role}</p>
+              </div>
+            ))}
+          </div>
+        </div>
+
         {/* Motto */}
         <div className="bg-gradient-to-br from-gray-900 to-black rounded-2xl p-10 border border-white/10 text-center">
           <p className="text-[#c9a84c] text-xs uppercase tracking-widest mb-6">NAŠE MOTTO</p>
