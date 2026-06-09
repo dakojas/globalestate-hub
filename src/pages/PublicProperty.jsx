@@ -56,6 +56,36 @@ function PublicPropertyInner() {
 
   const id = property?.id;
 
+  // Set Open Graph meta tags for social sharing previews
+  useEffect(() => {
+    if (!property) return;
+    const image = property.images?.[0] || "";
+    const title = property.title || "Nehnuteľnosti v zahraničí";
+    const desc = property.description?.slice(0, 200) || "";
+    const url = window.location.href;
+
+    const setMeta = (property, content) => {
+      let el = document.querySelector(`meta[property="${property}"]`) || document.querySelector(`meta[name="${property}"]`);
+      if (!el) {
+        el = document.createElement("meta");
+        el.setAttribute(property.startsWith("og:") || property.startsWith("twitter:") ? "property" : "name", property);
+        document.head.appendChild(el);
+      }
+      el.setAttribute("content", content);
+    };
+
+    document.title = `${title} | Nehnuteľnosti v zahraničí`;
+    setMeta("og:title", title);
+    setMeta("og:description", desc);
+    setMeta("og:image", image);
+    setMeta("og:url", url);
+    setMeta("og:type", "website");
+    setMeta("twitter:card", "summary_large_image");
+    setMeta("twitter:title", title);
+    setMeta("twitter:description", desc);
+    setMeta("twitter:image", image);
+  }, [property]);
+
   // Auto-translate to selected language
   useEffect(() => {
     if (!property) return;
