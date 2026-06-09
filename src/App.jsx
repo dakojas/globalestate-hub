@@ -70,6 +70,7 @@ const AuthenticatedApp = () => {
       <Route path="/PublicHome" element={<PublicHome />} />
       <Route path="/PublicProperty" element={<PublicProperty />} />
       <Route path="/PublicSubmit" element={<PublicSubmit />} />
+      <Route path="/nehnutelnost/:slug" element={<PublicProperty />} />
       <Route path="/PublicAbout" element={<PublicAbout />} />
       <Route path="/PublicFAQ" element={<PublicFAQ />} />
       <Route path="/PublicGDPR" element={<PublicGDPR />} />

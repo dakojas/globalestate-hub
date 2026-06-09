@@ -36,9 +36,20 @@ const PROPERTY_TYPE_LABELS = {
   hu: { studio: "Stúdió", "1_bedroom": "1 hálószoba", "2_bedroom": "2 hálószoba", penthouse: "Penthouse", vila: "Villa" },
 };
 
+function slugify(text) {
+  return (text || "")
+    .toLowerCase()
+    .replace(/[áàäâ]/g, "a").replace(/[éèëê]/g, "e").replace(/[íìïî]/g, "i")
+    .replace(/[óòöôõ]/g, "o").replace(/[úùüû]/g, "u").replace(/[ýÿ]/g, "y")
+    .replace(/[čć]/g, "c").replace(/š/g, "s").replace(/ž/g, "z").replace(/ň/g, "n")
+    .replace(/ľĺ/g, "l").replace(/ř/g, "r").replace(/ď/g, "d").replace(/ť/g, "t")
+    .replace(/[^a-z0-9]+/g, "-").replace(/^-|-$/g, "");
+}
+
 function PropertyCard({ property, getCountryName, getTypeName, tr, lang }) {
+  const slug = property.slug || slugify(property.title) + "-" + property.id.slice(-6);
   return (
-    <Link to={createPageUrl(`PublicProperty?id=${property.id}`)} className="group block">
+    <Link to={`/nehnutelnost/${slug}`} className="group block">
       <div className="rounded-xl overflow-hidden border border-[#c9a84c]/20 bg-[#0d1b35] hover:border-[#c9a84c]/60 transition-all duration-300 hover:shadow-xl hover:shadow-[#c9a84c]/10">
         <div className="aspect-[4/3] relative overflow-hidden">
           {property.images?.[0] ? (

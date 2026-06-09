@@ -7,16 +7,27 @@ import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 import { Badge } from "@/components/ui/badge";
 import { ArrowLeft, MapPin, Bed, Bath, Maximize, Check, Loader2, X, ChevronLeft, ChevronRight } from "lucide-react";
-import { Link } from "react-router-dom";
+import { Link, useParams } from "react-router-dom";
 import { createPageUrl } from "@/utils";
+
+function slugify(text) {
+  return (text || "")
+    .toLowerCase()
+    .replace(/[áàäâ]/g, "a").replace(/[éèëê]/g, "e").replace(/[íìïî]/g, "i")
+    .replace(/[óòöôõ]/g, "o").replace(/[úùüû]/g, "u").replace(/[ýÿ]/g, "y")
+    .replace(/[čć]/g, "c").replace(/š/g, "s").replace(/ž/g, "z").replace(/ň/g, "n")
+    .replace(/ľĺ/g, "l").replace(/ř/g, "r").replace(/ď/g, "d").replace(/ť/g, "t")
+    .replace(/[^a-z0-9]+/g, "-").replace(/^-|-$/g, "");
+}
 import { toast } from "sonner";
 import { PublicLanguageProvider, usePublicLang } from "@/components/PublicLanguageContext";
 import PublicLangSwitcher from "@/components/PublicLangSwitcher";
 import Logo from "@/components/Logo";
 
 function PublicPropertyInner() {
+  const { slug } = useParams();
   const urlParams = new URLSearchParams(window.location.search);
-  const id = urlParams.get("id");
+  const idFromQuery = urlParams.get("id");
   const ref = urlParams.get("ref");
   const { tr, lang } = usePublicLang();
 
@@ -28,12 +39,22 @@ function PublicPropertyInner() {
   const [translating, setTranslating] = useState(false);
   const [lightboxIdx, setLightboxIdx] = useState(null);
 
-  const { data: property } = useQuery({
-    queryKey: ["public-property", id],
-    queryFn: () => base44.entities.Property.filter({ id }),
-    select: d => d[0],
-    enabled: !!id,
+  // Support both /nehnutelnost/:slug and legacy ?id= URLs
+  const idFromSlug = slug ? slug.slice(-6) : null;
+
+  const { data: allProps } = useQuery({
+    queryKey: ["public-property-slug", slug, idFromQuery],
+    queryFn: () => base44.entities.Property.filter({ is_public: true }, "-created_date", 200),
+    enabled: !!(slug || idFromQuery),
   });
+
+  const property = allProps?.find(p => {
+    if (idFromQuery) return p.id === idFromQuery;
+    const pSlug = p.slug || slugify(p.title) + "-" + p.id.slice(-6);
+    return pSlug === slug || p.id.slice(-6) === idFromSlug;
+  });
+
+  const id = property?.id;
 
   // Auto-translate to selected language
   useEffect(() => {
@@ -47,7 +68,7 @@ function PublicPropertyInner() {
     }
 
     // Check if we already have translation cached
-    const cacheKey = `trans_${property.id}_${lang}`;
+    const cacheKey = `trans_${id}_${lang}`;
     const cached = sessionStorage.getItem(cacheKey);
     if (cached) {
       const cached_data = JSON.parse(cached);
