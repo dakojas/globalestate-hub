@@ -9,8 +9,9 @@ import { Badge } from "@/components/ui/badge";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { Dialog, DialogContent, DialogHeader, DialogTitle } from "@/components/ui/dialog";
 import { Skeleton } from "@/components/ui/skeleton";
-import { UserPlus, Mail, Shield, User, Loader2, Users } from "lucide-react";
+import { UserPlus, Mail, Shield, User, Loader2, Users, Lock } from "lucide-react";
 import { toast } from "sonner";
+import { useAuth } from "@/lib/AuthContext";
 
 const ROLES = [
   { value: "admin", label: "Admin", desc: "Plný prístup ku všetkému", color: "bg-red-100 text-red-700" },
@@ -20,6 +21,8 @@ const ROLES = [
 ];
 
 export default function Team() {
+  const { user } = useAuth();
+  const isAdmin = user?.role === "admin";
   const [inviteOpen, setInviteOpen] = useState(false);
   const [email, setEmail] = useState("");
   const [role, setRole] = useState("assistant");
@@ -58,10 +61,23 @@ export default function Team() {
           <h2 className="text-2xl font-bold text-[#0a1628]">Tím</h2>
           <p className="text-sm text-gray-500 mt-1">Spravujte členov tímu a ich prístupy</p>
         </div>
-        <Button onClick={() => setInviteOpen(true)} className="bg-[#0a1628] hover:bg-[#132039]">
-          <UserPlus className="w-4 h-4 mr-2" /> Pozvať člena
-        </Button>
+        {isAdmin && (
+          <Button onClick={() => setInviteOpen(true)} className="bg-[#0a1628] hover:bg-[#132039]">
+            <UserPlus className="w-4 h-4 mr-2" /> Pozvať člena
+          </Button>
+        )}
       </div>
+
+      {!isAdmin && (
+        <Card className="border-0 shadow-sm bg-amber-50 border-amber-200">
+          <CardContent className="p-4 flex items-center gap-3">
+            <Lock className="w-5 h-5 text-amber-600 flex-shrink-0" />
+            <p className="text-sm text-amber-700">
+              Právo pozývať nových členov a meniť ich roly má len administrátor. Ak potrebujete nový prístup, kontaktujte administrátora systému.
+            </p>
+          </CardContent>
+        </Card>
+      )}
 
       {/* Role info cards */}
       <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
@@ -113,17 +129,20 @@ export default function Team() {
                       </p>
                     </div>
                     <div className="flex items-center gap-3">
-                      <Select value={user.role || "user"} onValueChange={(v) => handleRoleChange(user.id, v)}>
-                        <SelectTrigger className="w-32 h-8 text-xs">
-                          <SelectValue />
-                        </SelectTrigger>
-                        <SelectContent>
-                          {ROLES.map(r => (
-                            <SelectItem key={r.value} value={r.value}>{r.label}</SelectItem>
-                          ))}
-                        </SelectContent>
-                      </Select>
-                      <Badge className={`${roleInfo.color} border-0 text-xs hidden sm:flex`}>{roleInfo.label}</Badge>
+                      {isAdmin ? (
+                        <Select value={user.role || "user"} onValueChange={(v) => handleRoleChange(user.id, v)}>
+                          <SelectTrigger className="w-32 h-8 text-xs">
+                            <SelectValue />
+                          </SelectTrigger>
+                          <SelectContent>
+                            {ROLES.map(r => (
+                              <SelectItem key={r.value} value={r.value}>{r.label}</SelectItem>
+                            ))}
+                          </SelectContent>
+                        </Select>
+                      ) : (
+                        <Badge className={`${roleInfo.color} border-0 text-xs hidden sm:flex`}>{roleInfo.label}</Badge>
+                      )}
                     </div>
                   </div>
                 );
