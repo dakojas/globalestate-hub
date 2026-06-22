@@ -265,7 +265,7 @@ function PublicHomeInner() {
                 {lang === "sk" ? "O nás" : lang === "en" ? "About Us" : lang === "de" ? "Über uns" : lang === "fr" ? "À propos" : lang === "it" ? "Chi siamo" : lang === "ru" ? "О нас" : lang === "pl" ? "O nas" : "O nás"}
               </p>
               <h2 className="text-3xl md:text-4xl font-bold text-white mb-4 leading-tight">
-                {lang === "sk" ? "Začali sme malý slovenský sen." : lang === "en" ? "We started a small Slovak dream." : lang === "de" ? "Wir haben einen kleinen slowakischen Traum gestartet." : lang === "fr" ? "Nous avons commencé un petit rêve slovaque." : lang === "it" ? "Abbiamo iniziato un piccolo sogno slovacco." : lang === "ru" ? "Мы начали с маленькой словацкой мечты." : lang === "pl" ? "Zaczęliśmy od małego słowackiego marzenia." : "Začali sme malý slovenský sen."}
+                {lang === "sk" ? "Začali sme ako malý slovenský sen." : lang === "en" ? "We started a small Slovak dream." : lang === "de" ? "Wir haben einen kleinen slowakischen Traum gestartet." : lang === "fr" ? "Nous avons commencé un petit rêve slovaque." : lang === "it" ? "Abbiamo iniziato un piccolo sogno slovacco." : lang === "ru" ? "Мы начали с маленькой словацкой мечты." : lang === "pl" ? "Zaczęliśmy od małego słowackiego marzenia." : "Začali sme ako malý slovenský sen."}
               </h2>
               <p className="text-white/60 leading-relaxed mb-4">
                 {lang === "sk"
