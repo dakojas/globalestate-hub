@@ -6,7 +6,8 @@ import { Input } from "@/components/ui/input";
 import { Card, CardContent } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
-import { Plus, Search, User, Mail, Phone, MoreVertical, MessageSquare, Pencil, Trash2, Download } from "lucide-react";
+import { Plus, Search, User, Mail, Phone, MoreVertical, MessageSquare, Pencil, Trash2, Download, LayoutGrid, Columns3 } from "lucide-react";
+import ClientsKanban from "../components/clients/ClientsKanban";
 import { Skeleton } from "@/components/ui/skeleton";
 import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger } from "@/components/ui/dropdown-menu";
 import { toast } from "sonner";
@@ -32,6 +33,7 @@ export default function Clients() {
   const [interactionClient, setInteractionClient] = useState(null);
   const [search, setSearch] = useState("");
   const [statusFilter, setStatusFilter] = useState("all");
+  const [view, setView] = useState("list");
   const queryClient = useQueryClient();
   const navigate = useNavigate();
 
@@ -99,7 +101,21 @@ export default function Clients() {
     <div className="space-y-6">
       <div className="flex flex-col sm:flex-row gap-4 items-start sm:items-center justify-between">
         <p className="text-sm text-gray-500">{filtered.length} {t('clients')}</p>
-        <div className="flex gap-2">
+        <div className="flex gap-2 items-center">
+          <div className="flex items-center bg-gray-100 rounded-lg p-1">
+            <button
+              onClick={() => setView("list")}
+              className={`flex items-center gap-1.5 px-3 py-1.5 rounded-md text-xs font-medium transition-colors ${view === "list" ? "bg-white text-[#0a1628] shadow-sm" : "text-gray-500"}`}
+            >
+              <LayoutGrid className="w-3.5 h-3.5" /> {t('listView') || "Zoznam"}
+            </button>
+            <button
+              onClick={() => setView("kanban")}
+              className={`flex items-center gap-1.5 px-3 py-1.5 rounded-md text-xs font-medium transition-colors ${view === "kanban" ? "bg-white text-[#0a1628] shadow-sm" : "text-gray-500"}`}
+            >
+              <Columns3 className="w-3.5 h-3.5" /> Kanban
+            </button>
+          </div>
           <Button onClick={exportCSV} variant="outline" disabled={filtered.length === 0}>
             <Download className="w-4 h-4 mr-2" /> CSV
           </Button>
@@ -123,7 +139,9 @@ export default function Clients() {
         </Select>
       </div>
 
-      {isLoading ? (
+      {view === "kanban" ? (
+        <ClientsKanban search={search} />
+      ) : isLoading ? (
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">{[1,2,3,4,5,6].map(i => <Skeleton key={i} className="h-48 rounded-2xl" />)}</div>
       ) : filtered.length === 0 ? (
         <div className="text-center py-20"><p className="text-gray-400 text-lg">{t('noClientsFound')}</p></div>

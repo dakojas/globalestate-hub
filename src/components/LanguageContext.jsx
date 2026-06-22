@@ -255,6 +255,8 @@ const translations = {
     referrerCol: "Tiper",
     conversionRateCol: "Konverzia",
     noData: "Žiadne dáta",
+    listView: "Zoznam",
+    kanbanView: "Kanban",
   },
   en: {
     // Navigation
@@ -484,6 +486,8 @@ const translations = {
     referrerCol: "Referrer",
     conversionRateCol: "Conversion",
     noData: "No data",
+    listView: "List",
+    kanbanView: "Kanban",
 
     // Real Estate Agencies
     realEstateAgenciesTitle: "Real Estate Agencies",
