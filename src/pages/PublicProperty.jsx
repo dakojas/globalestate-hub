@@ -23,6 +23,7 @@ import { toast } from "sonner";
 import { PublicLanguageProvider, usePublicLang } from "@/components/PublicLanguageContext";
 import PublicLangSwitcher from "@/components/PublicLangSwitcher";
 import Logo from "@/components/Logo";
+import BuyingProcessTimeline from "@/components/public/BuyingProcessTimeline";
 
 function PublicPropertyInner() {
   const { slug } = useParams();
@@ -299,6 +300,8 @@ function PublicPropertyInner() {
                 </CardContent>
               </Card>
             )}
+
+            <BuyingProcessTimeline lang={lang} />
           </div>
 
           {/* Contact Form */}
