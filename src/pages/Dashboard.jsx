@@ -10,6 +10,11 @@ import CountryBreakdown from "../components/dashboard/CountryBreakdown";
 import UpcomingReminders from "../components/dashboard/UpcomingReminders";
 import LeadSourceChart from "../components/dashboard/LeadSourceChart";
 import ClientMatches from "../components/dashboard/ClientMatches";
+import SalesFunnel from "../components/dashboard/SalesFunnel";
+import AgentLeaderboard from "../components/dashboard/AgentLeaderboard";
+import LeadsTrend from "../components/dashboard/LeadsTrend";
+import PipelineValue from "../components/dashboard/PipelineValue";
+import StaleLeads from "../components/dashboard/StaleLeads";
 
 export default function Dashboard() {
   const { t } = useTranslation();
@@ -73,13 +78,20 @@ export default function Dashboard() {
         <StatCard title={t('reminders')} value={reminders.length} subtitle={t('pending')} icon={CalendarClock} color="red" />
       </div>
 
+      {/* Stale leads alert */}
+      <StaleLeads clients={clients} interactions={interactions} />
+
       {/* Main grid */}
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
         <div className="lg:col-span-2 space-y-6">
+          <LeadsTrend clients={clients} />
+          <SalesFunnel clients={clients} />
           <RecentActivity interactions={interactions} clients={clients} />
           <LeadSourceChart clients={clients} />
         </div>
         <div className="space-y-6">
+          <PipelineValue clients={clients} commissions={commissions} />
+          <AgentLeaderboard clients={clients} commissions={commissions} />
           <UpcomingReminders reminders={reminders} />
           <ClientMatches clients={clients} properties={properties} />
           <CountryBreakdown properties={properties} />
