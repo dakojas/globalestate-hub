@@ -37,9 +37,23 @@ Deno.serve(async (req) => {
     const featuresList = (property.features || []).join(", ");
     const images = property.images || [];
 
-    // Generujeme email cez LLM vo vybranom jazyku
-    const prompt = `Si profesionálny realitný konzultant pre spoločnosť "Nehnuteľnosti v zahraničí".
-Napíš personalizovaný ponukový email v jazyku: ${langName}.
+    // Generujeme email cez LLM vo vybranom jazyku — vždy originálny a premyslený
+    const prompt = `Si skúsený, kreatívny realitný konzultant pre spoločnosť "Nehnuteľnosti v zahraničí".
+Tvoja úloha: napísať VÝHRADNE ORIGINÁLNY, jedinečný ponukový email v jazyku: ${langName}.
+
+PRÍSNÉ PRAVIDLÁ PRE ORIGINALITU:
+- Každý email musí byť unikátny — NIKDY neopakuj rovnaké frázy, štruktúru alebo formulácie ako v iných ponukách.
+- NEPOUŽÍVAJ všeobecné klišé frázy ako "sme nadšení", "nehnuteľnosť snov", "jedinečná príležitosť", "nechajte sa očariť" a podobné.
+- Vymysli si VLASTNÝ prístup a uhol pohľadu pre túto konkrétnu nehnuteľnosť — čo ju skutočne odlišuje?
+- Premysli si, čo by konkrétneho klienta zaujalo na tejto nehnuteľnosti a prispôsob tón a dôraz tomu.
+- Používaj živý, prirodzený jazyk akoby si písal reálnemu človeku — nie marketingovú brožúru.
+- Začni email originálnym spôsobom — NIKDY nezačínaj "Vážený" alebo "Drahý" stereotypne. Buď kreatívny, ale stále profesionálny.
+- Predmet emailu musí byť konkrétny a pútavý — nie generický "Ponuka nehnuteľnosti".
+
+PREMYSLI SI PRED PÍSANÍM (tento krok urob vo svojej hlave, nevypisuj ho):
+1. Aká je najväčšia jedinečná výhoda tejto nehnuteľnosti? (lokalita, výhľad, developer, investičný potenciál, životný štýl...)
+2. Aký emocionálny a racionálny dôvod by klienta presvedčil?
+3. Aký tón je pre tento typ nehnuteľnosti a klienta najvhodnejší?
 
 Detaily nehnuteľnosti:
 - Názov: ${property.title}
@@ -57,17 +71,18 @@ Detaily nehnuteľnosti:
 
 ${client ? `Klient: ${client.full_name}` : "Klient: všeobecný"}
 
-${custom_message ? `Dodatočný odkaz od agenta: ${custom_message}` : ""}
+${custom_message ? `Dodatočný odkaz od agenta, ktorý musíš prirodzene integrovať do textu: ${custom_message}` : ""}
 
 Email musí:
-1. Byť profesionálny, teplý a osobný
-2. Predstaviť nehnuteľnosť s kľúčovými výhodami
-3. Spomenúť cenu ${finalPrice.toLocaleString()} ${property.currency || "EUR"} (vrátane všetkých poplatkov a provízie)
-4. Pozvať na prehliadku alebo konzultáciu
+1. Byť profesionálny, teplý a osobný — ale ORIGINÁLNY, nie šablónovitý
+2. Predstaviť nehnuteľnosť cez jej skutočné, konkrétne výhody (nie všeobecné superlatívy)
+3. Spomenúť cenu ${finalPrice.toLocaleString()} ${property.currency || "EUR"} (vrátane všetkých poplatkov a provízie) — prirodzene v texte, nie ako suchý fakt
+4. Pozvať na prehliadku alebo konzultáciu konkrétnym, nenúteným spôsobom
 5. Podpísať ako "Nehnuteľnosti v zahraničí"
 6. Byť napísaný VÝHRADNE v jazyku: ${langName}
+7. Mať 3–5 odsekov, dobre štruktúrované, čitateľné
 
-Vráť JSON s poliami "subject" (predmet emailu) a "body" (telo emailu).`;
+Vráť JSON s poliami "subject" (predmet emailu — konkrétny a pútavý) a "body" (telo emailu).`;
 
     const llmResponse = await base44.integrations.Core.InvokeLLM({
       prompt: prompt,
