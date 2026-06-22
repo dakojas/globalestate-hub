@@ -38,7 +38,11 @@
       "enum": [
         "direct_app",
         "facebook",
+        "facebook_ads",
         "instagram",
+        "instagram_ads",
+        "google_ads",
+        "google_search",
         "referrer",
         "real_estate_agency",
         "website",
@@ -46,10 +50,16 @@
         "portal",
         "walk_in",
         "whatsapp",
+        "tiktok_ads",
+        "linkedin",
         "other"
       ],
       "default": "direct_app",
       "description": "Source of the lead"
+    },
+    "campaign_name": {
+      "type": "string",
+      "description": "N\u00e1zov reklamnej kampane (ak je zo zadanej reklamy)"
     },
     "referrer_id": {
       "type": "string",

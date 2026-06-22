@@ -7,12 +7,13 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { Tabs, TabsList, TabsTrigger } from "@/components/ui/tabs";
-import { UserPlus, Search, Phone, Mail, MapPin, Euro, Clock, User } from "lucide-react";
+import { UserPlus, Search, Phone, Mail, MapPin, Euro, Clock, User, BarChart3, List } from "lucide-react";
 import { Link } from "react-router-dom";
 import { createPageUrl } from "@/utils";
 import { toast } from "sonner";
 import { useTranslation } from "@/components/LanguageContext";
 import QuickNote from "../components/leads/QuickNote";
+import LeadSourceOverview, { SOURCE_META } from "../components/leads/LeadSourceOverview";
 import { formatDistanceToNow } from "date-fns";
 import { sk, enUS } from "date-fns/locale";
 
@@ -61,6 +62,7 @@ export default function Leads() {
   const [statusFilter, setStatusFilter] = useState("all");
   const [sourceFilter, setSourceFilter] = useState("all");
   const [tab, setTab] = useState("all");
+  const [viewMode, setViewMode] = useState("list");
   const queryClient = useQueryClient();
 
   const { data: user } = useQuery({
@@ -183,14 +185,30 @@ export default function Leads() {
       </div>
 
       {/* Tabs */}
-      <Tabs value={tab} onValueChange={setTab}>
-        <TabsList>
-          <TabsTrigger value="all">{t('allLeadsTab')} ({filtered.length})</TabsTrigger>
-          <TabsTrigger value="new">{t('newLeadsTab')} ({stats.new})</TabsTrigger>
-          <TabsTrigger value="unclaimed">{t('unclaimedTab')}</TabsTrigger>
-          <TabsTrigger value="my">{t('myLeadsTab')} ({stats.myLeads})</TabsTrigger>
-        </TabsList>
-      </Tabs>
+      <div className="flex flex-col sm:flex-row gap-3 sm:items-center justify-between">
+        <Tabs value={tab} onValueChange={setTab}>
+          <TabsList>
+            <TabsTrigger value="all">{t('allLeadsTab')} ({filtered.length})</TabsTrigger>
+            <TabsTrigger value="new">{t('newLeadsTab')} ({stats.new})</TabsTrigger>
+            <TabsTrigger value="unclaimed">{t('unclaimedTab')}</TabsTrigger>
+            <TabsTrigger value="my">{t('myLeadsTab')} ({stats.myLeads})</TabsTrigger>
+          </TabsList>
+        </Tabs>
+        <div className="flex items-center bg-gray-100 rounded-lg p-1">
+          <button
+            onClick={() => setViewMode("list")}
+            className={`flex items-center gap-1.5 px-3 py-1.5 rounded-md text-xs font-medium transition-colors ${viewMode === "list" ? "bg-white text-[#0a1628] shadow-sm" : "text-gray-500"}`}
+          >
+            <List className="w-3.5 h-3.5" /> Zoznam
+          </button>
+          <button
+            onClick={() => setViewMode("overview")}
+            className={`flex items-center gap-1.5 px-3 py-1.5 rounded-md text-xs font-medium transition-colors ${viewMode === "overview" ? "bg-white text-[#0a1628] shadow-sm" : "text-gray-500"}`}
+          >
+            <BarChart3 className="w-3.5 h-3.5" /> Prehľad zdrojov
+          </button>
+        </div>
+      </div>
 
       {/* Filters */}
       <div className="flex flex-col sm:flex-row gap-3">
@@ -222,24 +240,24 @@ export default function Leads() {
           </SelectContent>
         </Select>
         <Select value={sourceFilter} onValueChange={setSourceFilter}>
-          <SelectTrigger className="w-40">
+          <SelectTrigger className="w-48">
             <SelectValue placeholder="Zdroj" />
           </SelectTrigger>
           <SelectContent>
             <SelectItem value="all">{t('allSources')}</SelectItem>
-            <SelectItem value="direct_app">Direct App</SelectItem>
-            <SelectItem value="facebook">📘 Facebook</SelectItem>
-            <SelectItem value="instagram">📸 Instagram</SelectItem>
-            <SelectItem value="referrer">🤝 Tiper</SelectItem>
-            <SelectItem value="real_estate_agency">🏠 Realitná kancelária</SelectItem>
-            <SelectItem value="website">🌐 Web</SelectItem>
-            <SelectItem value="social_media">Social Media</SelectItem>
-            <SelectItem value="other">Iné</SelectItem>
+            {Object.entries(SOURCE_META).map(([key, meta]) => (
+              <SelectItem key={key} value={key}>{meta.icon} {meta.label}</SelectItem>
+            ))}
           </SelectContent>
         </Select>
       </div>
 
+      {viewMode === "overview" && (
+        <LeadSourceOverview leads={leads} />
+      )}
+
       {/* Leads List */}
+      {viewMode === "list" && (
       <div className="space-y-3">
         {filtered.map(lead => {
           const canClaim = !lead.claimed_by && user?.role !== "referrer";
@@ -359,8 +377,9 @@ export default function Leads() {
           );
         })}
       </div>
+      )}
 
-      {filtered.length === 0 && (
+      {filtered.length === 0 && viewMode === "list" && (
         <div className="text-center py-20">
           <p className="text-gray-400 text-lg">{t('noLeadsFound')}</p>
         </div>
