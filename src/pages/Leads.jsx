@@ -12,6 +12,7 @@ import { Link } from "react-router-dom";
 import { createPageUrl } from "@/utils";
 import { toast } from "sonner";
 import { useTranslation } from "@/components/LanguageContext";
+import QuickNote from "../components/leads/QuickNote";
 import { formatDistanceToNow } from "date-fns";
 import { sk, enUS } from "date-fns/locale";
 
@@ -91,6 +92,32 @@ export default function Leads() {
       queryClient.invalidateQueries({ queryKey: ["leads"] });
     },
   });
+
+  const statusMutation = useMutation({
+    mutationFn: async ({ leadId, status }) => {
+      await base44.entities.Client.update(leadId, { status });
+    },
+    onSuccess: () => {
+      toast.success(t('statusUpdated') || "Status aktualizovaný");
+      queryClient.invalidateQueries({ queryKey: ["leads"] });
+    },
+  });
+
+  const noteMutation = useMutation({
+    mutationFn: async ({ leadId, note }) => {
+      const lead = leads.find(l => l.id === leadId);
+      const timestamp = new Date().toLocaleString(language === 'sk' ? 'sk-SK' : 'en-US');
+      const newNote = `[${timestamp}] ${note}`;
+      const updatedNotes = lead.notes ? `${newNote}\n${lead.notes}` : newNote;
+      await base44.entities.Client.update(leadId, { notes: updatedNotes });
+    },
+    onSuccess: () => {
+      toast.success(t('noteAdded') || "Poznámka pridaná");
+      queryClient.invalidateQueries({ queryKey: ["leads"] });
+    },
+  });
+
+  const statusOptions = ["new_lead", "unclaimed", "claimed", "contacted", "qualified", "offers_sent", "viewing", "reserved", "closed", "lost"];
 
   const userMap = {};
   users.forEach(u => { userMap[u.email] = u.full_name || u.email; });
@@ -294,10 +321,10 @@ export default function Leads() {
                     </div>
                   </div>
 
-                  <div className="flex flex-col gap-2">
+                  <div className="flex flex-col gap-2 min-w-[180px]">
                     {canClaim && (
-                      <Button 
-                        size="sm" 
+                      <Button
+                        size="sm"
                         onClick={() => claimMutation.mutate(lead.id)}
                         disabled={claimMutation.isPending}
                         className="bg-[#c9a84c] hover:bg-[#b8973b] text-white"
@@ -306,6 +333,20 @@ export default function Leads() {
                         {t('claimLead')}
                       </Button>
                     )}
+                    <Select
+                      value={lead.status}
+                      onValueChange={(status) => statusMutation.mutate({ leadId: lead.id, status })}
+                    >
+                      <SelectTrigger className="h-8 text-xs">
+                        <SelectValue />
+                      </SelectTrigger>
+                      <SelectContent>
+                        {statusOptions.map(s => (
+                          <SelectItem key={s} value={s}>{t(s)}</SelectItem>
+                        ))}
+                      </SelectContent>
+                    </Select>
+                    <QuickNote leadId={lead.id} onAdd={(note) => noteMutation.mutate({ leadId: lead.id, note })} saving={noteMutation.isPending} t={t} />
                     <Link to={createPageUrl(`ClientDetail?id=${lead.id}`)}>
                       <Button size="sm" variant="outline" className="w-full">
                        {t('detail')}
