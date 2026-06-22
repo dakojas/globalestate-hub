@@ -17,6 +17,7 @@ const translations = {
     team: "Tím",
     publicSite: "Verejný web",
     propertyImport: "Import nehnuteľností",
+    aiAgent: "AI Agent",
 
     // Common
     search: "Hľadať",
@@ -270,6 +271,7 @@ const translations = {
     team: "Team",
     publicSite: "Public Site",
     propertyImport: "Property Import",
+    aiAgent: "AI Agent",
 
     // Common
     search: "Search",

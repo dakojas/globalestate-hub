@@ -22,6 +22,7 @@ import Leads from '@/pages/Leads';
 import Referrers from '@/pages/Referrers';
 import Partners from '@/pages/Partners';
 import RealEstateAgencies from '@/pages/RealEstateAgencies';
+import PropertyAgent from '@/pages/PropertyAgent';
 import Reports from '@/pages/Reports';
 import PropertyImport from '@/pages/PropertyImport';
 import Team from '@/pages/Team';
@@ -91,6 +92,7 @@ const AuthenticatedApp = () => {
       <Route path="/PropertyImport" element={<ProtectedRoute><LayoutWrapper currentPageName="PropertyImport"><PropertyImport /></LayoutWrapper></ProtectedRoute>} />
       <Route path="/Team" element={<ProtectedRoute><LayoutWrapper currentPageName="Team"><Team /></LayoutWrapper></ProtectedRoute>} />
       <Route path="/RealEstateAgencies" element={<ProtectedRoute><LayoutWrapper currentPageName="RealEstateAgencies"><RealEstateAgencies /></LayoutWrapper></ProtectedRoute>} />
+      <Route path="/PropertyAgent" element={<ProtectedRoute><LayoutWrapper currentPageName="PropertyAgent"><PropertyAgent /></LayoutWrapper></ProtectedRoute>} />
       <Route path="*" element={<PageNotFound />} />
     </Routes>
   );
