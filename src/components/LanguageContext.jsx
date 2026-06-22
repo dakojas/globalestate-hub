@@ -18,6 +18,7 @@ const translations = {
     publicSite: "Verejný web",
     propertyImport: "Import nehnuteľností",
     aiAgent: "AI Agent",
+    offerAgent: "Generátor ponúk",
 
     // Common
     search: "Hľadať",
@@ -272,6 +273,7 @@ const translations = {
     publicSite: "Public Site",
     propertyImport: "Property Import",
     aiAgent: "AI Agent",
+    offerAgent: "Offer Generator",
 
     // Common
     search: "Search",
