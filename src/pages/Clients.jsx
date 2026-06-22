@@ -6,7 +6,7 @@ import { Input } from "@/components/ui/input";
 import { Card, CardContent } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
-import { Plus, Search, User, Mail, Phone, MoreVertical, MessageSquare, Pencil, Trash2 } from "lucide-react";
+import { Plus, Search, User, Mail, Phone, MoreVertical, MessageSquare, Pencil, Trash2, Download } from "lucide-react";
 import { Skeleton } from "@/components/ui/skeleton";
 import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger } from "@/components/ui/dropdown-menu";
 import { toast } from "sonner";
@@ -58,6 +58,35 @@ export default function Clients() {
     queryClient.invalidateQueries({ queryKey: ["clients"] });
   };
 
+  const exportCSV = () => {
+    const headers = ["Meno", "Email", "Telefón", "Národnosť", "Status", "Zdroj", "Budget min", "Budget max", "Preferované krajiny", "Preferované typy", "Priradený agent", "Poznámky"];
+    const rows = filtered.map(c => [
+      c.full_name || "",
+      c.email || "",
+      c.phone || "",
+      c.nationality || "",
+      c.status || "",
+      c.lead_source || "",
+      c.budget_min || "",
+      c.budget_max || "",
+      (c.preferred_countries || []).join("; "),
+      (c.preferred_property_types || []).join("; "),
+      c.assigned_agent || "",
+      (c.notes || "").replace(/[\r\n]+/g, " "),
+    ]);
+    const csv = [headers, ...rows]
+      .map(row => row.map(cell => `"${String(cell).replace(/"/g, '""')}"`).join(","))
+      .join("\n");
+    const blob = new Blob(["\uFEFF" + csv], { type: "text/csv;charset=utf-8;" });
+    const url = URL.createObjectURL(blob);
+    const link = document.createElement("a");
+    link.href = url;
+    link.download = `klienti_${new Date().toISOString().slice(0, 10)}.csv`;
+    link.click();
+    URL.revokeObjectURL(url);
+    toast.success(`Exportovaných ${filtered.length} klientov`);
+  };
+
   const refresh = () => {
     setShowForm(false);
     setEditingClient(null);
@@ -70,9 +99,14 @@ export default function Clients() {
     <div className="space-y-6">
       <div className="flex flex-col sm:flex-row gap-4 items-start sm:items-center justify-between">
         <p className="text-sm text-gray-500">{filtered.length} {t('clients')}</p>
-        <Button onClick={() => setShowForm(true)} className="bg-[#0a1628] hover:bg-[#132039]">
-          <Plus className="w-4 h-4 mr-2" /> {t('addClient')}
-        </Button>
+        <div className="flex gap-2">
+          <Button onClick={exportCSV} variant="outline" disabled={filtered.length === 0}>
+            <Download className="w-4 h-4 mr-2" /> CSV
+          </Button>
+          <Button onClick={() => setShowForm(true)} className="bg-[#0a1628] hover:bg-[#132039]">
+            <Plus className="w-4 h-4 mr-2" /> {t('addClient')}
+          </Button>
+        </div>
       </div>
 
       <div className="flex flex-col sm:flex-row gap-3">
