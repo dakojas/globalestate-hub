@@ -1,9 +1,11 @@
-import React from "react";
+import React, { useState } from "react";
 import { useQuery } from "@tanstack/react-query";
 import { useTranslation } from "@/components/LanguageContext";
 import { base44 } from "@/api/base44Client";
-import { Building2, Users, DollarSign, CalendarClock, UserPlus, TrendingUp } from "lucide-react";
+import { Building2, Users, DollarSign, CalendarClock, UserPlus, TrendingUp, Sparkles } from "lucide-react";
 import { Skeleton } from "@/components/ui/skeleton";
+import { Button } from "@/components/ui/button";
+import OfferGenerator from "@/components/offers/OfferGenerator";
 import StatCard from "../components/dashboard/StatCard";
 import RecentActivity from "../components/dashboard/RecentActivity";
 import CountryBreakdown from "../components/dashboard/CountryBreakdown";
@@ -20,6 +22,7 @@ import AgentPerformanceChart from "../components/dashboard/AgentPerformanceChart
 
 export default function Dashboard() {
   const { t } = useTranslation();
+  const [offerOpen, setOfferOpen] = useState(false);
   const { data: properties = [], isLoading: loadingProps } = useQuery({
     queryKey: ["properties"],
     queryFn: () => base44.entities.Property.list("-created_date", 100),
@@ -70,6 +73,25 @@ export default function Dashboard() {
 
   return (
     <div className="space-y-6">
+      {/* Offer generator banner */}
+      <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 p-5 bg-gradient-to-r from-[#0a1628] to-[#132039] rounded-2xl">
+        <div className="flex items-center gap-4">
+          <div className="w-12 h-12 rounded-xl bg-[#c9a84c]/20 flex items-center justify-center flex-shrink-0">
+            <Sparkles className="w-6 h-6 text-[#c9a84c]" />
+          </div>
+          <div>
+            <h3 className="text-white font-semibold text-lg">Generátor profesionálnej ponuky</h3>
+            <p className="text-white/60 text-sm">Vytvorte a odošlite personalizovanú ponuku pre klienta z existujúcich dát o nehnuteľnosti</p>
+          </div>
+        </div>
+        <Button onClick={() => setOfferOpen(true)} className="bg-[#c9a84c] hover:bg-[#b8973f] text-[#0a1628] font-semibold">
+          <Sparkles className="w-4 h-4 mr-2" />
+          Vytvoriť ponuku
+        </Button>
+      </div>
+
+      <OfferGenerator open={offerOpen} onClose={() => setOfferOpen(false)} />
+
       {/* Stats */}
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-6 gap-4">
         <StatCard title={t('newLeads')} value={newLeads} subtitle={t('waiting')} icon={UserPlus} color="blue" />
