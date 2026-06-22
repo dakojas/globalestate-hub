@@ -7,6 +7,7 @@ import { Tabs, TabsList, TabsTrigger, TabsContent } from "@/components/ui/tabs";
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
 import { TrendingUp, Users, DollarSign, Target, Award } from "lucide-react";
 import { useTranslation } from "@/components/LanguageContext";
+import SalesSuccessOverview from "@/components/dashboard/SalesSuccessOverview";
 
 export default function Reports() {
   const { t } = useTranslation();
@@ -145,13 +146,18 @@ export default function Reports() {
         </Card>
       </div>
 
-      <Tabs defaultValue="sources" className="space-y-6">
+      <Tabs defaultValue="success" className="space-y-6">
         <TabsList>
+          <TabsTrigger value="success">Úspešnosť predaja</TabsTrigger>
           <TabsTrigger value="sources">{t('leadSources')}</TabsTrigger>
           <TabsTrigger value="countries">{t('countries')}</TabsTrigger>
           <TabsTrigger value="team">{t('teamPerformance')}</TabsTrigger>
           <TabsTrigger value="referrers">{t('referrerPerformance')}</TabsTrigger>
         </TabsList>
+
+        <TabsContent value="success">
+          <SalesSuccessOverview clients={clients} commissions={commissions} />
+        </TabsContent>
 
         <TabsContent value="sources">
           <Card className="border-0 shadow-sm">
