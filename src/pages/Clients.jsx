@@ -6,8 +6,9 @@ import { Input } from "@/components/ui/input";
 import { Card, CardContent } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
-import { Plus, Search, User, Mail, Phone, MoreVertical, MessageSquare, Pencil, Trash2, Download, LayoutGrid, Columns3 } from "lucide-react";
+import { Plus, Search, User, Mail, Phone, MoreVertical, MessageSquare, Pencil, Trash2, Download, LayoutGrid, Columns3, CheckSquare, X } from "lucide-react";
 import ClientsKanban from "../components/clients/ClientsKanban";
+import BulkEditDialog from "../components/clients/BulkEditDialog";
 import { Skeleton } from "@/components/ui/skeleton";
 import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger } from "@/components/ui/dropdown-menu";
 import { toast } from "sonner";
@@ -34,6 +35,8 @@ export default function Clients() {
   const [search, setSearch] = useState("");
   const [statusFilter, setStatusFilter] = useState("all");
   const [view, setView] = useState("list");
+  const [selectedIds, setSelectedIds] = useState([]);
+  const [showBulkEdit, setShowBulkEdit] = useState(false);
   const queryClient = useQueryClient();
   const navigate = useNavigate();
 
@@ -97,6 +100,31 @@ export default function Clients() {
     queryClient.invalidateQueries({ queryKey: ["interactions"] });
   };
 
+  const toggleSelect = (id) => {
+    setSelectedIds(prev => prev.includes(id) ? prev.filter(x => x !== id) : [...prev, id]);
+  };
+
+  const allFilteredIds = filtered.map(c => c.id);
+  const allSelected = allFilteredIds.length > 0 && allFilteredIds.every(id => selectedIds.includes(id));
+
+  const toggleSelectAll = () => {
+    if (allSelected) {
+      setSelectedIds(prev => prev.filter(id => !allFilteredIds.includes(id)));
+    } else {
+      setSelectedIds(prev => [...new Set([...prev, ...allFilteredIds])]);
+    }
+  };
+
+  const clearSelection = () => setSelectedIds([]);
+
+  const handleBulkDelete = async () => {
+    if (!confirm(`Vymazať ${selectedIds.length} klientov?`)) return;
+    await base44.entities.Client.deleteMany({ id: { $in: selectedIds } });
+    toast.success(`${selectedIds.length} klientov vymazaných`);
+    clearSelection();
+    queryClient.invalidateQueries({ queryKey: ["clients"] });
+  };
+
   return (
     <div className="space-y-6">
       <div className="flex flex-col sm:flex-row gap-4 items-start sm:items-center justify-between">
@@ -125,6 +153,32 @@ export default function Clients() {
         </div>
       </div>
 
+      {view === "list" && filtered.length > 0 && (
+        <div className="flex items-center gap-3">
+          <button
+            onClick={toggleSelectAll}
+            className="flex items-center gap-2 text-sm font-medium text-gray-600 hover:text-[#0a1628]"
+          >
+            <CheckSquare className={`w-4 h-4 ${allSelected ? "text-[#0a1628] fill-[#0a1628]/10" : "text-gray-400"}`} />
+            {allSelected ? "Odznačiť všetko" : "Označiť všetko"}
+          </button>
+          {selectedIds.length > 0 && (
+            <>
+              <Badge className="bg-[#0a1628] text-white">{selectedIds.length} vybraných</Badge>
+              <Button size="sm" onClick={() => setShowBulkEdit(true)} className="bg-[#c9a84c] hover:bg-[#b8973f] text-white">
+                Hromadná úprava
+              </Button>
+              <Button size="sm" variant="outline" className="text-red-600 hover:text-red-700" onClick={handleBulkDelete}>
+                <Trash2 className="w-3.5 h-3.5 mr-1" /> Vymazať
+              </Button>
+              <button onClick={clearSelection} className="text-gray-400 hover:text-gray-600">
+                <X className="w-4 h-4" />
+              </button>
+            </>
+          )}
+        </div>
+      )}
+
       <div className="flex flex-col sm:flex-row gap-3">
         <div className="relative flex-1">
           <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-gray-400" />
@@ -148,10 +202,16 @@ export default function Clients() {
       ) : (
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
           {filtered.map(client => (
-            <Card key={client.id} className="border-0 shadow-sm hover:shadow-md transition-shadow">
+            <Card key={client.id} className={`border-0 shadow-sm hover:shadow-md transition-all ${selectedIds.includes(client.id) ? "ring-2 ring-[#c9a84c]" : ""}`}>
               <CardContent className="p-5">
                 <div className="flex items-start justify-between mb-3">
                   <div className="flex items-center gap-3">
+                    <input
+                      type="checkbox"
+                      checked={selectedIds.includes(client.id)}
+                      onChange={() => toggleSelect(client.id)}
+                      className="w-4 h-4 rounded border-gray-300 text-[#0a1628] focus:ring-[#c9a84c] cursor-pointer"
+                    />
                     <div className="w-10 h-10 rounded-full bg-[#0a1628]/5 flex items-center justify-center">
                       <span className="font-semibold text-[#0a1628] text-sm">{client.full_name?.charAt(0)?.toUpperCase()}</span>
                     </div>
@@ -200,6 +260,19 @@ export default function Clients() {
           onSaved={() => {
             setInteractionClient(null);
             navigate(createPageUrl(`ClientDetail?id=${interactionClient.id}`));
+          }}
+        />
+      )}
+      {showBulkEdit && (
+        <BulkEditDialog
+          selectedIds={selectedIds}
+          clients={clients}
+          open={true}
+          onClose={() => setShowBulkEdit(false)}
+          onDone={() => {
+            setShowBulkEdit(false);
+            clearSelection();
+            queryClient.invalidateQueries({ queryKey: ["clients"] });
           }}
         />
       )}
