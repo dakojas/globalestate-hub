@@ -24,6 +24,7 @@ import Partners from '@/pages/Partners';
 import RealEstateAgencies from '@/pages/RealEstateAgencies';
 import PropertyAgent from '@/pages/PropertyAgent';
 import OfferAgent from '@/pages/OfferAgent';
+import AIAgents from '@/pages/AIAgents';
 import Reports from '@/pages/Reports';
 import PropertyImport from '@/pages/PropertyImport';
 import Team from '@/pages/Team';
@@ -95,6 +96,7 @@ const AuthenticatedApp = () => {
       <Route path="/RealEstateAgencies" element={<ProtectedRoute><LayoutWrapper currentPageName="RealEstateAgencies"><RealEstateAgencies /></LayoutWrapper></ProtectedRoute>} />
       <Route path="/PropertyAgent" element={<ProtectedRoute><LayoutWrapper currentPageName="PropertyAgent"><PropertyAgent /></LayoutWrapper></ProtectedRoute>} />
       <Route path="/OfferAgent" element={<ProtectedRoute><LayoutWrapper currentPageName="OfferAgent"><OfferAgent /></LayoutWrapper></ProtectedRoute>} />
+      <Route path="/AIAgents" element={<ProtectedRoute><LayoutWrapper currentPageName="AIAgents"><AIAgents /></LayoutWrapper></ProtectedRoute>} />
       <Route path="*" element={<PageNotFound />} />
     </Routes>
   );

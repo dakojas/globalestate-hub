@@ -19,6 +19,7 @@ const translations = {
     propertyImport: "Import nehnuteľností",
     aiAgent: "AI Agent",
     offerAgent: "Generátor ponúk",
+    aiAgents: "AI Agenti",
 
     // Common
     search: "Hľadať",
@@ -276,6 +277,7 @@ const translations = {
     propertyImport: "Property Import",
     aiAgent: "AI Agent",
     offerAgent: "Offer Generator",
+    aiAgents: "AI Agents",
 
     // Common
     search: "Search",
