@@ -4,7 +4,7 @@ import { base44 } from "@/api/base44Client";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
-import { MapPin, Bed, Maximize, Home, X, Search } from "lucide-react";
+import { MapPin, Bed, Maximize, Home, X, Search, Menu } from "lucide-react";
 import CountryMap from "@/components/public/CountryMap";
 import Logo from "@/components/Logo";
 import { Link } from "react-router-dom";
@@ -101,6 +101,7 @@ function PublicHomeInner() {
   const { tr, lang } = usePublicLang();
   const [filters, setFilters] = useState({ country: "all", minBudget: "", maxBudget: "", propertyType: "all", constructionPhase: "all" });
   const [mapCountry, setMapCountry] = useState("all");
+  const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
 
   const handleMapSelect = (country) => {
     setMapCountry(country);
@@ -142,8 +143,8 @@ function PublicHomeInner() {
 
       {/* Header */}
       <header className="sticky top-0 z-50 glass-dark border-b border-[#c9a84c]/20">
-        <div className="max-w-7xl mx-auto px-6 py-3 flex items-center justify-between">
-          <Logo className="h-9" />
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 py-3 flex items-center justify-between">
+          <Logo className="h-8 sm:h-9" />
           <nav className="hidden md:flex items-center gap-8">
             <Link to={createPageUrl("PublicAbout")} className="text-white/60 hover:text-[#c9a84c] transition-colors text-sm tracking-wide">{tr("aboutUs")}</Link>
             <a href="#properties" className="text-white/60 hover:text-[#c9a84c] transition-colors text-sm tracking-wide">{tr("offers")}</a>
@@ -157,22 +158,42 @@ function PublicHomeInner() {
               WhatsApp
             </a>
           </nav>
-          <PublicLangSwitcher />
+          <div className="flex items-center gap-2">
+            <PublicLangSwitcher />
+            <button onClick={() => setMobileMenuOpen(!mobileMenuOpen)} className="md:hidden text-white/70 hover:text-[#c9a84c] p-1.5">
+              {mobileMenuOpen ? <X className="w-6 h-6" /> : <Menu className="w-6 h-6" />}
+            </button>
+          </div>
         </div>
+        {/* Mobile menu */}
+        {mobileMenuOpen && (
+          <div className="md:hidden border-t border-[#c9a84c]/20 glass-dark">
+            <div className="px-4 py-4 space-y-1">
+              <Link to={createPageUrl("PublicAbout")} onClick={() => setMobileMenuOpen(false)} className="block text-white/70 hover:text-[#c9a84c] py-2.5 text-sm">{tr("aboutUs")}</Link>
+              <a href="#properties" onClick={() => setMobileMenuOpen(false)} className="block text-white/70 hover:text-[#c9a84c] py-2.5 text-sm">{tr("offers")}</a>
+              <a href="#contact" onClick={() => setMobileMenuOpen(false)} className="block text-white/70 hover:text-[#c9a84c] py-2.5 text-sm">{tr("contact")}</a>
+              <Link to={createPageUrl("PublicSubmit")} onClick={() => setMobileMenuOpen(false)} className="block bg-[#c9a84c] text-black font-semibold text-sm text-center py-2.5 rounded mt-2">{tr("listProperty")}</Link>
+              <a href="https://wa.me/421951094706" target="_blank" rel="noopener noreferrer" className="flex items-center justify-center gap-1.5 bg-[#25D366] text-white text-sm font-semibold py-2.5 rounded">
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" className="w-4 h-4"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>
+                WhatsApp
+              </a>
+            </div>
+          </div>
+        )}
       </header>
 
       {/* Hero */}
-      <section className="relative pt-20 pb-12 px-6" style={{ background: "linear-gradient(135deg, #080d1a 0%, #0d1b35 50%, #080d1a 100%)" }}>
+      <section className="relative pt-12 pb-10 px-4 sm:px-6 md:pt-20 md:pb-12" style={{ background: "linear-gradient(135deg, #080d1a 0%, #0d1b35 50%, #080d1a 100%)" }}>
         <div className="max-w-7xl mx-auto">
-          <div className="mb-10">
+          <div className="mb-8 md:mb-10">
             <p className="text-[#c9a84c] text-xs uppercase tracking-[0.3em] font-semibold mb-3">Premium Real Estate</p>
-            <h1 className="text-5xl md:text-6xl font-bold text-white mb-3 leading-tight">
+            <h1 className="text-4xl sm:text-5xl md:text-6xl font-bold text-white mb-3 leading-tight">
               {tr("heroTitle")} <span className="text-[#c9a84c]">{tr("heroTitleHighlight")}</span>
             </h1>
-            <p className="text-white/70 text-xl font-semibold mb-2 max-w-2xl">
+            <p className="text-white/70 text-lg sm:text-xl font-semibold mb-2 max-w-2xl">
               {lang === "sk" ? "Začnite svoj príbeh v zahraničí s nami!" : lang === "en" ? "Start your story abroad with us!" : lang === "de" ? "Beginnen Sie Ihre Geschichte im Ausland mit uns!" : lang === "fr" ? "Commencez votre histoire à l'étranger avec nous !" : lang === "it" ? "Inizia la tua storia all'estero con noi!" : lang === "ru" ? "Начните свою историю за рубежом с нами!" : lang === "pl" ? "Zacznij swoją historię za granicą z nami!" : lang === "hu" ? "Kezdje el külföldi történetét velünk!" : "Začnite svoj príbeh v zahraničí s nami!"}
             </p>
-            <p className="text-white/50 text-base mb-6 max-w-2xl">
+            <p className="text-white/50 text-sm sm:text-base mb-6 max-w-2xl">
               {lang === "sk" ? "Ak hľadáte miesto, kde by ste mohli napísať novú kapitolu vášho života alebo hľadáte atraktívnu investičnú príležitosť, sme tu pre vás." : lang === "en" ? "Whether you're looking for a place to write a new chapter of your life or seeking an attractive investment opportunity, we are here for you." : lang === "de" ? "Ob Sie einen Ort suchen, an dem Sie ein neues Kapitel Ihres Lebens schreiben können, oder eine attraktive Investitionsmöglichkeit suchen – wir sind für Sie da." : lang === "fr" ? "Que vous cherchiez un endroit pour écrire un nouveau chapitre de votre vie ou une opportunité d'investissement attrayante, nous sommes là pour vous." : lang === "it" ? "Che tu stia cercando un posto dove scrivere un nuovo capitolo della tua vita o un'attraente opportunità di investimento, siamo qui per te." : lang === "ru" ? "Если вы ищете место, где можно написать новую главу вашей жизни, или ищете привлекательную инвестиционную возможность — мы здесь для вас." : lang === "pl" ? "Jeśli szukasz miejsca, gdzie możesz napisać nowy rozdział swojego życia lub szukasz atrakcyjnej okazji inwestycyjnej, jesteśmy tu dla Ciebie." : lang === "hu" ? "Legyen szó arról, hogy helyet keres, ahol élete új fejezetét írhatná, vagy vonzó befektetési lehetőséget keres, mi itt vagyunk Önért." : "Ak hľadáte miesto, kde by ste mohli napísať novú kapitolu vášho života alebo hľadáte atraktívnu investičnú príležitosť, sme tu pre vás."}
             </p>
             <a href="https://calendly.com/nehnutelnostivzahranici/30min" target="_blank" rel="noopener noreferrer"
@@ -182,8 +203,8 @@ function PublicHomeInner() {
           </div>
 
           {/* Filter box */}
-          <div className="rounded-xl gold-border gold-glow p-5" style={{ background: "rgba(10,22,40,0.9)", border: "1px solid rgba(201,168,76,0.4)" }}>
-            <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-3 mb-3">
+          <div className="rounded-xl gold-border gold-glow p-4 sm:p-5" style={{ background: "rgba(10,22,40,0.9)", border: "1px solid rgba(201,168,76,0.4)" }}>
+            <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-3 mb-3">
               <Select value={filters.country} onValueChange={v => setFilters({...filters, country: v})}>
                 <SelectTrigger className="bg-[#0d1b35] border-[#c9a84c]/30 text-white/80 text-sm h-9">
                   <SelectValue placeholder={tr("allCountries")} />
@@ -222,7 +243,7 @@ function PublicHomeInner() {
                 className="bg-[#0d1b35] border-[#c9a84c]/30 text-white placeholder:text-white/30 h-9 text-sm" />
             </div>
             <div className="flex justify-end">
-              <Button className="bg-[#c9a84c] hover:bg-[#b8973b] text-black font-bold px-8 text-sm gap-2">
+              <Button className="w-full sm:w-auto bg-[#c9a84c] hover:bg-[#b8973b] text-black font-bold px-8 text-sm gap-2">
                 <Search className="w-4 h-4" /> {lang === "sk" ? "Hľadať" : "Search"}
               </Button>
             </div>
@@ -231,7 +252,7 @@ function PublicHomeInner() {
       </section>
 
       {/* Map */}
-      <section className="px-6 py-8" style={{ background: "#080d1a" }}>
+      <section className="px-4 sm:px-6 py-8" style={{ background: "#080d1a" }}>
         <div className="max-w-7xl mx-auto">
           <div className="flex items-center gap-3 mb-4">
             <div className="h-px flex-1 bg-[#c9a84c]/20" />
@@ -257,7 +278,7 @@ function PublicHomeInner() {
       </section>
 
       {/* O nás / Brand story */}
-      <section className="px-6 py-14" style={{ background: "#0a0f1e" }}>
+      <section className="px-4 sm:px-6 py-10 md:py-14" style={{ background: "#0a0f1e" }}>
         <div className="max-w-7xl mx-auto">
           <div className="grid grid-cols-1 md:grid-cols-2 gap-12 items-center">
             <div>
@@ -316,7 +337,7 @@ function PublicHomeInner() {
 
       {/* Featured */}
       {displayFeatured.length > 0 && (
-        <section className="px-6 py-10" style={{ background: "#0a0f1e" }}>
+        <section className="px-4 sm:px-6 py-10" style={{ background: "#0a0f1e" }}>
           <div className="max-w-7xl mx-auto">
             <div className="flex items-center gap-3 mb-6">
               <span className="text-[#c9a84c] text-xl">⭐</span>
@@ -325,7 +346,7 @@ function PublicHomeInner() {
               </h2>
               <div className="h-px flex-1 bg-[#c9a84c]/20" />
             </div>
-            <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-4">
+            <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-4">
               {displayFeatured.map(property => (
                 <PropertyCard key={property.id} property={property} getCountryName={getCountryName} getTypeName={getTypeName} tr={tr} lang={lang} />
               ))}
@@ -335,7 +356,7 @@ function PublicHomeInner() {
       )}
 
       {/* All properties */}
-      <section id="properties" className="px-6 py-10" style={{ background: "#080d1a" }}>
+      <section id="properties" className="px-4 sm:px-6 py-10" style={{ background: "#080d1a" }}>
         <div className="max-w-7xl mx-auto">
           <div className="flex items-center justify-between mb-6">
             <div className="flex items-center gap-3">
@@ -349,7 +370,7 @@ function PublicHomeInner() {
               <p className="text-white/30 text-lg">{tr("noProperties")}</p>
             </div>
           ) : (
-            <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-4">
+            <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-4">
               {filtered.map(property => (
                 <PropertyCard key={property.id} property={property} getCountryName={getCountryName} getTypeName={getTypeName} tr={tr} lang={lang} />
               ))}
@@ -359,11 +380,11 @@ function PublicHomeInner() {
       </section>
 
       {/* Motto */}
-      <section className="px-6 py-16" style={{ background: "#0a0f1e" }}>
+      <section className="px-4 sm:px-6 py-12 md:py-16" style={{ background: "#0a0f1e" }}>
         <div className="max-w-3xl mx-auto">
-          <div className="rounded-xl p-10 text-center gold-glow" style={{ border: "1px solid rgba(201,168,76,0.4)", background: "rgba(13,27,53,0.6)" }}>
+          <div className="rounded-xl p-6 sm:p-10 text-center gold-glow" style={{ border: "1px solid rgba(201,168,76,0.4)", background: "rgba(13,27,53,0.6)" }}>
             <p className="text-[#c9a84c] text-xs uppercase tracking-[0.3em] mb-4">NAŠE MOTTO</p>
-            <h3 className="text-3xl md:text-4xl font-bold text-[#c9a84c] mb-3">
+            <h3 className="text-2xl sm:text-3xl md:text-4xl font-bold text-[#c9a84c] mb-3">
               <em>{lang === "sk" ? "Svet je väčší, než si myslíte." : lang === "en" ? "The world is bigger than you think." : lang === "de" ? "Die Welt ist größer als Sie denken." : lang === "fr" ? "Le monde est plus grand que vous ne le pensez." : lang === "it" ? "Il mondo è più grande di quanto pensi." : lang === "ru" ? "Мир больше, чем вы думаете." : lang === "pl" ? "Świat jest większy niż myślisz." : "Svet je väčší, než si myslíte."}</em>
             </h3>
             <p className="text-xl text-white/60">
@@ -374,7 +395,7 @@ function PublicHomeInner() {
       </section>
 
       {/* CTA */}
-      <section className="px-6 py-10" style={{ background: "#080d1a", borderTop: "1px solid rgba(201,168,76,0.15)" }}>
+      <section className="px-4 sm:px-6 py-10" style={{ background: "#080d1a", borderTop: "1px solid rgba(201,168,76,0.15)" }}>
         <div className="max-w-3xl mx-auto text-center">
           <p className="text-white text-lg font-semibold mb-4">{tr("bookConsultation")}</p>
           <a href="https://calendly.com/nehnutelnostivzahranici/30min" target="_blank" rel="noopener noreferrer"
@@ -392,7 +413,7 @@ function PublicHomeInner() {
       </a>
 
       {/* Footer */}
-      <footer id="contact" style={{ background: "#080d1a", borderTop: "1px solid rgba(201,168,76,0.2)" }} className="px-6 py-10">
+      <footer id="contact" style={{ background: "#080d1a", borderTop: "1px solid rgba(201,168,76,0.2)" }} className="px-4 sm:px-6 py-10">
         <div className="max-w-7xl mx-auto">
           <div className="flex flex-col md:flex-row items-center justify-between gap-6 mb-6">
             <Logo className="h-9" />
