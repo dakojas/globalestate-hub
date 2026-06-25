@@ -123,5 +123,62 @@
   },
   "required": [
     "full_name"
-  ]
+  ],
+  "rls": {
+    "create": null,
+    "read": {
+      "$or": [
+        {
+          "user_condition": {
+            "role": "admin"
+          }
+        },
+        {
+          "created_by_id": "{{user.id}}"
+        },
+        {
+          "data.assigned_agent": "{{user.email}}"
+        },
+        {
+          "data.claimed_by": "{{user.email}}"
+        }
+      ]
+    },
+    "update": {
+      "$or": [
+        {
+          "user_condition": {
+            "role": "admin"
+          }
+        },
+        {
+          "created_by_id": "{{user.id}}"
+        },
+        {
+          "data.assigned_agent": "{{user.email}}"
+        },
+        {
+          "data.claimed_by": "{{user.email}}"
+        }
+      ]
+    },
+    "delete": {
+      "$or": [
+        {
+          "user_condition": {
+            "role": "admin"
+          }
+        },
+        {
+          "created_by_id": "{{user.id}}"
+        },
+        {
+          "data.assigned_agent": "{{user.email}}"
+        },
+        {
+          "data.claimed_by": "{{user.email}}"
+        }
+      ]
+    }
+  }
 }
