@@ -8,6 +8,7 @@ import { MapPin, Bed, Maximize, Home, X, Menu } from "lucide-react";
 import CountryMap from "@/components/public/CountryMap";
 import Logo from "@/components/Logo";
 import GlobeWireframe from "@/components/public/GlobeWireframe";
+import HomeAboutStory from "@/components/public/HomeAboutStory";
 import { Link } from "react-router-dom";
 import { createPageUrl } from "@/utils";
 import { PublicLanguageProvider, usePublicLang } from "@/components/PublicLanguageContext";
@@ -295,6 +296,9 @@ function PublicHomeInner() {
           )}
         </div>
       </section>
+
+      {/* About / Brand Story */}
+      <HomeAboutStory />
 
       {/* Mobile WhatsApp */}
       <a href="https://wa.me/421951094706" target="_blank" rel="noopener noreferrer"
