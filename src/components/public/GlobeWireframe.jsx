@@ -45,12 +45,16 @@ export default function GlobeWireframe({ className = "" }) {
       <div className="absolute bokeh-1 rounded-full" style={{ bottom: "25%", right: "15%", width: 16, height: 16, background: "rgba(255,255,255,0.2)", filter: "blur(5px)" }} />
       <div className="absolute bokeh-2 rounded-full" style={{ top: "45%", left: "5%", width: 12, height: 12, background: "rgba(197,160,101,0.35)", filter: "blur(4px)" }} />
 
-      {/* Globe image */}
+      {/* Globe image — edges masked to blend into page background */}
       <div className="relative globe-float">
         <img
           src="https://media.base44.com/images/public/69b801924dae038161790d9a/2508b97ab_generated_image.png"
           alt="Globe"
           className="w-full h-auto object-contain relative z-10"
+          style={{
+            WebkitMaskImage: "radial-gradient(ellipse 72% 72% at 50% 50%, black 55%, transparent 85%)",
+            maskImage: "radial-gradient(ellipse 72% 72% at 50% 50%, black 55%, transparent 85%)",
+          }}
         />
         {/* Rotating gold ring overlay */}
         <div className="absolute inset-0 flex items-center justify-center z-20 pointer-events-none">
