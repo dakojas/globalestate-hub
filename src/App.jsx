@@ -32,6 +32,8 @@ import PublicSubmit from '@/pages/PublicSubmit';
 import PublicAbout from '@/pages/PublicAbout';
 import PublicFAQ from '@/pages/PublicFAQ';
 import PublicGDPR from '@/pages/PublicGDPR';
+import PublicPouceniePreKlienta from '@/pages/PublicPouceniePreKlienta';
+import PublicReklamacnyPoriadok from '@/pages/PublicReklamacnyPoriadok';
 
 const LayoutWrapper = ({ children, currentPageName }) =>
   <Layout currentPageName={currentPageName}>{children}</Layout>;
@@ -77,6 +79,8 @@ const AuthenticatedApp = () => {
       <Route path="/PublicAbout" element={<PublicAbout />} />
       <Route path="/PublicFAQ" element={<PublicFAQ />} />
       <Route path="/PublicGDPR" element={<PublicGDPR />} />
+      <Route path="/PublicPouceniePreKlienta" element={<PublicPouceniePreKlienta />} />
+      <Route path="/PublicReklamacnyPoriadok" element={<PublicReklamacnyPoriadok />} />
 
       {/* Protected routes - login required */}
       <Route path="/Dashboard" element={<ProtectedRoute><LayoutWrapper currentPageName="Dashboard"><Dashboard /></LayoutWrapper></ProtectedRoute>} />

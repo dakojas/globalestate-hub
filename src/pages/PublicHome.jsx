@@ -9,6 +9,7 @@ import CountryMap from "@/components/public/CountryMap";
 import Logo from "@/components/Logo";
 import GlobeWireframe from "@/components/public/GlobeWireframe";
 import HomeAboutStory from "@/components/public/HomeAboutStory";
+import BuyingProcessTimeline from "@/components/public/BuyingProcessTimeline";
 import { Link } from "react-router-dom";
 import { createPageUrl } from "@/utils";
 import { PublicLanguageProvider, usePublicLang } from "@/components/PublicLanguageContext";
@@ -304,6 +305,13 @@ function PublicHomeInner() {
         </div>
       </section>
 
+      {/* Buying Process Timeline */}
+      <section className="px-4 sm:px-6 py-12 md:py-16" style={{ background: "#0a121d" }}>
+        <div className="max-w-5xl mx-auto">
+          <BuyingProcessTimeline lang={lang} />
+        </div>
+      </section>
+
       {/* About / Brand Story */}
       <HomeAboutStory />
 
@@ -335,6 +343,8 @@ function PublicHomeInner() {
               <Link to={createPageUrl("PublicFAQ")} className="text-[#c5a065]/60 hover:text-[#c5a065] text-xs transition-colors">FAQ</Link>
               <Link to={createPageUrl("PublicGDPR")} className="text-[#c5a065]/60 hover:text-[#c5a065] text-xs transition-colors">{tr("privacy")}</Link>
               <Link to={createPageUrl("PublicSubmit")} className="text-[#c5a065]/60 hover:text-[#c5a065] text-xs transition-colors">{tr("listProperty")}</Link>
+              <Link to={createPageUrl("PublicPouceniePreKlienta")} className="text-[#c5a065]/60 hover:text-[#c5a065] text-xs transition-colors">Poučenie pre klienta</Link>
+              <Link to={createPageUrl("PublicReklamacnyPoriadok")} className="text-[#c5a065]/60 hover:text-[#c5a065] text-xs transition-colors">Reklamačný poriadok</Link>
             </div>
           </div>
         </div>
