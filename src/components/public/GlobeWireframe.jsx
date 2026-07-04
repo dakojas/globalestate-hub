@@ -52,8 +52,8 @@ export default function GlobeWireframe({ className = "" }) {
           alt="Globe"
           className="w-full h-auto object-contain relative z-10"
           style={{
-            WebkitMaskImage: "radial-gradient(circle 42% at 50% 50%, #000 30%, #000 45%, transparent 72%)",
-            maskImage: "radial-gradient(circle 42% at 50% 50%, #000 30%, #000 45%, transparent 72%)",
+            WebkitMaskImage: "radial-gradient(circle 38% at 50% 48%, #000 55%, #000 68%, transparent 72%)",
+            maskImage: "radial-gradient(circle 38% at 50% 48%, #000 55%, #000 68%, transparent 72%)",
           }}
         />
         {/* Rotating gold ring overlay */}
