@@ -4,14 +4,10 @@ import { base44 } from "@/api/base44Client";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
-import { MapPin, Bed, Maximize, Home, X, Search, Menu, ArrowRight } from "lucide-react";
+import { MapPin, Bed, Maximize, Home, X, Menu } from "lucide-react";
 import CountryMap from "@/components/public/CountryMap";
 import Logo from "@/components/Logo";
 import GlobeWireframe from "@/components/public/GlobeWireframe";
-import HomeHowItWorks from "@/components/public/HomeHowItWorks";
-import HomeServices from "@/components/public/HomeServices";
-import HomeTestimonials from "@/components/public/HomeTestimonials";
-import HomeLeadMagnet from "@/components/public/HomeLeadMagnet";
 import { Link } from "react-router-dom";
 import { createPageUrl } from "@/utils";
 import { PublicLanguageProvider, usePublicLang } from "@/components/PublicLanguageContext";
@@ -40,13 +36,6 @@ const PROPERTY_TYPE_LABELS = {
   pl: { studio: "Studio", "1_bedroom": "1 sypialnia", "2_bedroom": "2 sypialnie", penthouse: "Penthouse", vila: "Willa" },
   hu: { studio: "Stúdió", "1_bedroom": "1 hálószoba", "2_bedroom": "2 hálószoba", penthouse: "Penthouse", vila: "Villa" },
 };
-
-const FEATURED_DESTINATIONS = [
-  { country: "Egypt", coords: "27.2579° N · Červené more", sk: "Hurghada & Sahl Hasheesh — apartmány pri pláži s najnižšou vstupnou cenou v portfóliu.", en: "Hurghada & Sahl Hasheesh — beachfront apartments with the lowest entry price in our portfolio." },
-  { country: "UAE", coords: "25.2048° N · Perzský záliv", sk: "Off-plan projekty aj hotové jednotky. Nulová daň z prenájmu, výnosy v dolároch.", en: "Off-plan projects and completed units. Zero rental tax, yields in dollars." },
-  { country: "Albania", coords: "39.8752° N · Iónske more", sk: "Saranda a albánska riviéra — najrýchlejšie rastúci trh Európy, stále pri zemi.", en: "Saranda and the Albanian Riviera — Europe's fastest-growing market, still affordable." },
-  { country: "Bulgaria", coords: "42.6953° N · Čierne more", sk: "Slnečné pobrežie — dovolenkový apartmán v EÚ na pár hodín cesty autom.", en: "Sunny Beach — a vacation apartment in the EU, just a few hours' drive away." },
-];
 
 function slugify(text) {
   return (text || "")
@@ -128,13 +117,6 @@ function PublicHomeInner() {
     .filter(p => p.status === "available")
     .reduce((acc, p) => { acc[p.country] = (acc[p.country] || 0) + 1; return acc; }, {});
 
-  const minPriceByCountry = properties
-    .filter(p => p.status === "available")
-    .reduce((acc, p) => {
-      if (!acc[p.country] || p.price < acc[p.country]) acc[p.country] = p.price;
-      return acc;
-    }, {});
-
   const filtered = properties.filter(p => {
     const matchCountry = filters.country === "all" || p.country === filters.country;
     const matchType = filters.propertyType === "all" || p.property_type === filters.propertyType;
@@ -149,36 +131,12 @@ function PublicHomeInner() {
   const getTypeName = (type) => (PROPERTY_TYPE_LABELS[lang]?.[type] || PROPERTY_TYPE_LABELS.en[type] || type);
   const getCountryName = (country) => country ? (COUNTRY_NAMES[lang]?.[country] || country) : country;
 
-  const heroText = {
-    sk: { sub: "MEDZINÁRODNÉ NEHNUTEĽNOSTI • 16 KRAJÍN", title1: "Váš domov ", titleGold: "vo", title2: " svete.", desc: "Nehnuteľnosti pri mori od Egypta po Bali — s kompletným servisom v slovenčine. Kúpu, zariadenie aj správu vybavíme za vás.", btn1: "Nezáväzná konzultácia", btn2: "Prezrieť destinácie", more: "+ 12 ďalších" },
-    en: { sub: "INTERNATIONAL REAL ESTATE • 16 COUNTRIES", title1: "Your home ", titleGold: "in", title2: " the world.", desc: "Coastal properties from Egypt to Bali — with complete service in your language. Purchase, furnishing, and management — all handled for you.", btn1: "Free consultation", btn2: "Browse destinations", more: "+ 12 more" },
-  };
-  const ht = heroText[lang] || heroText.en;
-
-  const statsText = {
-    sk: [{ num: COUNTRIES.length, label: "krajín v portfóliu" }, { num: 4, label: "vlajkové destinácie" }, { num: "3 v 1", label: "kúpa · zariadenie · správa" }, { num: "SK / EN", label: "kompletný servis vo vašom jazyku" }],
-    en: [{ num: COUNTRIES.length, label: "countries in portfolio" }, { num: 4, label: "flagship destinations" }, { num: "3 in 1", label: "buy · furnish · manage" }, { num: "SK / EN", label: "full service in your language" }],
-  };
-  const stats = statsText[lang] || statsText.en;
-
-  const navLabels = {
-    sk: { destinations: "Destinácie", how: "Ako to funguje", services: "Služby", contact: "Kontakt", consult: "Konzultácia zdarma" },
-    en: { destinations: "Destinations", how: "How it works", services: "Services", contact: "Contact", consult: "Free consultation" },
-  };
-  const nl = navLabels[lang] || navLabels.en;
-
-  const destLabel = lang === "sk" ? "Kde kupujú naši klienti" : "Where our clients buy";
-  const destSub = lang === "sk" ? "Štyri trhy, ktoré poznáme do posledného developera. Zvyšok sveta na želanie." : "Four markets we know inside out. The rest of the world on request.";
-  const moreDest = lang === "sk" ? "+ 12 ďalších krajín" : "+ 12 more countries";
-  const moreDestDesc = lang === "sk" ? "Turecko · Španielsko · Grécko · Cyprus · Thajsko · Bali a ďalšie — povedzte nám, kam mierite." : "Turkey · Spain · Greece · Cyprus · Thailand · Bali and more — tell us where you're heading.";
-
   return (
     <div className="min-h-screen font-body" style={{ background: "#0a121d" }}>
       <style>{`
         .gold-border { border: 1px solid rgba(197,160,101,0.3); }
         .gold-border:hover { border-color: rgba(197,160,101,0.7); }
         .glass-dark { background: rgba(10,18,29,0.85); backdrop-filter: blur(12px); }
-        .gold-glow { box-shadow: 0 0 30px rgba(197,160,101,0.12), inset 0 0 30px rgba(197,160,101,0.04); }
       `}</style>
 
       {/* Header */}
@@ -186,12 +144,10 @@ function PublicHomeInner() {
         <div className="max-w-7xl mx-auto px-4 sm:px-6 py-3 flex items-center justify-between">
           <Link to="/"><Logo className="h-9" /></Link>
           <nav className="hidden md:flex items-center gap-7">
-            <a href="#destinations" className="text-white/60 hover:text-[#c5a065] transition-colors text-sm tracking-wide">{nl.destinations}</a>
-            <a href="#how-it-works" className="text-white/60 hover:text-[#c5a065] transition-colors text-sm tracking-wide">{nl.how}</a>
-            <a href="#services" className="text-white/60 hover:text-[#c5a065] transition-colors text-sm tracking-wide">{nl.services}</a>
-            <a href="#contact" className="text-white/60 hover:text-[#c5a065] transition-colors text-sm tracking-wide">{nl.contact}</a>
+            <a href="#destinations" className="text-white/60 hover:text-[#c5a065] transition-colors text-sm tracking-wide">{tr("offers")}</a>
+            <a href="#destinations" className="text-white/60 hover:text-[#c5a065] transition-colors text-sm tracking-wide">{tr("contact")}</a>
             <a href="https://calendly.com/nehnutelnostivzahranici/30min" target="_blank" rel="noopener noreferrer">
-              <Button size="sm" className="bg-[#c5a065] hover:bg-[#a88950] text-black font-semibold text-xs px-5">{nl.consult}</Button>
+              <Button size="sm" className="bg-[#c5a065] hover:bg-[#a88950] text-black font-semibold text-xs px-5">{tr("bookConsultation")}</Button>
             </a>
           </nav>
           <div className="flex items-center gap-2">
@@ -204,11 +160,9 @@ function PublicHomeInner() {
         {mobileMenuOpen && (
           <div className="md:hidden border-t border-[#c5a065]/15 glass-dark">
             <div className="px-4 py-4 space-y-1">
-              <a href="#destinations" onClick={() => setMobileMenuOpen(false)} className="block text-white/70 hover:text-[#c5a065] py-2.5 text-sm">{nl.destinations}</a>
-              <a href="#how-it-works" onClick={() => setMobileMenuOpen(false)} className="block text-white/70 hover:text-[#c5a065] py-2.5 text-sm">{nl.how}</a>
-              <a href="#services" onClick={() => setMobileMenuOpen(false)} className="block text-white/70 hover:text-[#c5a065] py-2.5 text-sm">{nl.services}</a>
-              <a href="#contact" onClick={() => setMobileMenuOpen(false)} className="block text-white/70 hover:text-[#c5a065] py-2.5 text-sm">{nl.contact}</a>
-              <a href="https://calendly.com/nehnutelnostivzahranici/30min" target="_blank" rel="noopener noreferrer" className="block bg-[#c5a065] text-black font-semibold text-sm text-center py-2.5 rounded mt-2">{nl.consult}</a>
+              <a href="#destinations" onClick={() => setMobileMenuOpen(false)} className="block text-white/70 hover:text-[#c5a065] py-2.5 text-sm">{tr("offers")}</a>
+              <a href="#destinations" onClick={() => setMobileMenuOpen(false)} className="block text-white/70 hover:text-[#c5a065] py-2.5 text-sm">{tr("contact")}</a>
+              <a href="https://calendly.com/nehnutelnostivzahranici/30min" target="_blank" rel="noopener noreferrer" className="block bg-[#c5a065] text-black font-semibold text-sm text-center py-2.5 rounded mt-2">{tr("bookConsultation")}</a>
             </div>
           </div>
         )}
@@ -220,27 +174,14 @@ function PublicHomeInner() {
         <div className="max-w-7xl mx-auto">
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 items-center">
             <div>
-              <p className="text-[#c5a065] text-xs uppercase tracking-[0.3em] font-semibold mb-4">{ht.sub}</p>
               <h1 className="font-heading text-4xl sm:text-5xl md:text-6xl font-semibold text-white mb-4 leading-[1.1]">
-                {ht.title1}<span className="text-[#c5a065]">{ht.titleGold}</span>{ht.title2}
+                {tr("heroTitle")} <span className="text-[#c5a065]">{tr("heroTitleHighlight")}</span>
               </h1>
-              <p className="text-white/60 text-base sm:text-lg mb-8 max-w-xl leading-relaxed">{ht.desc}</p>
-              <div className="flex flex-wrap gap-3 mb-8">
+              <p className="text-white/60 text-base sm:text-lg mb-8 max-w-xl leading-relaxed">{tr("heroSubtitle")}</p>
+              <div className="flex flex-wrap gap-3">
                 <a href="https://calendly.com/nehnutelnostivzahranici/30min" target="_blank" rel="noopener noreferrer">
-                  <Button className="bg-[#c5a065] hover:bg-[#a88950] text-black font-semibold px-6 h-11 text-sm">{ht.btn1}</Button>
+                  <Button className="bg-[#c5a065] hover:bg-[#a88950] text-black font-semibold px-6 h-11 text-sm">{tr("bookConsultation")}</Button>
                 </a>
-                <a href="#destinations">
-                  <Button variant="outline" className="border-[#c5a065] text-[#c5a065] hover:bg-[#c5a065]/10 bg-transparent font-semibold px-6 h-11 text-sm">{ht.btn2}</Button>
-                </a>
-              </div>
-              <div className="flex flex-wrap gap-2">
-                {FEATURED_DESTINATIONS.map(d => (
-                  <button key={d.country} onClick={() => handleMapSelect(d.country)}
-                    className="text-xs text-white/60 hover:text-[#c5a065] border border-white/15 hover:border-[#c5a065]/50 rounded-full px-3 py-1.5 transition-all">
-                    {getCountryName(d.country)}
-                  </button>
-                ))}
-                <span className="text-xs text-white/40 px-3 py-1.5">{ht.more}</span>
               </div>
             </div>
             <div className="hidden lg:block">
@@ -250,53 +191,16 @@ function PublicHomeInner() {
         </div>
       </section>
 
-      {/* Stats bar */}
-      <section className="px-4 sm:px-6 py-8 border-y border-[#c5a065]/15" style={{ background: "#080f1a" }}>
-        <div className="max-w-6xl mx-auto grid grid-cols-2 md:grid-cols-4 gap-6">
-          {stats.map((s, i) => (
-            <div key={i} className="text-center">
-              <p className="font-heading text-2xl md:text-3xl font-bold text-[#c5a065] mb-1">{s.num}</p>
-              <p className="text-white/50 text-xs sm:text-sm">{s.label}</p>
-            </div>
-          ))}
-        </div>
-      </section>
-
-      {/* Destinations + Properties */}
+      {/* Map + Properties */}
       <section id="destinations" className="px-4 sm:px-6 py-12 md:py-16" style={{ background: "#0a121d" }}>
         <div className="max-w-7xl mx-auto">
-          <p className="text-[#c5a065] text-xs uppercase tracking-[0.3em] font-semibold mb-3">{destLabel}</p>
-          <h2 className="font-heading text-2xl md:text-3xl font-semibold text-white mb-2">{lang === "sk" ? "Kde kupujú naši klienti" : "Where our clients buy"}</h2>
-          <p className="text-white/50 text-sm mb-8 max-w-2xl">{destSub}</p>
-
-          {/* Destination cards */}
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 mb-10">
-            {FEATURED_DESTINATIONS.map(d => (
-              <button key={d.country} onClick={() => handleMapSelect(d.country)}
-                className="text-left rounded-xl p-5 transition-all duration-300 hover:translate-y-[-3px]"
-                style={{ background: "rgba(18,29,46,0.6)", border: "1px solid rgba(197,160,101,0.15)" }}>
-                <p className="text-white/40 text-xs mb-2">{d.coords}</p>
-                <p className="text-white font-semibold text-base mb-2">{getCountryName(d.country)}</p>
-                <p className="text-white/50 text-xs leading-relaxed mb-3">{lang === "sk" ? d.sk : d.en}</p>
-                <p className="text-[#c5a065] text-sm font-semibold">
-                  {minPriceByCountry[d.country] ? `od ${minPriceByCountry[d.country]?.toLocaleString()} €` : ""}
-                </p>
-              </button>
-            ))}
-            <button onClick={() => handleMapSelect("all")}
-              className="text-left rounded-xl p-5 transition-all duration-300 hover:translate-y-[-3px] col-span-1 sm:col-span-2 lg:col-span-4"
-              style={{ background: "rgba(18,29,46,0.4)", border: "1px dashed rgba(197,160,101,0.25)" }}>
-              <p className="text-[#c5a065] font-semibold text-sm mb-1">{moreDest}</p>
-              <p className="text-white/40 text-xs">{moreDestDesc}</p>
-            </button>
-          </div>
-
           {/* Map */}
           <div className="flex items-center gap-3 mb-4">
             <div className="h-px flex-1 bg-[#c5a065]/20" />
             <h3 className="text-white text-sm font-semibold tracking-wide">{tr("exploreMap")}</h3>
             <div className="h-px flex-1 bg-[#c5a065]/20" />
           </div>
+          <p className="text-white/50 text-sm text-center mb-6 max-w-2xl mx-auto">{tr("exploreMapSub")}</p>
           <div className="relative rounded-xl overflow-hidden gold-border mb-8" style={{ background: "rgba(18,29,46,0.6)", minHeight: 160 }}>
             <CountryMap
               propertiesByCountry={propertiesByCountry}
@@ -391,11 +295,6 @@ function PublicHomeInner() {
           )}
         </div>
       </section>
-
-      <HomeHowItWorks />
-      <HomeServices />
-      <HomeTestimonials />
-      <HomeLeadMagnet />
 
       {/* Mobile WhatsApp */}
       <a href="https://wa.me/421951094706" target="_blank" rel="noopener noreferrer"
