@@ -4,7 +4,7 @@ import { base44 } from "@/api/base44Client";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
-import { MapPin, Bed, Maximize, Home, X, Menu } from "lucide-react";
+import { MapPin, Bed, Maximize, Home, X, Menu, MessageCircle } from "lucide-react";
 import CountryMap from "@/components/public/CountryMap";
 import Logo from "@/components/Logo";
 import GlobeWireframe from "@/components/public/GlobeWireframe";
@@ -147,6 +147,10 @@ function PublicHomeInner() {
           <nav className="hidden md:flex items-center gap-7">
             <a href="#destinations" className="text-white/60 hover:text-[#c5a065] transition-colors text-sm tracking-wide">{tr("offers")}</a>
             <a href="#destinations" className="text-white/60 hover:text-[#c5a065] transition-colors text-sm tracking-wide">{tr("contact")}</a>
+            <a href="https://wa.me/421911000000" target="_blank" rel="noopener noreferrer" className="flex items-center gap-1.5 text-white/60 hover:text-[#25D366] transition-colors text-sm">
+              <MessageCircle className="w-4 h-4" />
+              <span className="hidden lg:inline">WhatsApp</span>
+            </a>
             <a href="https://calendly.com/nehnutelnostivzahranici/30min" target="_blank" rel="noopener noreferrer">
               <Button size="sm" className="bg-[#c5a065] hover:bg-[#a88950] text-black font-semibold text-xs px-5">{tr("bookConsultation")}</Button>
             </a>
