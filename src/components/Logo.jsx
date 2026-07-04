@@ -1,26 +1,17 @@
 export default function Logo({ className = "h-10" }) {
   return (
-    <div className={`flex items-center gap-2 ${className}`} style={{ height: "inherit" }}>
-      <svg viewBox="0 0 44 50" fill="none" xmlns="http://www.w3.org/2000/svg" className="h-full w-auto">
-        {/* Circle */}
-        <circle cx="22" cy="20" r="17" stroke="white" strokeWidth="1.8" fill="none"/>
-        {/* Palm fronds */}
-        <path d="M22 28 C22 28 14 22 14 15" stroke="white" strokeWidth="1.5" strokeLinecap="round" fill="none"/>
-        <path d="M22 28 C22 28 11 19 12 12" stroke="white" strokeWidth="1.5" strokeLinecap="round" fill="none"/>
-        <path d="M22 28 C22 28 10 17 13 10" stroke="white" strokeWidth="1.5" strokeLinecap="round" fill="none"/>
-        <path d="M22 28 C22 28 30 22 30 15" stroke="white" strokeWidth="1.5" strokeLinecap="round" fill="none"/>
-        <path d="M22 28 C22 28 33 19 32 12" stroke="white" strokeWidth="1.5" strokeLinecap="round" fill="none"/>
-        <path d="M22 28 C22 28 34 17 31 10" stroke="white" strokeWidth="1.5" strokeLinecap="round" fill="none"/>
-        <path d="M22 28 C22 28 22 18 22 10" stroke="white" strokeWidth="1.5" strokeLinecap="round" fill="none"/>
-        {/* Stem */}
-        <path d="M22 28 L22 34" stroke="white" strokeWidth="1.5" strokeLinecap="round"/>
-        {/* Teardrop/pin bottom */}
-        <ellipse cx="22" cy="38" rx="3.5" ry="5" stroke="white" strokeWidth="1.5" fill="none"/>
+    <div className={`flex items-center gap-2.5 ${className}`} style={{ height: "inherit" }}>
+      <svg viewBox="0 0 44 44" fill="none" className="h-full w-auto">
+        <circle cx="22" cy="22" r="20" stroke="#c5a065" strokeWidth="1.5" fill="none" />
+        <ellipse cx="22" cy="22" rx="7" ry="20" stroke="#c5a065" strokeWidth="1" fill="none" opacity="0.5" />
+        <ellipse cx="22" cy="22" rx="14" ry="20" stroke="#c5a065" strokeWidth="1" fill="none" opacity="0.35" />
+        <line x1="2" y1="22" x2="42" y2="22" stroke="#c5a065" strokeWidth="1" opacity="0.35" />
+        <path d="M3 22 L14 22 L18 14 L22 22 L26 12 L30 22 L34 16 L41 22"
+          stroke="#ffffff" strokeWidth="2.5" fill="none" strokeLinecap="round" strokeLinejoin="round" />
       </svg>
-      <div className="flex flex-col leading-none">
-        <span className="text-white font-bold text-sm tracking-widest uppercase">Nehnuteľnosti</span>
-        <span className="text-white/70 text-[9px] tracking-[0.25em] uppercase">v zahraničí</span>
-      </div>
+      <span className="font-heading text-white text-lg tracking-[0.12em] font-semibold">
+        GLOB<span className="text-[#c5a065]">E</span>YA
+      </span>
     </div>
   );
 }

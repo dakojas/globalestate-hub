@@ -43,10 +43,10 @@ export default function Layout({ children, currentPageName }) {
     <div className="min-h-screen bg-[#f5f6fa] flex">
       <style>{`
         :root {
-          --navy: #0a1628;
-          --navy-light: #132039;
-          --gold: #c9a84c;
-          --gold-light: #e8d5a0;
+          --navy: #0a121d;
+          --navy-light: #121d2e;
+          --gold: #c5a065;
+          --gold-light: #d4bc8a;
         }
       `}</style>
 

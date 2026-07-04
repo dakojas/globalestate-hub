@@ -42,14 +42,14 @@ export default function PublicLangSwitcher() {
       </button>
 
       {open && (
-        <div className="absolute right-0 top-full mt-2 w-44 bg-[#0a1628] border border-white/20 rounded-xl shadow-2xl overflow-hidden z-[200]">
+        <div className="absolute right-0 top-full mt-2 w-44 bg-[#0a121d] border border-white/20 rounded-xl shadow-2xl overflow-hidden z-[200]">
           {languages.map(l => (
             <button
               key={l.code}
               onClick={() => { changeLang(l.code); setOpen(false); }}
               className={`w-full flex items-center gap-3 px-4 py-2.5 text-sm transition-colors text-left
                 ${lang === l.code
-                  ? "bg-[#c9a84c]/20 text-[#c9a84c] font-semibold"
+                  ? "bg-[#c5a065]/20 text-[#c5a065] font-semibold"
                   : "text-white/80 hover:bg-white/10"
                 }`}
               type="button"
