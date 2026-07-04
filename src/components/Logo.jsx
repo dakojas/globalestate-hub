@@ -4,7 +4,7 @@ export default function Logo({ className = "h-10" }) {
       <img
         src="https://media.base44.com/images/public/69b801924dae038161790d9a/033217bb2_53a52fc6-809b-4011-b39f-4b437564147f.jpeg"
         alt="GLOBEYA"
-        className="h-full w-auto rounded-lg object-contain"
+        className="h-8 w-8 rounded-md object-cover flex-shrink-0"
       />
       <span className="font-heading text-white text-lg tracking-[0.12em] font-semibold">
         GLOB<span className="text-[#c5a065]">E</span>YA
