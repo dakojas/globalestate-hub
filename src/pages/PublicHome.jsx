@@ -147,7 +147,7 @@ function PublicHomeInner() {
           <nav className="hidden md:flex items-center gap-7">
             <a href="#destinations" className="text-white/60 hover:text-[#c5a065] transition-colors text-sm tracking-wide">{tr("offers")}</a>
             <a href="#destinations" className="text-white/60 hover:text-[#c5a065] transition-colors text-sm tracking-wide">{tr("contact")}</a>
-            <a href="https://wa.me/421911000000" target="_blank" rel="noopener noreferrer" className="flex items-center gap-1.5 text-white/60 hover:text-[#25D366] transition-colors text-sm">
+            <a href="https://wa.me/421951094706" target="_blank" rel="noopener noreferrer" className="flex items-center gap-1.5 text-white/60 hover:text-[#25D366] transition-colors text-sm">
               <MessageCircle className="w-4 h-4" />
               <span className="hidden lg:inline">WhatsApp</span>
             </a>
