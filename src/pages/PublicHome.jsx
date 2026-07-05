@@ -49,7 +49,7 @@ function slugify(text) {
     .replace(/[^a-z0-9]+/g, "-").replace(/^-|-$/g, "");
 }
 
-function PropertyCard({ property, getCountryName, getTypeName, tr, lang }) {
+function PropertyCard({ property, getCountryName, getTypeName, tr, lang, hideFeaturedBadge }) {
   const slug = property.slug || slugify(property.title) + "-" + property.id.slice(-6);
   return (
     <Link to={`/nehnutelnost/${slug}`} className="group block">
@@ -73,7 +73,7 @@ function PropertyCard({ property, getCountryName, getTypeName, tr, lang }) {
               </span>
             )}
           </div>
-          {property.is_featured && (
+          {!hideFeaturedBadge && property.is_featured && (
             <div className="absolute top-2 left-2">
               <span className="bg-[#c5a065] text-[#0a0a0a] text-[10px] font-black px-2 py-0.5 rounded">⭐ TOP</span>
             </div>
@@ -128,7 +128,13 @@ function PublicHomeInner() {
     return matchCountry && matchType && matchBudget && matchPhase && p.status === "available";
   });
 
-  const displayFeatured = properties.filter(p => p.is_featured && p.status === "available");
+  const displayFeatured = properties
+    .filter(p => p.is_featured && p.status === "available")
+    .reduce((acc, p) => {
+      if (!acc.find(x => x.country === p.country)) acc.push(p);
+      return acc;
+    }, [])
+    .slice(0, 5);
 
   const getTypeName = (type) => (PROPERTY_TYPE_LABELS[lang]?.[type] || PROPERTY_TYPE_LABELS.en[type] || type);
   const getCountryName = (country) => country ? (COUNTRY_NAMES[lang]?.[country] || country) : country;
@@ -298,8 +304,8 @@ function PublicHomeInner() {
           ) : (
             <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-4">
               {filtered.map(p => (
-                <PropertyCard key={p.id} property={p} getCountryName={getCountryName} getTypeName={getTypeName} tr={tr} lang={lang} />
-              ))}
+                  <PropertyCard key={p.id} property={p} getCountryName={getCountryName} getTypeName={getTypeName} tr={tr} lang={lang} hideFeaturedBadge />
+                ))}
             </div>
           )}
         </div>
