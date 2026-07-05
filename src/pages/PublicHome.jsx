@@ -10,6 +10,7 @@ import Logo from "@/components/Logo";
 import GlobeWireframe from "@/components/public/GlobeWireframe";
 import HomeAboutStory from "@/components/public/HomeAboutStory";
 import BuyingProcessTimeline from "@/components/public/BuyingProcessTimeline";
+import TeamSection from "@/components/public/TeamSection";
 import { Link } from "react-router-dom";
 import { createPageUrl } from "@/utils";
 import { PublicLanguageProvider, usePublicLang } from "@/components/PublicLanguageContext";
@@ -317,6 +318,9 @@ function PublicHomeInner() {
           <BuyingProcessTimeline lang={lang} />
         </div>
       </section>
+
+      {/* Team */}
+      <TeamSection />
 
       {/* About / Brand Story */}
       <HomeAboutStory />
