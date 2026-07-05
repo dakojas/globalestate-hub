@@ -167,7 +167,7 @@ export default function HomeAboutStory() {
   const s = brandStory[lang] || brandStory.en;
 
   return (
-    <section id="about" className="px-4 sm:px-6 py-16 md:py-24" style={{ background: "#0a121d" }}>
+    <section id="about" className="px-4 sm:px-6 py-16 md:py-24" style={{ background: "transparent" }}>
       <div className="max-w-4xl mx-auto">
         {/* Section header */}
         <div className="text-center mb-16">

@@ -88,23 +88,23 @@ export default function BuyingProcessTimeline({ lang = "sk" }) {
   const t = translations[lang] || translations.sk;
 
   return (
-    <div className="rounded-2xl bg-white/5 backdrop-blur-lg border border-white/10 p-6">
+    <div className="rounded-2xl bg-white/[0.04] backdrop-blur-lg border border-[#c5a065]/15 p-6">
       <h3 className="text-xl font-semibold text-white mb-1">{t.title}</h3>
       <p className="text-sm text-white/50 mb-8">{t.subtitle}</p>
 
       <div className="relative">
         {/* Connecting line */}
         <div className="hidden md:block absolute top-7 left-0 right-0 h-0.5 bg-white/10" />
-        <div className="hidden md:block absolute top-7 left-0 h-0.5 bg-gradient-to-r from-[#c9a84c] to-[#e8d5a0]" style={{ width: "100%" }} />
+        <div className="hidden md:block absolute top-7 left-0 h-0.5 bg-gradient-to-r from-[#c5a065] to-[#e8d5a0]" style={{ width: "100%" }} />
 
         <div className="grid grid-cols-1 md:grid-cols-5 gap-6 md:gap-2 relative">
           {steps.map((step, i) => (
             <div key={i} className="relative flex md:flex-col items-start md:items-center gap-4 md:gap-3 md:text-center">
               <div className="relative z-10 flex-shrink-0">
-                <div className="w-14 h-14 rounded-full bg-[#0a1628] border-2 border-[#c9a84c] flex items-center justify-center shadow-lg">
-                  <step.icon className="w-6 h-6 text-[#c9a84c]" />
+                <div className="w-14 h-14 rounded-full bg-[#0e1a2e] border-2 border-[#c5a065] flex items-center justify-center shadow-lg">
+                  <step.icon className="w-6 h-6 text-[#c5a065]" />
                 </div>
-                <span className="hidden md:flex absolute -top-1 -right-1 w-6 h-6 rounded-full bg-[#c9a84c] text-[#0a1628] text-xs font-bold items-center justify-center">
+                <span className="hidden md:flex absolute -top-1 -right-1 w-6 h-6 rounded-full bg-[#c5a065] text-[#0e1a2e] text-xs font-bold items-center justify-center">
                   {i + 1}
                 </span>
               </div>

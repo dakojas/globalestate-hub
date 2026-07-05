@@ -53,12 +53,12 @@ function PropertyCard({ property, getCountryName, getTypeName, tr, lang }) {
   const slug = property.slug || slugify(property.title) + "-" + property.id.slice(-6);
   return (
     <Link to={`/nehnutelnost/${slug}`} className="group block">
-      <div className="rounded-xl overflow-hidden border border-[#c5a065]/20 bg-[#121d2e] hover:border-[#c5a065]/60 transition-all duration-300 hover:shadow-xl hover:shadow-[#c5a065]/10">
+      <div className="rounded-xl overflow-hidden border border-[#c5a065]/20 bg-[#16223a] hover:border-[#c5a065]/60 transition-all duration-300 hover:shadow-xl hover:shadow-[#c5a065]/10">
         <div className="aspect-[4/3] relative overflow-hidden">
           {property.images?.[0] ? (
             <img src={property.images[0]} alt={property.title} className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" />
           ) : (
-            <div className="w-full h-full flex items-center justify-center bg-[#0a121d]">
+            <div className="w-full h-full flex items-center justify-center bg-[#0e1a2e]">
               <Home className="w-10 h-10 text-white/20" />
             </div>
           )}
@@ -134,11 +134,11 @@ function PublicHomeInner() {
   const getCountryName = (country) => country ? (COUNTRY_NAMES[lang]?.[country] || country) : country;
 
   return (
-    <div className="min-h-screen font-body" style={{ background: "#0a121d" }}>
+    <div className="min-h-screen font-body" style={{ background: "linear-gradient(180deg, #0e1a2e 0%, #0c1626 100%)" }}>
       <style>{`
         .gold-border { border: 1px solid rgba(197,160,101,0.3); }
         .gold-border:hover { border-color: rgba(197,160,101,0.7); }
-        .glass-dark { background: rgba(10,18,29,0.85); backdrop-filter: blur(12px); }
+        .glass-dark { background: rgba(14,26,46,0.82); backdrop-filter: blur(12px); }
       `}</style>
 
       {/* Header */}
@@ -179,14 +179,14 @@ function PublicHomeInner() {
 
       {/* Hero */}
       <section className="relative overflow-hidden px-4 sm:px-6 pt-12 pb-10 md:pt-20 md:pb-16"
-        style={{ background: "radial-gradient(ellipse at 70% 50%, #121d2e 0%, #0a121d 70%)" }}>
+        style={{ background: "linear-gradient(135deg, #0a1423 0%, #122036 100%)" }}>
         <div className="max-w-7xl mx-auto">
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 items-center">
             <div>
               <h1 className="font-heading text-4xl sm:text-5xl md:text-6xl font-semibold text-white mb-4 leading-[1.1]">
                 {tr("heroTitle")} <span className="text-[#c5a065]">{tr("heroTitleHighlight")}</span>
               </h1>
-              <p className="text-white/60 text-base sm:text-lg mb-8 max-w-xl leading-relaxed">{tr("heroSubtitle")}</p>
+              <p className="text-white/75 text-base sm:text-lg mb-8 max-w-xl leading-relaxed">{tr("heroSubtitle")}</p>
               <div className="flex flex-wrap gap-3">
                 <a href="https://calendly.com/nehnutelnostivzahranici/30min" target="_blank" rel="noopener noreferrer">
                   <Button className="bg-[#c5a065] hover:bg-[#a88950] text-black font-semibold px-6 h-11 text-sm">{tr("bookConsultation")}</Button>
@@ -201,7 +201,7 @@ function PublicHomeInner() {
       </section>
 
       {/* Map + Properties */}
-      <section id="destinations" className="px-4 sm:px-6 py-12 md:py-16" style={{ background: "#0a121d" }}>
+      <section id="destinations" className="px-4 sm:px-6 py-12 md:py-16" style={{ background: "transparent" }}>
         <div className="max-w-7xl mx-auto">
           {/* Map */}
           <div className="flex items-center gap-3 mb-4">
@@ -209,8 +209,8 @@ function PublicHomeInner() {
             <h3 className="text-white text-sm font-semibold tracking-wide">{tr("exploreMap")}</h3>
             <div className="h-px flex-1 bg-[#c5a065]/20" />
           </div>
-          <p className="text-white/50 text-sm text-center mb-6 max-w-2xl mx-auto">{tr("exploreMapSub")}</p>
-          <div className="relative rounded-xl overflow-hidden gold-border mb-8" style={{ background: "rgba(18,29,46,0.6)", minHeight: 160 }}>
+          <p className="text-white/65 text-sm text-center mb-6 max-w-2xl mx-auto">{tr("exploreMapSub")}</p>
+          <div className="relative rounded-xl overflow-hidden gold-border mb-8" style={{ background: "rgba(22,34,58,0.5)", minHeight: 160 }}>
             <CountryMap
               propertiesByCountry={propertiesByCountry}
               selectedCountry={filters.country}
@@ -227,10 +227,10 @@ function PublicHomeInner() {
           </div>
 
           {/* Filters */}
-          <div className="rounded-xl gold-border p-4 mb-6" style={{ background: "rgba(18,29,46,0.7)" }}>
+          <div className="rounded-xl gold-border p-4 mb-6" style={{ background: "rgba(22,34,58,0.6)" }}>
             <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-3">
               <Select value={filters.country} onValueChange={v => setFilters({ ...filters, country: v })}>
-                <SelectTrigger className="bg-[#121d2e] border-[#c5a065]/30 text-white/80 text-sm h-9">
+                <SelectTrigger className="bg-[#16223a] border-[#c5a065]/30 text-white/80 text-sm h-9">
                   <SelectValue placeholder={tr("allCountries")} />
                 </SelectTrigger>
                 <SelectContent>
@@ -239,7 +239,7 @@ function PublicHomeInner() {
                 </SelectContent>
               </Select>
               <Select value={filters.propertyType} onValueChange={v => setFilters({ ...filters, propertyType: v })}>
-                <SelectTrigger className="bg-[#121d2e] border-[#c5a065]/30 text-white/80 text-sm h-9">
+                <SelectTrigger className="bg-[#16223a] border-[#c5a065]/30 text-white/80 text-sm h-9">
                   <SelectValue placeholder={tr("allTypes")} />
                 </SelectTrigger>
                 <SelectContent>
@@ -250,7 +250,7 @@ function PublicHomeInner() {
                 </SelectContent>
               </Select>
               <Select value={filters.constructionPhase} onValueChange={v => setFilters({ ...filters, constructionPhase: v })}>
-                <SelectTrigger className="bg-[#121d2e] border-[#c5a065]/30 text-white/80 text-sm h-9">
+                <SelectTrigger className="bg-[#16223a] border-[#c5a065]/30 text-white/80 text-sm h-9">
                   <SelectValue placeholder={lang === "sk" ? "Fáza projektu" : "Phase"} />
                 </SelectTrigger>
                 <SelectContent>
@@ -261,10 +261,10 @@ function PublicHomeInner() {
               </Select>
               <Input type="number" placeholder={tr("minPrice")} value={filters.minBudget}
                 onChange={e => setFilters({ ...filters, minBudget: e.target.value })}
-                className="bg-[#121d2e] border-[#c5a065]/30 text-white placeholder:text-white/30 h-9 text-sm" />
+                className="bg-[#16223a] border-[#c5a065]/30 text-white placeholder:text-white/30 h-9 text-sm" />
               <Input type="number" placeholder={tr("maxPrice")} value={filters.maxBudget}
                 onChange={e => setFilters({ ...filters, maxBudget: e.target.value })}
-                className="bg-[#121d2e] border-[#c5a065]/30 text-white placeholder:text-white/30 h-9 text-sm" />
+                className="bg-[#16223a] border-[#c5a065]/30 text-white placeholder:text-white/30 h-9 text-sm" />
             </div>
           </div>
 
@@ -289,11 +289,11 @@ function PublicHomeInner() {
           {/* All properties */}
           <div className="flex items-center justify-between mb-4">
             <h3 className="text-base font-bold text-white tracking-wide">{tr("availableOffers")}</h3>
-            <span className="text-white/40 text-sm">{filtered.length} {tr("properties")}</span>
+            <span className="text-white/55 text-sm">{filtered.length} {tr("properties")}</span>
           </div>
           {filtered.length === 0 ? (
             <div className="text-center py-20">
-              <p className="text-white/30 text-lg">{tr("noProperties")}</p>
+              <p className="text-white/45 text-lg">{tr("noProperties")}</p>
             </div>
           ) : (
             <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-4">
@@ -306,7 +306,7 @@ function PublicHomeInner() {
       </section>
 
       {/* Buying Process Timeline */}
-      <section className="px-4 sm:px-6 py-12 md:py-16" style={{ background: "#0a121d" }}>
+      <section className="px-4 sm:px-6 py-12 md:py-16" style={{ background: "transparent" }}>
         <div className="max-w-5xl mx-auto">
           <BuyingProcessTimeline lang={lang} />
         </div>
@@ -323,7 +323,7 @@ function PublicHomeInner() {
       </a>
 
       {/* Footer */}
-      <footer id="contact" style={{ background: "#080f1a", borderTop: "1px solid rgba(197,160,101,0.2)" }} className="px-4 sm:px-6 py-12">
+      <footer id="contact" style={{ background: "#0b1422", borderTop: "1px solid rgba(197,160,101,0.2)" }} className="px-4 sm:px-6 py-12">
         <div className="max-w-7xl mx-auto">
           <div className="flex flex-col md:flex-row items-center justify-between gap-6 mb-8">
             <Link to="/"><Logo className="h-10" /></Link>
