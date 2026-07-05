@@ -11,7 +11,7 @@ const brandStory = {
     chapter1: {
       label: "KAPITOLA I – ZAČIATOK",
       title: "Jeden nápad. Jedna stránka. Jeden sen.",
-      content: "Slováci chceli nehnuteľnosti v zahraničí, ale nikde kde začať. Jazyk bol cudzí. Trh neznámy. Právne prostredie neprehľadné. A nikto im nehovoril v ich jazyku, s ich dôverou, z ich sveta.\n\nTak vznikla GLOBEYA — nie ako veľká korporácia, ale ako odpoveď na konkrétnu potrebu konkrétnych ľudí."
+      content: "Slováci túžili po nehnuteľnostiach v zahraničí, no nevedeli, kde začať. Cudzí jazyk, neznámy trh, neprehľadné právne prostredie. A nikto k nim nepristúpil v ich jazyku — s ich dôverou, z ich sveta.\n\nTak vznikla GLOBEYA — nie ako veľká korporácia, ale ako odpoveď na konkrétnu potrebu konkrétnych ľudí."
     },
     chapter2: {
       label: "KAPITOLA II – RAST",
