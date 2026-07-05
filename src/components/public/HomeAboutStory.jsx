@@ -11,7 +11,7 @@ const brandStory = {
     chapter1: {
       label: "KAPITOLA I – ZAČIATOK",
       title: "Jeden nápad. Jedna stránka. Jeden sen.",
-      content: "Slováci chceli nehnuteľnosti v zahraničí, ale nikde kde začať. Jazyk bol cudzí. Trh neznámy. Právne prostredie neprehľadné. A nikto im nehovoril v ich jazyku, s ich dôverou, z ich sveta.\n\nTak vznikla stránka Nehnuteľnosti v zahraničí — nie ako veľká korporácia, ale ako odpoveď na konkrétnu potrebu konkrétnych ľudí."
+      content: "Slováci chceli nehnuteľnosti v zahraničí, ale nikde kde začať. Jazyk bol cudzí. Trh neznámy. Právne prostredie neprehľadné. A nikto im nehovoril v ich jazyku, s ich dôverou, z ich sveta.\n\nTak vznikla GLOBEYA — nie ako veľká korporácia, ale ako odpoveď na konkrétnu potrebu konkrétnych ľudí."
     },
     chapter2: {
       label: "KAPITOLA II – RAST",
@@ -44,7 +44,7 @@ const brandStory = {
     chapter1: {
       label: "CHAPTER I – BEGINNING",
       title: "One idea. One page. One dream.",
-      content: "Slovaks wanted property abroad, but didn't know where to start. The language was foreign. The market unknown. The legal landscape impenetrable. And nobody spoke to them in their language, with their trust, from their world.\n\nSo Nehnuteľnosti v zahraničí was born — not as a big corporation, but as an answer to a specific need of specific people."
+      content: "Slovaks wanted property abroad, but didn't know where to start. The language was foreign. The market unknown. The legal landscape impenetrable. And nobody spoke to them in their language, with their trust, from their world.\n\nSo GLOBEYA was born — not as a big corporation, but as an answer to a specific need of specific people."
     },
     chapter2: {
       label: "CHAPTER II – GROWTH",
@@ -74,7 +74,7 @@ const brandStory = {
     sectionLabel: "ÜBER UNS",
     sectionTitle: "Wir haben als kleiner slowakischer Traum begonnen.",
     sectionSubtitle: "Wir wurden zu einem Tor zur ganzen Welt.",
-    chapter1: { label: "KAPITEL I – ANFANG", title: "Eine Idee. Eine Seite. Ein Traum.", content: "Slowaken wollten Immobilien im Ausland, wussten aber nicht, wo sie anfangen sollten. Die Sprache war fremd. Der Markt unbekannt. Das rechtliche Umfeld undurchdringlich. Und niemand sprach mit ihnen in ihrer Sprache, mit ihrem Vertrauen, aus ihrer Welt.\n\nSo entstand die Seite Nehnuteľnosti v zahraničí – nicht als großes Unternehmen, sondern als Antwort auf einen spezifischen Bedarf von spezifischen Menschen." },
+    chapter1: { label: "KAPITEL I – ANFANG", title: "Eine Idee. Eine Seite. Ein Traum.", content: "Slowaken wollten Immobilien im Ausland, wussten aber nicht, wo sie anfangen sollten. Die Sprache war fremd. Der Markt unbekannt. Das rechtliche Umfeld undurchdringlich. Und niemand sprach mit ihnen in ihrer Sprache, mit ihrem Vertrauen, aus ihrer Welt.\n\nSo entstand GLOBEYA – nicht als großes Unternehmen, sondern als Antwort auf einen spezifischen Bedarf von spezifischen Menschen." },
     chapter2: { label: "KAPITEL II – WACHSTUM", title: "Die Kunden haben uns mitgenommen.", content: "Erster Kauf in Ägypten. Dann Dubai. Dann Bali. Jeder zufriedene Kunde öffnete neue Türen – in neue Länder, zu neuen Entwicklern, zu neuen Gemeinschaften.", timeline: [
       { label: "Gründung", desc: "Slowakisches Portal geht online. Erste Projekte, erste Kunden, erste Träume auf fremdem Boden erfüllt." },
       { label: "Expansion", desc: "Ägypten, Dubai, Albanien, Türkei. Team wächst. Makler in Dubai. Partner vor Ort." },
@@ -89,7 +89,7 @@ const brandStory = {
     sectionLabel: "À PROPOS",
     sectionTitle: "Nous avons commencé comme un petit rêve slovaque.",
     sectionSubtitle: "Nous sommes devenus une porte vers le monde entier.",
-    chapter1: { label: "CHAPITRE I – DÉBUT", title: "Une idée. Une page. Un rêve.", content: "Les Slovaques voulaient des propriétés à l'étranger, mais ne savaient pas par où commencer. La langue était étrangère. Le marché inconnu. Le paysage juridique impénétrable. Et personne ne leur parlait dans leur langue, avec leur confiance, de leur monde.\n\nAinsi est née la page Nehnuteľnosti v zahraničí – non comme une grande corporation, mais comme une réponse à un besoin spécifique de personnes spécifiques." },
+    chapter1: { label: "CHAPITRE I – DÉBUT", title: "Une idée. Une page. Un rêve.", content: "Les Slovaques voulaient des propriétés à l'étranger, mais ne savaient pas par où commencer. La langue était étrangère. Le marché inconnu. Le paysage juridique impénétrable. Et personne ne leur parlait dans leur langue, avec leur confiance, de leur monde.\n\nAinsi est née GLOBEYA – non comme une grande corporation, mais comme une réponse à un besoin spécifique de personnes spécifiques." },
     chapter2: { label: "CHAPITRE II – CROISSANCE", title: "Les clients nous ont emmenés avec eux.", content: "Premier achat en Égypte. Puis Dubaï. Puis Bali. Chaque client satisfait a ouvert de nouvelles portes – vers de nouveaux pays, vers de nouveaux promoteurs, vers de nouvelles communautés.", timeline: [
       { label: "Début", desc: "Le portail slovaque en ligne. Premiers projets, premiers clients, premiers rêves réalisés sur une terre étrangère." },
       { label: "Expansion", desc: "Égypte, Dubaï, Albanie, Turquie. L'équipe se développe. Courtiers à Dubaï. Partenaires sur le terrain." },
@@ -104,7 +104,7 @@ const brandStory = {
     sectionLabel: "CHI SIAMO",
     sectionTitle: "Abbiamo iniziato come un piccolo sogno slovacco.",
     sectionSubtitle: "Siamo diventati un portale verso il mondo intero.",
-    chapter1: { label: "CAPITOLO I – INIZIO", title: "Un'idea. Una pagina. Un sogno.", content: "Gli slovacchi volevano proprietà all'estero, ma non sapevano da dove iniziare. La lingua era straniera. Il mercato sconosciuto. Il panorama legale impenetrabile. E nessuno parlava loro nella loro lingua, con la loro fiducia, dal loro mondo.\n\nCosì è nata la pagina Nehnuteľnosti v zahraničí – non come una grande corporation, ma come una risposta a un bisogno specifico di persone specifiche." },
+    chapter1: { label: "CAPITOLO I – INIZIO", title: "Un'idea. Una pagina. Un sogno.", content: "Gli slovacchi volevano proprietà all'estero, ma non sapevano da dove iniziare. La lingua era straniera. Il mercato sconosciuto. Il panorama legale impenetrabile. E nessuno parlava loro nella loro lingua, con la loro fiducia, dal loro mondo.\n\nCosì è nata GLOBEYA – non come una grande corporation, ma come una risposta a un bisogno specifico di persone specifiche." },
     chapter2: { label: "CAPITOLO II – CRESCITA", title: "I clienti ci hanno portato con loro.", content: "Primo acquisto in Egitto. Poi Dubai. Poi Bali. Ogni cliente soddisfatto ha aperto nuove porte – verso nuovi paesi, verso nuovi sviluppatori, verso nuove comunità.", timeline: [
       { label: "Inizio", desc: "Il portale slovacco online. Primi progetti, primi clienti, primi sogni realizzati su terra straniera." },
       { label: "Espansione", desc: "Egitto, Dubai, Albania, Turchia. Il team cresce. Broker a Dubai. Partner sul terreno." },
@@ -119,7 +119,7 @@ const brandStory = {
     sectionLabel: "О НАС",
     sectionTitle: "Мы начали как маленькая словацкая мечта.",
     sectionSubtitle: "Мы стали воротами в целый мир.",
-    chapter1: { label: "ГЛАВА I – НАЧАЛО", title: "Одна идея. Одна страница. Одна мечта.", content: "Словаки хотели недвижимость за рубежом, но не знали, с чего начать. Язык был чужим. Рынок — неизвестным. Правовая среда — непроходимой. И никто не говорил с ними на их языке, с их доверием, из их мира.\n\nТак появилась страница Nehnuteľnosti v zahraničí — не как большая корпорация, а как ответ на конкретную потребность конкретных людей." },
+    chapter1: { label: "ГЛАВА I – НАЧАЛО", title: "Одна идея. Одна страница. Одна мечта.", content: "Словаки хотели недвижимость за рубежом, но не знали, с чего начать. Язык был чужим. Рынок — неизвестным. Правовая среда — непроходимой. И никто не говорил с ними на их языке, с их доверием, из их мира.\n\nТак появилась GLOBEYA — не как большая корпорация, а как ответ на конкретную потребность конкретных людей." },
     chapter2: { label: "ГЛАВА II – РОСТ", title: "Клиенты взяли нас с собой.", content: "Первая покупка в Египте. Потом Дубай. Потом Бали. Каждый довольный клиент открывал новые двери — в новые страны, к новым застройщикам, к новым сообществам.", timeline: [
       { label: "Основание", desc: "Словацкий портал выходит в онлайн. Первые проекты, первые клиенты, первые мечты, осуществлённые на чужой земле." },
       { label: "Расширение", desc: "Египет, Дубай, Албания, Турция. Команда растёт. Брокеры в Дубае. Партнёры на месте." },
@@ -134,7 +134,7 @@ const brandStory = {
     sectionLabel: "O NAS",
     sectionTitle: "Zaczęliśmy jako mały słowacki sen.",
     sectionSubtitle: "Staliśmy się bramą do całego świata.",
-    chapter1: { label: "ROZDZIAŁ I – POCZĄTEK", title: "Jeden pomysł. Jedna strona. Jeden sen.", content: "Słowacy chcieli nieruchomości za granicą, ale nie wiedzieli, od czego zacząć. Język był obcy. Rynek nieznany. Krajobraz prawny nieprzenikliwy. I nikt nie mówił do nich w ich języku, z ich zaufaniem, z ich świata.\n\nTak powstała strona Nehnuteľnosti v zahraničí – nie jako duża korporacja, ale jako odpowiedź na konkretną potrzebę konkretnych ludzi." },
+    chapter1: { label: "ROZDZIAŁ I – POCZĄTEK", title: "Jeden pomysł. Jedna strona. Jeden sen.", content: "Słowacy chcieli nieruchomości za granicą, ale nie wiedzieli, od czego zacząć. Język był obcy. Rynek nieznany. Krajobraz prawny nieprzenikliwy. I nikt nie mówił do nich w ich języku, z ich zaufaniem, z ich świata.\n\nTak powstała GLOBEYA – nie jako duża korporacja, ale jako odpowiedź na konkretną potrzebę konkretnych ludzi." },
     chapter2: { label: "ROZDZIAŁ II – WZROST", title: "Klienci zabrali nas ze sobą.", content: "Pierwszy zakup w Egipcie. Potem Dubaj. Potem Bali. Każdy zadowolony klient otworzył nowe drzwi – do nowych krajów, do nowych deweloperów, do nowych społeczności.", timeline: [
       { label: "Początek", desc: "Słowacki portal online. Pierwsze projekty, pierwsi klienci, pierwsze spełnione marzenia na obcej ziemi." },
       { label: "Ekspansja", desc: "Egipt, Dubaj, Albania, Turcja. Zespół rośnie. Brokerzy w Dubaju. Partnerzy na terenie." },
@@ -149,7 +149,7 @@ const brandStory = {
     sectionLabel: "RÓLUNK",
     sectionTitle: "Kis szlovák álomként kezdtük.",
     sectionSubtitle: "Az egész világ kapujává váltunk.",
-    chapter1: { label: "I. FEJEZET – KEZDETEK", title: "Egy ötlet. Egy oldal. Egy álom.", content: "A szlovákok külföldön akartak ingatlant vásárolni, de nem tudták, hol kezdjék. A nyelv idegen volt. A piac ismeretlen. A jogi környezet átláthatatlan. És senki sem szólt hozzájuk a saját nyelvükön, a saját bizalmukkal, a saját világukból.\n\nÍgy született meg a Nehnuteľnosti v zahraničí oldal – nem nagy vállalatként, hanem konkrét emberek konkrét szükségletére adott válaszként." },
+    chapter1: { label: "I. FEJEZET – KEZDETEK", title: "Egy ötlet. Egy oldal. Egy álom.", content: "A szlovákok külföldön akartak ingatlant vásárolni, de nem tudták, hol kezdjék. A nyelv idegen volt. A piac ismeretlen. A jogi környezet átláthatatlan. És senki sem szólt hozzájuk a saját nyelvükön, a saját bizalmukkal, a saját világukból.\n\nÍgy született meg a GLOBEYA – nem nagy vállalatként, hanem konkrét emberek konkrét szükségletére adott válaszként." },
     chapter2: { label: "II. FEJEZET – NÖVEKEDÉS", title: "Az ügyfelek magukkal vittek minket.", content: "Első vétel Egyiptomban. Aztán Dubai. Aztán Bali. Minden elégedett ügyfél új ajtókat nyitott meg – új országokba, új fejlesztőkhöz, új közösségekhez.", timeline: [
       { label: "Alapítás", desc: "A szlovák portál elindul. Első projektek, első ügyfelek, első megvalósított álmok idegen földön." },
       { label: "Terjeszkedés", desc: "Egyiptom, Dubai, Albánia, Törökország. A csapat nő. Brókerek Dubaiban. Partnerek helyszínen." },
