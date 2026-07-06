@@ -11,6 +11,7 @@ import GlobeWireframe from "@/components/public/GlobeWireframe";
 import HomeAboutStory from "@/components/public/HomeAboutStory";
 import BuyingProcessTimeline from "@/components/public/BuyingProcessTimeline";
 import TeamSection from "@/components/public/TeamSection";
+import Testimonials from "@/components/public/Testimonials";
 import { Link } from "react-router-dom";
 import { createPageUrl } from "@/utils";
 import { PublicLanguageProvider, usePublicLang } from "@/components/PublicLanguageContext";
@@ -321,6 +322,9 @@ function PublicHomeInner() {
 
       {/* Team */}
       <TeamSection />
+
+      {/* Testimonials */}
+      <Testimonials />
 
       {/* About / Brand Story */}
       <HomeAboutStory />
