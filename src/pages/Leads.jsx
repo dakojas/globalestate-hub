@@ -7,7 +7,7 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { Tabs, TabsList, TabsTrigger } from "@/components/ui/tabs";
-import { UserPlus, Search, Phone, Mail, MapPin, Euro, Clock, User, BarChart3, List } from "lucide-react";
+import { UserPlus, Search, Phone, Mail, MapPin, Euro, Clock, User, BarChart3, List, Building2 } from "lucide-react";
 import { Link } from "react-router-dom";
 import { createPageUrl } from "@/utils";
 import { toast } from "sonner";
@@ -311,6 +311,25 @@ export default function Leads() {
                         </div>
                       )}
                     </div>
+
+                    {lead.interested_property_title && (
+                      <Link to={createPageUrl(`PropertyDetail?id=${lead.interested_property_id}`)} className="flex items-center gap-2 mt-3 p-2 rounded-lg bg-[#c9a84c]/5 border border-[#c9a84c]/20 hover:bg-[#c9a84c]/10 transition-colors group">
+                        {lead.interested_property_image ? (
+                          <img src={lead.interested_property_image} alt="" className="w-10 h-10 rounded-md object-cover flex-shrink-0" />
+                        ) : (
+                          <div className="w-10 h-10 rounded-md bg-[#c9a84c]/15 flex items-center justify-center flex-shrink-0">
+                            <Building2 className="w-5 h-5 text-[#c9a84c]" />
+                          </div>
+                        )}
+                        <div className="min-w-0 flex-1">
+                          <p className="text-xs font-semibold text-[#0a1628] truncate group-hover:underline">{lead.interested_property_title}</p>
+                          <p className="text-[11px] text-gray-500">
+                            {lead.interested_property_country}
+                            {lead.interested_property_price ? ` · €${lead.interested_property_price.toLocaleString()}` : ""}
+                          </p>
+                        </div>
+                      </Link>
+                    )}
 
                     <div className="flex items-center gap-4 mt-3 text-xs text-gray-400">
                       {(lead.budget_min || lead.budget_max) && (

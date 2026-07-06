@@ -104,6 +104,26 @@
       },
       "description": "Preferred property types"
     },
+    "interested_property_id": {
+      "type": "string",
+      "description": "ID of the property the client expressed interest in from the website"
+    },
+    "interested_property_title": {
+      "type": "string",
+      "description": "Title of the property the client is interested in (for quick display)"
+    },
+    "interested_property_country": {
+      "type": "string",
+      "description": "Country of the interested property"
+    },
+    "interested_property_price": {
+      "type": "number",
+      "description": "Price of the interested property"
+    },
+    "interested_property_image": {
+      "type": "string",
+      "description": "Main image URL of the interested property"
+    },
     "assigned_agent": {
       "type": "string",
       "description": "Email of assigned agent"

@@ -146,6 +146,11 @@ function PublicPropertyInner() {
         referrer_code: ref || undefined,
         status: "new_lead",
         notes: formData.notes,
+        interested_property_id: property?.id || undefined,
+        interested_property_title: property?.title || undefined,
+        interested_property_country: property?.country || undefined,
+        interested_property_price: property?.price || undefined,
+        interested_property_image: property?.images?.[0] || undefined,
       });
       const messages = {
         sk: "Ďakujeme! Čoskoro vás budeme kontaktovať.",

@@ -6,7 +6,7 @@ import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Skeleton } from "@/components/ui/skeleton";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
-import { ArrowLeft, Pencil, MessageSquare, Phone, Mail, Eye, FileText, Clock, User, Gift } from "lucide-react";
+import { ArrowLeft, Pencil, MessageSquare, Phone, Mail, Eye, FileText, Clock, User, Gift, Building2 } from "lucide-react";
 import { Link } from "react-router-dom";
 import { createPageUrl } from "@/utils";
 import { format } from "date-fns";
@@ -171,6 +171,27 @@ export default function ClientDetail() {
               <div className="mt-4 pt-4 border-t">
                 <p className="text-xs text-gray-400 uppercase tracking-wider mb-2">Preferred Countries</p>
                 <div className="flex flex-wrap gap-1">{client.preferred_countries.map(c => <Badge key={c} variant="outline" className="text-xs">{c}</Badge>)}</div>
+              </div>
+            )}
+            {client.interested_property_title && (
+              <div className="mt-4 pt-4 border-t">
+                <p className="text-xs text-gray-400 uppercase tracking-wider mb-2">Záujem o nehnuteľnosť</p>
+                <Link to={createPageUrl(`PropertyDetail?id=${client.interested_property_id}`)} className="flex items-center gap-3 p-3 rounded-xl bg-[#c9a84c]/5 border border-[#c9a84c]/20 hover:bg-[#c9a84c]/10 transition-colors group">
+                  {client.interested_property_image ? (
+                    <img src={client.interested_property_image} alt="" className="w-14 h-14 rounded-lg object-cover flex-shrink-0" />
+                  ) : (
+                    <div className="w-14 h-14 rounded-lg bg-[#c9a84c]/15 flex items-center justify-center flex-shrink-0">
+                      <Building2 className="w-6 h-6 text-[#c9a84c]" />
+                    </div>
+                  )}
+                  <div className="min-w-0 flex-1">
+                    <p className="text-sm font-semibold text-[#0a1628] truncate group-hover:underline">{client.interested_property_title}</p>
+                    <p className="text-xs text-gray-500">
+                      {client.interested_property_country}
+                      {client.interested_property_price ? ` · €${client.interested_property_price.toLocaleString()}` : ""}
+                    </p>
+                  </div>
+                </Link>
               </div>
             )}
             {client.notes && (
