@@ -155,6 +155,9 @@
 [data-theme="light"] .bg-gradient-to-br { background-image: linear-gradient(var(--tw-gradient-stops)); }
 [data-theme="light"] .bg-gray-900 { background-color: #f0ebe1; }
 
+/* Light mode: language dropdown and other dark backgrounds */
+[data-theme="light"] .bg-\[\#0a121d\] { background-color: #ffffff; border-color: rgba(26,35,50,0.12); }
+
 /* Dark mode: convert light backgrounds to dark */
 [data-theme="dark"] .bg-white { background-color: var(--bg-card); }
 [data-theme="dark"] .bg-gray-50 { background-color: rgba(22,34,58,0.5); }
