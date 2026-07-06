@@ -18,21 +18,25 @@ export default function Layout({ children, currentPageName }) {
   const { t, language, changeLanguage } = useTranslation();
 
   const navItems = [
-    { nameKey: "dashboard", icon: LayoutDashboard, page: "Dashboard" },
-    { nameKey: "leads", icon: UserPlus, page: "Leads" },
-    { nameKey: "properties", icon: Building2, page: "Properties" },
-    { nameKey: "clients", icon: Users, page: "Clients" },
-    { nameKey: "calendar", icon: CalendarClock, page: "Calendar" },
-    { nameKey: "commissions", icon: DollarSign, page: "Commissions" },
-    { nameKey: "referrers", icon: Users, page: "Referrers" },
-    { nameKey: "partners", icon: Users, page: "Partners" },
-    { nameKey: "realEstateAgencies", icon: Building2, page: "RealEstateAgencies" },
-    { nameKey: "reports", icon: BarChart3, page: "Reports" },
-    { nameKey: "propertyImport", icon: Upload, page: "PropertyImport" },
-    { nameKey: "aiAgents", icon: Bot, page: "AIAgents" },
-    { nameKey: "team", icon: Users, page: "Team", divider: true },
-    { nameKey: "publicSite", icon: Globe, page: "PublicHome" },
+    { nameKey: "dashboard", icon: LayoutDashboard, page: "Dashboard", roles: ["admin", "user"] },
+    { nameKey: "leads", icon: UserPlus, page: "Leads", roles: ["admin", "user"] },
+    { nameKey: "properties", icon: Building2, page: "Properties", roles: ["admin", "user"] },
+    { nameKey: "clients", icon: Users, page: "Clients", roles: ["admin", "user"] },
+    { nameKey: "calendar", icon: CalendarClock, page: "Calendar", roles: ["admin", "user"] },
+    { nameKey: "commissions", icon: DollarSign, page: "Commissions", roles: ["admin"] },
+    { nameKey: "referrers", icon: Users, page: "Referrers", roles: ["admin"] },
+    { nameKey: "partners", icon: Users, page: "Partners", roles: ["admin"] },
+    { nameKey: "realEstateAgencies", icon: Building2, page: "RealEstateAgencies", roles: ["admin"] },
+    { nameKey: "reports", icon: BarChart3, page: "Reports", roles: ["admin"] },
+    { nameKey: "propertyImport", icon: Upload, page: "PropertyImport", roles: ["admin"] },
+    { nameKey: "aiAgents", icon: Bot, page: "AIAgents", roles: ["admin", "user"] },
+    { nameKey: "team", icon: Users, page: "Team", roles: ["admin"], divider: true },
+    { nameKey: "publicSite", icon: Globe, page: "PublicHome", roles: ["admin", "user"] },
   ];
+
+  const visibleNavItems = navItems.filter(item =>
+    !user || item.roles.includes(user.role || "user")
+  );
 
   useEffect(() => {
     base44.auth.me().then(setUser).catch(() => {});
@@ -73,7 +77,7 @@ export default function Layout({ children, currentPageName }) {
         </div>
 
         <nav className="flex-1 p-4 space-y-1 overflow-y-auto">
-          {navItems.map((item) => {
+          {visibleNavItems.map((item) => {
             const isActive = currentPageName === item.page;
             return (
               <React.Fragment key={item.page}>
@@ -131,7 +135,7 @@ export default function Layout({ children, currentPageName }) {
                 <Menu className="w-6 h-6" />
               </button>
               <h2 className="text-lg font-semibold text-[var(--navy)]">
-                {t(navItems.find(n => n.page === currentPageName)?.nameKey || currentPageName)}
+                {t(visibleNavItems.find(n => n.page === currentPageName)?.nameKey || currentPageName)}
               </h2>
             </div>
             <div className="flex items-center gap-3">

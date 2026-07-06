@@ -40,8 +40,13 @@ const LayoutWrapper = ({ children, currentPageName }) =>
 
 const PUBLIC_PATHS = ["/", "/PublicHome", "/PublicProperty", "/PublicSubmit"];
 
-const ProtectedRoute = ({ children }) => {
-  const { isLoadingAuth, isLoadingPublicSettings, authError, isAuthenticated } = useAuth();
+const ADMIN_ONLY_PAGES = [
+  "Commissions", "Referrers", "Partners", "RealEstateAgencies",
+  "Reports", "PropertyImport", "Team"
+];
+
+const ProtectedRoute = ({ children, adminOnly }) => {
+  const { isLoadingAuth, isLoadingPublicSettings, authError, isAuthenticated, user } = useAuth();
 
   if (isLoadingPublicSettings || isLoadingAuth) {
     return (
@@ -60,6 +65,15 @@ const ProtectedRoute = ({ children }) => {
       <div className="fixed inset-0 flex flex-col items-center justify-center bg-[#0a1628] gap-4">
         <div className="w-8 h-8 border-4 border-[#c9a84c]/30 border-t-[#c9a84c] rounded-full animate-spin"></div>
         <p className="text-white/60 text-sm">Presmerovávam na prihlásenie...</p>
+      </div>
+    );
+  }
+
+  if (adminOnly && user?.role !== 'admin') {
+    return (
+      <div className="fixed inset-0 flex flex-col items-center justify-center bg-[#0a1628] gap-4">
+        <p className="text-white/80 text-lg font-semibold">Prístup zamietnutý</p>
+        <p className="text-white/40 text-sm">Na túto sekciu nemáte oprávnenie.</p>
       </div>
     );
   }
@@ -89,15 +103,15 @@ const AuthenticatedApp = () => {
       <Route path="/Clients" element={<ProtectedRoute><LayoutWrapper currentPageName="Clients"><Clients /></LayoutWrapper></ProtectedRoute>} />
       <Route path="/ClientDetail" element={<ProtectedRoute><LayoutWrapper currentPageName="ClientDetail"><ClientDetail /></LayoutWrapper></ProtectedRoute>} />
       <Route path="/Calendar" element={<ProtectedRoute><LayoutWrapper currentPageName="Calendar"><Calendar /></LayoutWrapper></ProtectedRoute>} />
-      <Route path="/Commissions" element={<ProtectedRoute><LayoutWrapper currentPageName="Commissions"><Commissions /></LayoutWrapper></ProtectedRoute>} />
+      <Route path="/Commissions" element={<ProtectedRoute adminOnly><LayoutWrapper currentPageName="Commissions"><Commissions /></LayoutWrapper></ProtectedRoute>} />
       <Route path="/PropertyMap" element={<ProtectedRoute><LayoutWrapper currentPageName="PropertyMap"><PropertyMap /></LayoutWrapper></ProtectedRoute>} />
       <Route path="/Leads" element={<ProtectedRoute><LayoutWrapper currentPageName="Leads"><Leads /></LayoutWrapper></ProtectedRoute>} />
-      <Route path="/Referrers" element={<ProtectedRoute><LayoutWrapper currentPageName="Referrers"><Referrers /></LayoutWrapper></ProtectedRoute>} />
-      <Route path="/Partners" element={<ProtectedRoute><LayoutWrapper currentPageName="Partners"><Partners /></LayoutWrapper></ProtectedRoute>} />
-      <Route path="/Reports" element={<ProtectedRoute><LayoutWrapper currentPageName="Reports"><Reports /></LayoutWrapper></ProtectedRoute>} />
-      <Route path="/PropertyImport" element={<ProtectedRoute><LayoutWrapper currentPageName="PropertyImport"><PropertyImport /></LayoutWrapper></ProtectedRoute>} />
-      <Route path="/Team" element={<ProtectedRoute><LayoutWrapper currentPageName="Team"><Team /></LayoutWrapper></ProtectedRoute>} />
-      <Route path="/RealEstateAgencies" element={<ProtectedRoute><LayoutWrapper currentPageName="RealEstateAgencies"><RealEstateAgencies /></LayoutWrapper></ProtectedRoute>} />
+      <Route path="/Referrers" element={<ProtectedRoute adminOnly><LayoutWrapper currentPageName="Referrers"><Referrers /></LayoutWrapper></ProtectedRoute>} />
+      <Route path="/Partners" element={<ProtectedRoute adminOnly><LayoutWrapper currentPageName="Partners"><Partners /></LayoutWrapper></ProtectedRoute>} />
+      <Route path="/Reports" element={<ProtectedRoute adminOnly><LayoutWrapper currentPageName="Reports"><Reports /></LayoutWrapper></ProtectedRoute>} />
+      <Route path="/PropertyImport" element={<ProtectedRoute adminOnly><LayoutWrapper currentPageName="PropertyImport"><PropertyImport /></LayoutWrapper></ProtectedRoute>} />
+      <Route path="/Team" element={<ProtectedRoute adminOnly><LayoutWrapper currentPageName="Team"><Team /></LayoutWrapper></ProtectedRoute>} />
+      <Route path="/RealEstateAgencies" element={<ProtectedRoute adminOnly><LayoutWrapper currentPageName="RealEstateAgencies"><RealEstateAgencies /></LayoutWrapper></ProtectedRoute>} />
       <Route path="/PropertyAgent" element={<ProtectedRoute><LayoutWrapper currentPageName="PropertyAgent"><PropertyAgent /></LayoutWrapper></ProtectedRoute>} />
       <Route path="/OfferAgent" element={<ProtectedRoute><LayoutWrapper currentPageName="OfferAgent"><OfferAgent /></LayoutWrapper></ProtectedRoute>} />
       <Route path="/AIAgents" element={<ProtectedRoute><LayoutWrapper currentPageName="AIAgents"><AIAgents /></LayoutWrapper></ProtectedRoute>} />
