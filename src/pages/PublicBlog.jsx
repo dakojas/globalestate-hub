@@ -37,6 +37,60 @@ function PublicBlogInner() {
     <div data-theme={isDark ? "dark" : "light"} className="min-h-screen font-body" style={{ background: "var(--bg-page)" }}>
       <Seo title={`${t.title} | GLOBEYA`} description={t.subtitle} canonical="https://nvz.info/PublicBlog" />
 
+      <style>{`
+        /* Dark mode: force Soro blog content to use light text */
+        [data-theme="dark"] #soro-blog,
+        [data-theme="dark"] #soro-blog * {
+          color: #ffffff !important;
+        }
+        [data-theme="dark"] #soro-blog a,
+        [data-theme="dark"] #soro-blog h1,
+        [data-theme="dark"] #soro-blog h2,
+        [data-theme="dark"] #soro-blog h3,
+        [data-theme="dark"] #soro-blog h4,
+        [data-theme="dark"] #soro-blog h5,
+        [data-theme="dark"] #soro-blog h6 {
+          color: #ffffff !important;
+        }
+        [data-theme="dark"] #soro-blog p,
+        [data-theme="dark"] #soro-blog span,
+        [data-theme="dark"] #soro-blog div,
+        [data-theme="dark"] #soro-blog li {
+          color: rgba(255,255,255,0.75) !important;
+        }
+        [data-theme="dark"] #soro-blog input,
+        [data-theme="dark"] #soro-blog textarea {
+          background: rgba(255,255,255,0.1) !important;
+          border-color: rgba(255,255,255,0.2) !important;
+          color: #ffffff !important;
+        }
+        [data-theme="dark"] #soro-blog input::placeholder,
+        [data-theme="dark"] #soro-blog textarea::placeholder {
+          color: rgba(255,255,255,0.4) !important;
+        }
+
+        /* Light mode: force dark text */
+        [data-theme="light"] #soro-blog,
+        [data-theme="light"] #soro-blog * {
+          color: #1a2332 !important;
+        }
+        [data-theme="light"] #soro-blog a,
+        [data-theme="light"] #soro-blog h1,
+        [data-theme="light"] #soro-blog h2,
+        [data-theme="light"] #soro-blog h3,
+        [data-theme="light"] #soro-blog h4,
+        [data-theme="light"] #soro-blog h5,
+        [data-theme="light"] #soro-blog h6 {
+          color: #1a2332 !important;
+        }
+        [data-theme="light"] #soro-blog p,
+        [data-theme="light"] #soro-blog span,
+        [data-theme="light"] #soro-blog div,
+        [data-theme="light"] #soro-blog li {
+          color: rgba(26,35,50,0.75) !important;
+        }
+      `}</style>
+
       {/* Header */}
       <header className="border-b border-white/10 bg-white/5 backdrop-blur-lg sticky top-0 z-50">
         <div className="max-w-7xl mx-auto px-6 py-4 flex items-center justify-between">
