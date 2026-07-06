@@ -13,6 +13,7 @@ import { toast } from "sonner";
 import html2canvas from "html2canvas";
 import jsPDF from "jspdf";
 import OfferPreview from "./OfferPreview";
+import AttachmentUploader from "./AttachmentUploader";
 
 export default function OfferGenerator({ open, onClose }) {
   const [propertyId, setPropertyId] = useState("");
@@ -21,6 +22,7 @@ export default function OfferGenerator({ open, onClose }) {
   const [message, setMessage] = useState("");
   const [sending, setSending] = useState(false);
   const [tab, setTab] = useState("compose");
+  const [attachments, setAttachments] = useState([]);
 
   const { data: properties = [] } = useQuery({
     queryKey: ["properties"],
@@ -118,7 +120,18 @@ export default function OfferGenerator({ open, onClose }) {
       const pdfFile = new File([pdfBlob], `Ponuka_${selectedProperty.title.replace(/[^a-z0-9]/gi, '_')}.pdf`, { type: "application/pdf" });
       const { file_url } = await base44.integrations.Core.UploadFile({ file: pdfFile });
 
-      const emailBody = `${message}\n\n---\n\nNehnuteľnosť: ${selectedProperty.title}\nLokalita: ${selectedProperty.city}, ${selectedProperty.country}\nCena: ${selectedProperty.price?.toLocaleString()} ${selectedProperty.currency || "EUR"}\n\nPonuka na stiahnutie (PDF): ${file_url}`;
+      let emailBody = `${message}\n\n---\n\nNehnuteľnosť: ${selectedProperty.title}\nLokalita: ${selectedProperty.city}, ${selectedProperty.country}\nCena: ${selectedProperty.price?.toLocaleString()} ${selectedProperty.currency || "EUR"}\n\nPonuka na stiahnutie (PDF): ${file_url}`;
+
+      if (selectedProperty?.brochure_url) {
+        emailBody += `\nBrožúra nehnuteľnosti: ${selectedProperty.brochure_url}`;
+      }
+
+      if (attachments.length > 0) {
+        emailBody += `\n\n--- Prílohy ---`;
+        attachments.forEach((att, idx) => {
+          emailBody += `\n${idx + 1}. ${att.name}: ${att.url}`;
+        });
+      }
 
       await base44.integrations.Core.SendEmail({
         to: selectedClient.email,
@@ -138,6 +151,7 @@ export default function OfferGenerator({ open, onClose }) {
       });
 
       toast.success(`Ponuka odoslaná na ${selectedClient.email}`);
+      setAttachments([]);
       onClose();
     } catch (e) {
       toast.error("Chyba pri odosielaní: " + e.message);
@@ -214,6 +228,16 @@ export default function OfferGenerator({ open, onClose }) {
                 </div>
               </div>
             )}
+
+            <div>
+              <Label>Prílohy a fotky</Label>
+              <p className="text-xs text-gray-400 mb-2">Pridajte ďalšie fotky, dokumenty alebo PDF k ponuke</p>
+              <AttachmentUploader
+                attachments={attachments}
+                onAdd={(att) => setAttachments(prev => [...prev, att])}
+                onRemove={(idx) => setAttachments(prev => prev.filter((_, i) => i !== idx))}
+              />
+            </div>
           </TabsContent>
 
           <TabsContent value="preview">
