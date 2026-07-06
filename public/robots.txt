@@ -1,0 +1,22 @@
+User-agent: *
+Allow: /
+Disallow: /Dashboard
+Disallow: /Properties
+Disallow: /PropertyDetail
+Disallow: /Clients
+Disallow: /ClientDetail
+Disallow: /Calendar
+Disallow: /Commissions
+Disallow: /PropertyMap
+Disallow: /Leads
+Disallow: /Referrers
+Disallow: /Partners
+Disallow: /RealEstateAgencies
+Disallow: /PropertyAgent
+Disallow: /OfferAgent
+Disallow: /AIAgents
+Disallow: /Reports
+Disallow: /PropertyImport
+Disallow: /Team
+
+Sitemap: https://nvz.info/api/functions/generateSitemap

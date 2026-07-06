@@ -16,6 +16,7 @@ import { Link } from "react-router-dom";
 import { createPageUrl } from "@/utils";
 import { PublicLanguageProvider, usePublicLang } from "@/components/PublicLanguageContext";
 import PublicLangSwitcher from "@/components/PublicLangSwitcher";
+import Seo from "@/components/Seo";
 
 const COUNTRIES = ["Albania", "Bali", "Hungary", "Bulgaria", "Croatia", "Dominican Republic", "Egypt", "Georgia", "Mauritius", "Oman", "UAE", "Spain", "Italy", "Thailand", "Turkey"];
 
@@ -58,7 +59,7 @@ function PropertyCard({ property, getCountryName, getTypeName, tr, lang, hideFea
       <div className="rounded-xl overflow-hidden border border-[#c5a065]/20 bg-[#16223a] hover:border-[#c5a065]/60 transition-all duration-300 hover:shadow-xl hover:shadow-[#c5a065]/10">
         <div className="aspect-[4/3] relative overflow-hidden">
           {property.images?.[0] ? (
-            <img src={property.images[0]} alt={property.title} className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" />
+            <img src={property.images[0]} alt={`${property.title} — ${getCountryName(property.country)}`} className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" loading="lazy" />
           ) : (
             <div className="w-full h-full flex items-center justify-center bg-[#0e1a2e]">
               <Home className="w-10 h-10 text-white/20" />
@@ -141,8 +142,36 @@ function PublicHomeInner() {
   const getTypeName = (type) => (PROPERTY_TYPE_LABELS[lang]?.[type] || PROPERTY_TYPE_LABELS.en[type] || type);
   const getCountryName = (country) => country ? (COUNTRY_NAMES[lang]?.[country] || country) : country;
 
+  const homeJsonLd = {
+    "@context": "https://schema.org",
+    "@type": "RealEstateAgent",
+    "name": "GLOBEYA",
+    "description": "Nehnuteľnosti pri mori od Egypta po Bali — s kompletným servisom v slovenčine. Kúpa, zariadenie aj správa nehnuteľností pod jednou strechou.",
+    "url": "https://nvz.info",
+    "logo": "https://media.base44.com/images/public/69b801924dae038161790d9a/a605c941a_53a52fc6-809b-4011-b39f-4b437564147f.jpeg",
+    "image": "https://media.base44.com/images/public/69b801924dae038161790d9a/a605c941a_53a52fc6-809b-4011-b39f-4b437564147f.jpeg",
+    "telephone": "+421951094706",
+    "email": "info@globeya.com",
+    "priceRange": "€€€",
+    "areaServed": ["Slovakia", "Czech Republic", "Egypt", "Bali", "Dubai", "Spain", "Italy", "Turkey", "Thailand", "Croatia", "Bulgaria", "Albania", "Georgia", "Mauritius", "Oman", "Hungary", "Dominican Republic"],
+    "address": {
+      "@type": "PostalAddress",
+      "addressCountry": "SK"
+    },
+    "sameAs": [
+      "https://www.nehnutelnostivzahranici.sk"
+    ]
+  };
+
   return (
     <div className="min-h-screen font-body" style={{ background: "linear-gradient(180deg, #0e1a2e 0%, #0c1626 100%)" }}>
+      <Seo
+        title="GLOBEYA – Váš domov vo svete | Medzinárodné nehnuteľnosti"
+        description="GLOBEYA — nehnuteľnosti pri mori od Egypta po Bali. Kúpa, zariadenie aj správa pod jednou strechou. Nezáväzná konzultácia zdarma."
+        image="https://media.base44.com/images/public/69b801924dae038161790d9a/a605c941a_53a52fc6-809b-4011-b39f-4b437564147f.jpeg"
+        canonical="https://nvz.info"
+        jsonLd={homeJsonLd}
+      />
       <style>{`
         .gold-border { border: 1px solid rgba(197,160,101,0.3); }
         .gold-border:hover { border-color: rgba(197,160,101,0.7); }

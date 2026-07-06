@@ -24,6 +24,7 @@ import { PublicLanguageProvider, usePublicLang } from "@/components/PublicLangua
 import PublicLangSwitcher from "@/components/PublicLangSwitcher";
 import Logo from "@/components/Logo";
 import BuyingProcessTimeline from "@/components/public/BuyingProcessTimeline";
+import Seo from "@/components/Seo";
 
 function PublicPropertyInner() {
   const { slug } = useParams();
@@ -57,35 +58,33 @@ function PublicPropertyInner() {
 
   const id = property?.id;
 
-  // Set Open Graph meta tags for social sharing previews
-  useEffect(() => {
-    if (!property) return;
-    const image = property.images?.[0] || "";
-    const title = property.title || "Nehnuteľnosti v zahraničí";
-    const desc = property.description?.slice(0, 200) || "";
-    const url = window.location.href;
+  // Build JSON-LD structured data for the property
+  const propertyJsonLd = property ? {
+    "@context": "https://schema.org",
+    "@type": "Product",
+    "name": property.title,
+    "description": property.description?.slice(0, 500) || "",
+    "image": property.images?.slice(0, 5) || [],
+    "url": window.location.href,
+    "category": "Real Estate",
+    "offers": {
+      "@type": "Offer",
+      "price": property.price,
+      "priceCurrency": property.currency || "EUR",
+      "availability": property.status === "available" ? "https://schema.org/InStock" : "https://schema.org/OutOfStock",
+      "url": window.location.href
+    },
+    "address": {
+      "@type": "PostalAddress",
+      "addressLocality": property.city || "",
+      "addressCountry": property.country || ""
+    }
+  } : null;
 
-    const setMeta = (property, content) => {
-      let el = document.querySelector(`meta[property="${property}"]`) || document.querySelector(`meta[name="${property}"]`);
-      if (!el) {
-        el = document.createElement("meta");
-        el.setAttribute(property.startsWith("og:") || property.startsWith("twitter:") ? "property" : "name", property);
-        document.head.appendChild(el);
-      }
-      el.setAttribute("content", content);
-    };
-
-    document.title = `${title} | Nehnuteľnosti v zahraničí`;
-    setMeta("og:title", title);
-    setMeta("og:description", desc);
-    setMeta("og:image", image);
-    setMeta("og:url", url);
-    setMeta("og:type", "website");
-    setMeta("twitter:card", "summary_large_image");
-    setMeta("twitter:title", title);
-    setMeta("twitter:description", desc);
-    setMeta("twitter:image", image);
-  }, [property]);
+  const seoTitle = property ? `${property.title} — ${property.city}, ${property.country} | GLOBEYA` : "Nehnuteľnosti v zahraničí | GLOBEYA";
+  const seoDesc = property ? (property.description?.slice(0, 160) || `${property.title} v ${property.city}, ${property.country} za €${property.price?.toLocaleString()}.`) : "Nehnuteľnosti pri mori od Egypta po Bali — s kompletným servisom v slovenčine.";
+  const seoImage = property?.images?.[0] || "";
+  const seoCanonical = property ? `https://nvz.info/nehnutelnost/${slug}` : "https://nvz.info";
 
   // Auto-translate to selected language
   useEffect(() => {
@@ -205,6 +204,14 @@ function PublicPropertyInner() {
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-[#0a1628] via-[#132039] to-[#1a2844]">
+      <Seo
+        title={seoTitle}
+        description={seoDesc}
+        image={seoImage}
+        canonical={seoCanonical}
+        type="product"
+        jsonLd={propertyJsonLd}
+      />
       {/* Lightbox */}
       {lightboxIdx !== null && property?.images?.length > 0 && (
         <div className="fixed inset-0 z-[100] bg-black/95 flex items-center justify-center" onClick={() => setLightboxIdx(null)}>
@@ -244,7 +251,7 @@ function PublicPropertyInner() {
           <div className="lg:col-span-2 space-y-6">
             <div className="rounded-2xl overflow-hidden bg-gray-900 aspect-video cursor-pointer" onClick={() => setLightboxIdx(0)}>
               {property.images?.[0] ? (
-                <img src={property.images[0]} alt={property.title} className="w-full h-full object-cover hover:scale-105 transition-transform duration-300" />
+                <img src={property.images[0]} alt={`${property.title} — ${property.city}, ${property.country}`} className="w-full h-full object-cover hover:scale-105 transition-transform duration-300" loading="eager" />
               ) : (
                 <div className="w-full h-full flex items-center justify-center"><MapPin className="w-20 h-20 text-white/20" /></div>
               )}
@@ -254,7 +261,7 @@ function PublicPropertyInner() {
               <div className="flex gap-3 overflow-x-auto pb-2">
                 {property.images.slice(1).map((img, i) => (
                   <div key={i} className="w-32 h-24 rounded-lg overflow-hidden bg-gray-900 flex-shrink-0 cursor-pointer" onClick={() => setLightboxIdx(i + 1)}>
-                    <img src={img} alt="" className="w-full h-full object-cover hover:scale-105 transition-transform duration-300" />
+                    <img src={img} alt={`${property.title} — foto ${i + 2}`} className="w-full h-full object-cover hover:scale-105 transition-transform duration-300" loading="lazy" />
                   </div>
                 ))}
               </div>
