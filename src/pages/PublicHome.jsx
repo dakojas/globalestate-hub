@@ -17,6 +17,7 @@ import { Link } from "react-router-dom";
 import { createPageUrl } from "@/utils";
 import { PublicLanguageProvider, usePublicLang } from "@/components/PublicLanguageContext";
 import PublicLangSwitcher from "@/components/PublicLangSwitcher";
+import CookieConsent from "@/components/public/CookieConsent";
 import Seo from "@/components/Seo";
 
 const COUNTRIES = ["Albania", "Bali", "Hungary", "Bulgaria", "Croatia", "Dominican Republic", "Egypt", "Georgia", "Mauritius", "Oman", "UAE", "Spain", "Italy", "Thailand", "Turkey"];
@@ -404,6 +405,8 @@ function PublicHomeInner() {
 
       {/* About / Brand Story */}
       <HomeAboutStory />
+
+      <CookieConsent />
 
       {/* Mobile WhatsApp */}
       <a href="https://wa.me/421951094706" target="_blank" rel="noopener noreferrer"
