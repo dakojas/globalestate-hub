@@ -22,6 +22,7 @@ import PipelineValue from "../components/dashboard/PipelineValue";
 import StaleLeads from "../components/dashboard/StaleLeads";
 import MonthlySalesChart from "../components/dashboard/MonthlySalesChart";
 import AgentPerformanceChart from "../components/dashboard/AgentPerformanceChart";
+import ClientStatusChart from "../components/dashboard/ClientStatusChart";
 
 function getGreeting() {
   const h = new Date().getHours();
@@ -145,6 +146,7 @@ export default function Dashboard() {
           </div>
           <div className="space-y-6">
             <PipelineValue clients={clients} commissions={commissions} />
+            <ClientStatusChart clients={clients} />
             <SalesFunnel clients={clients} />
           </div>
         </div>
