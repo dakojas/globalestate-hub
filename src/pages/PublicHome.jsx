@@ -187,6 +187,7 @@ function PublicHomeInner() {
           <Link to="/"><Logo className="h-9" /></Link>
           <nav className="hidden md:flex items-center gap-7">
             <a href="#destinations" className="text-white/60 hover:text-[#c5a065] transition-colors text-sm tracking-wide">{tr("offers")}</a>
+            <Link to={createPageUrl("PublicBlog")} className="text-white/60 hover:text-[#c5a065] transition-colors text-sm tracking-wide">{lang === "sk" ? "Blog" : "Blog"}</Link>
             <a href="#destinations" className="text-white/60 hover:text-[#c5a065] transition-colors text-sm tracking-wide">{tr("contact")}</a>
             <a href="https://wa.me/421951094706" target="_blank" rel="noopener noreferrer"
                className="flex items-center gap-1.5 bg-[#25D366] hover:bg-[#1ebe5d] text-white font-semibold text-xs px-3.5 py-2 rounded-full transition-all duration-200 shadow-lg shadow-[#25D366]/30 hover:shadow-[#25D366]/50 hover:scale-105">
@@ -218,6 +219,7 @@ function PublicHomeInner() {
           <div className="md:hidden border-t border-[#c5a065]/15 glass-dark">
             <div className="px-4 py-4 space-y-1">
               <a href="#destinations" onClick={() => setMobileMenuOpen(false)} className="block text-white/70 hover:text-[#c5a065] py-2.5 text-sm">{tr("offers")}</a>
+              <Link to={createPageUrl("PublicBlog")} onClick={() => setMobileMenuOpen(false)} className="block text-white/70 hover:text-[#c5a065] py-2.5 text-sm">Blog</Link>
               <a href="#destinations" onClick={() => setMobileMenuOpen(false)} className="block text-white/70 hover:text-[#c5a065] py-2.5 text-sm">{tr("contact")}</a>
               <a href="https://calendly.com/nehnutelnostivzahranici/30min" target="_blank" rel="noopener noreferrer" className="block bg-[#c5a065] text-black font-semibold text-sm text-center py-2.5 rounded mt-2">{tr("bookConsultation")}</a>
             </div>
@@ -401,6 +403,7 @@ function PublicHomeInner() {
               <Link to={createPageUrl("PublicSubmit")} className="text-[#c5a065]/60 hover:text-[#c5a065] text-xs transition-colors">{tr("listProperty")}</Link>
               <Link to={createPageUrl("PublicPouceniePreKlienta")} className="text-[#c5a065]/60 hover:text-[#c5a065] text-xs transition-colors">Poučenie pre klienta</Link>
               <Link to={createPageUrl("PublicReklamacnyPoriadok")} className="text-[#c5a065]/60 hover:text-[#c5a065] text-xs transition-colors">Reklamačný poriadok</Link>
+              <Link to={createPageUrl("PublicBlog")} className="text-[#c5a065]/60 hover:text-[#c5a065] text-xs transition-colors">Blog</Link>
             </div>
           </div>
         </div>
