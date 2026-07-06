@@ -4,6 +4,26 @@ const VALID_COUNTRIES = ["Albania", "Bali", "Hungary", "Bulgaria", "Croatia", "D
 const VALID_TYPES = ["studio", "1_bedroom", "2_bedroom", "penthouse", "vila"];
 const VALID_CURRENCIES = ["EUR", "USD", "GBP", "AED", "THB", "EGP", "IDR"];
 
+// Strip partner contact info from descriptions — clients should only contact us
+const CONTACT_PATTERNS = [
+  /Kontakt:\s*[+\d\s\-()]+/gi,
+  /Mail:\s*\S+@\S+/gi,
+  /Email:\s*\S+@\S+/gi,
+  /Tel[.ífonsá]*:\s*[+\d\s\-()]+/gi,
+  /Telefón:\s*[+\d\s\-()]+/gi,
+  /Telefon:\s*[+\d\s\-()]+/gi,
+  /info@bytybudapest\.sk/gi,
+  /\+421\s*\d{3}\s*\d{3}\s*\d{3}/g,
+];
+function stripContactInfo(text) {
+  if (!text) return text;
+  let cleaned = text;
+  for (const p of CONTACT_PATTERNS) {
+    cleaned = cleaned.replace(p, '');
+  }
+  return cleaned.replace(/\n\s*\n\s*\n+/g, '\n\n').trim();
+}
+
 Deno.serve(async (req) => {
   try {
     const base44 = createClientFromRequest(req);
@@ -218,6 +238,9 @@ ${truncatedDetail}`,
               uploadedImages.push(uploadResult.file_url);
             } catch (e) { /* skip failed image */ }
           }
+
+          // Strip partner contact info before saving
+          fullDescription = stripContactInfo(fullDescription);
 
           // Create property
           await base44.asServiceRole.entities.Property.create({
