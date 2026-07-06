@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import { useDayNight } from "@/hooks/useDayNight";
 import { useQuery } from "@tanstack/react-query";
 import { base44 } from "@/api/base44Client";
 import { Input } from "@/components/ui/input";
@@ -105,6 +106,7 @@ function PropertyCard({ property, getCountryName, getTypeName, tr, lang, hideFea
 
 function PublicHomeInner() {
   const { tr, lang } = usePublicLang();
+  const isDark = useDayNight();
   const [filters, setFilters] = useState({ country: "all", minBudget: "", maxBudget: "", propertyType: "all", constructionPhase: "all" });
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
 
@@ -164,7 +166,7 @@ function PublicHomeInner() {
   };
 
   return (
-    <div className="min-h-screen font-body" style={{ background: "linear-gradient(180deg, #0e1a2e 0%, #0c1626 100%)" }}>
+    <div data-theme={isDark ? "dark" : "light"} className="min-h-screen font-body" style={{ background: "var(--bg-page)" }}>
       <Seo
         title="GLOBEYA – Váš domov vo svete | Medzinárodné nehnuteľnosti"
         description="GLOBEYA — nehnuteľnosti pri mori od Egypta po Bali. Kúpa, zariadenie aj správa pod jednou strechou. Nezáväzná konzultácia zdarma."
@@ -173,9 +175,46 @@ function PublicHomeInner() {
         jsonLd={homeJsonLd}
       />
       <style>{`
+        [data-theme="dark"] {
+          --bg-page: linear-gradient(180deg, #0e1a2e 0%, #0c1626 100%);
+          --bg-hero: linear-gradient(135deg, #0a1423 0%, #122036 100%);
+          --bg-card: #16223a;
+          --bg-card-alt: rgba(22,34,58,0.6);
+          --bg-card-hover: rgba(22,34,58,0.5);
+          --bg-no-image: #0e1a2e;
+          --bg-footer: #0b1422;
+          --glass-bg: rgba(14,26,46,0.82);
+        }
+        [data-theme="light"] {
+          --bg-page: linear-gradient(180deg, #f7f4ef 0%, #ede8de 100%);
+          --bg-hero: linear-gradient(135deg, #f0ebe1 0%, #e8e2d5 100%);
+          --bg-card: #ffffff;
+          --bg-card-alt: rgba(255,255,255,0.75);
+          --bg-card-hover: rgba(255,255,255,0.5);
+          --bg-no-image: #f0ebe1;
+          --bg-footer: #f0ebe2;
+          --glass-bg: rgba(247,244,239,0.85);
+        }
         .gold-border { border: 1px solid rgba(197,160,101,0.3); }
         .gold-border:hover { border-color: rgba(197,160,101,0.7); }
-        .glass-dark { background: rgba(14,26,46,0.82); backdrop-filter: blur(12px); }
+        .glass-dark { background: var(--glass-bg); backdrop-filter: blur(12px); }
+        [data-theme="light"] .text-white { color: #1a2332; }
+        [data-theme="light"] .text-white\\/80 { color: rgba(26,35,50,0.80); }
+        [data-theme="light"] .text-white\\/75 { color: rgba(26,35,50,0.75); }
+        [data-theme="light"] .text-white\\/65 { color: rgba(26,35,50,0.65); }
+        [data-theme="light"] .text-white\\/60 { color: rgba(26,35,50,0.60); }
+        [data-theme="light"] .text-white\\/55 { color: rgba(26,35,50,0.55); }
+        [data-theme="light"] .text-white\\/50 { color: rgba(26,35,50,0.50); }
+        [data-theme="light"] .text-white\\/45 { color: rgba(26,35,50,0.45); }
+        [data-theme="light"] .text-white\\/40 { color: rgba(26,35,50,0.40); }
+        [data-theme="light"] .text-white\\/30 { color: rgba(26,35,50,0.30); }
+        [data-theme="light"] .text-white\\/20 { color: rgba(26,35,50,0.20); }
+        [data-theme="light"] .placeholder\\:text-white\\/30::placeholder { color: rgba(26,35,50,0.30); }
+        [data-theme="light"] .bg-\\[\\#16223a\\] { background-color: var(--bg-card); }
+        [data-theme="light"] .bg-\\[\\#0e1a2e\\] { background-color: var(--bg-no-image); }
+        [data-theme="light"] .bg-\\[\\#25D366\\].text-white { color: #ffffff; }
+        [data-theme="light"] .bg-orange-500.text-white { color: #ffffff; }
+        [data-theme="light"] .bg-emerald-600.text-white { color: #ffffff; }
       `}</style>
 
       {/* Header */}
@@ -216,7 +255,7 @@ function PublicHomeInner() {
 
       {/* Hero */}
       <section className="relative overflow-hidden px-4 sm:px-6 pt-12 pb-10 md:pt-20 md:pb-16"
-        style={{ background: "linear-gradient(135deg, #0a1423 0%, #122036 100%)" }}>
+        style={{ background: "var(--bg-hero)" }}>
         <div className="max-w-7xl mx-auto">
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 items-center">
             <div>
@@ -247,7 +286,7 @@ function PublicHomeInner() {
             <div className="h-px flex-1 bg-[#c5a065]/20" />
           </div>
           <p className="text-white/65 text-sm text-center mb-6 max-w-2xl mx-auto">{tr("exploreMapSub")}</p>
-          <div className="relative rounded-xl overflow-hidden gold-border mb-8" style={{ background: "rgba(22,34,58,0.5)", minHeight: 160 }}>
+          <div className="relative rounded-xl overflow-hidden gold-border mb-8" style={{ background: "var(--bg-card-hover)", minHeight: 160 }}>
             <CountryMap
               propertiesByCountry={propertiesByCountry}
               selectedCountry={filters.country}
@@ -264,7 +303,7 @@ function PublicHomeInner() {
           </div>
 
           {/* Filters */}
-          <div className="rounded-xl gold-border p-4 mb-6" style={{ background: "rgba(22,34,58,0.6)" }}>
+          <div className="rounded-xl gold-border p-4 mb-6" style={{ background: "var(--bg-card-alt)" }}>
             <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-3">
               <Select value={filters.country} onValueChange={v => setFilters({ ...filters, country: v })}>
                 <SelectTrigger className="bg-[#16223a] border-[#c5a065]/30 text-white/80 text-sm h-9">
@@ -366,7 +405,7 @@ function PublicHomeInner() {
       </a>
 
       {/* Footer */}
-      <footer id="contact" style={{ background: "#0b1422", borderTop: "1px solid rgba(197,160,101,0.2)" }} className="px-4 sm:px-6 py-12">
+      <footer id="contact" style={{ background: "var(--bg-footer)", borderTop: "1px solid rgba(197,160,101,0.2)" }} className="px-4 sm:px-6 py-12">
         <div className="max-w-7xl mx-auto">
           <div className="flex flex-col md:flex-row items-center justify-between gap-6 mb-8">
             <Link to="/"><Logo className="h-10" /></Link>
