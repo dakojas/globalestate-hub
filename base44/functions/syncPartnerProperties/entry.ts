@@ -36,14 +36,21 @@ Deno.serve(async (req) => {
           }
         }
 
+        // Normalize URL — prepend https:// if missing
+        let fetchUrl = partner.website_url;
+        if (!fetchUrl.startsWith('http://') && !fetchUrl.startsWith('https://')) {
+          fetchUrl = 'https://' + fetchUrl;
+        }
+
         // Fetch listings page HTML
-        const resp = await fetch(partner.website_url, {
+        const resp = await fetch(fetchUrl, {
           headers: {
             'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36',
             'Accept': 'text/html,application/xhtml+xml',
             'Accept-Language': 'en-US,en;q=0.9,sk;q=0.8'
           },
-          signal: AbortSignal.timeout(30000)
+          signal: AbortSignal.timeout(30000),
+          redirect: 'follow'
         });
         if (!resp.ok) throw new Error(`Failed to fetch page: ${resp.status}`);
         const html = await resp.text();
