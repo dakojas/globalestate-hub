@@ -110,6 +110,8 @@ ${truncatedHtml}`,
         let newCount = 0;
         let skippedCount = 0;
 
+        const baseUrl = new URL(fetchUrl);
+
         for (const prop of extracted) {
           if (!prop.title || prop.title.length < 3) { skippedCount++; continue; }
 
@@ -129,9 +131,70 @@ ${truncatedHtml}`,
             if (dupByUrl) { skippedCount++; continue; }
           }
 
+          // --- Fetch property detail page for richer description + more photos ---
+          let fullDescription = prop.description || '';
+          let allImageUrls = [...(prop.image_urls || [])];
+
+          if (prop.source_url && prop.source_url !== partner.website_url) {
+            try {
+              let detailUrl = prop.source_url;
+              if (detailUrl.startsWith('//')) detailUrl = 'https:' + detailUrl;
+              else if (detailUrl.startsWith('/')) detailUrl = baseUrl.origin + detailUrl;
+              else if (!detailUrl.startsWith('http')) detailUrl = baseUrl.origin + '/' + detailUrl;
+
+              const detailResp = await fetch(detailUrl, {
+                headers: {
+                  'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36',
+                  'Accept': 'text/html,application/xhtml+xml',
+                  'Accept-Language': 'en-US,en;q=0.9,sk;q=0.8'
+                },
+                signal: AbortSignal.timeout(20000),
+                redirect: 'follow'
+              });
+              if (detailResp.ok) {
+                const detailHtml = await detailResp.text();
+                const truncatedDetail = detailHtml.slice(0, 100000);
+
+                // AI: extract full description + all images from detail page
+                const detailResult = await base44.asServiceRole.integrations.Core.InvokeLLM({
+                  prompt: `You are a real estate data extractor. Analyze the following HTML from a property detail page at "${detailUrl}".
+Extract:
+- description: the FULL and DETAILED property description text (all paragraphs, features, amenities, location info — everything descriptive). Do NOT truncate. If the page has a long description, include it all.
+- image_urls: array of ALL image URLs found on the page that are property photos (gallery, slider, floor plans). Include as many as you can find. Convert relative URLs to absolute using base "${baseUrl.origin}".
+- bedrooms, bathrooms, area_sqm if found on the detail page (more accurate than listing page)
+
+HTML to analyze:
+${truncatedDetail}`,
+                  response_json_schema: {
+                    type: "object",
+                    properties: {
+                      description: { type: "string" },
+                      image_urls: { type: "array", items: { type: "string" } },
+                      bedrooms: { type: "number" },
+                      bathrooms: { type: "number" },
+                      area_sqm: { type: "number" }
+                    }
+                  }
+                });
+
+                if (detailResult.description && detailResult.description.length > (fullDescription?.length || 0)) {
+                  fullDescription = detailResult.description;
+                }
+                if (detailResult.image_urls && detailResult.image_urls.length > 0) {
+                  // Merge + dedup
+                  const merged = [...allImageUrls, ...detailResult.image_urls];
+                  allImageUrls = [...new Set(merged)];
+                }
+                if (detailResult.bedrooms) prop.bedrooms = detailResult.bedrooms;
+                if (detailResult.bathrooms) prop.bathrooms = detailResult.bathrooms;
+                if (detailResult.area_sqm) prop.area_sqm = detailResult.area_sqm;
+              }
+            } catch (e) { /* detail page failed, continue with listing data */ }
+          }
+
           // Download images
           const uploadedImages = [];
-          for (const imgUrl of (prop.image_urls || []).slice(0, 10)) {
+          for (const imgUrl of allImageUrls.slice(0, 20)) {
             try {
               let fullUrl = imgUrl;
               if (fullUrl.startsWith('//')) fullUrl = 'https:' + fullUrl;
@@ -159,8 +222,8 @@ ${truncatedHtml}`,
           // Create property
           await base44.asServiceRole.entities.Property.create({
             title: prop.title,
-            description: prop.description || '',
-            description_en: prop.description || '',
+            description: fullDescription,
+            description_en: fullDescription,
             country,
             city: prop.city || '',
             price: prop.price || 0,
