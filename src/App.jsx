@@ -28,6 +28,7 @@ import AIAgents from '@/pages/AIAgents';
 import Reports from '@/pages/Reports';
 import PropertyImport from '@/pages/PropertyImport';
 import Team from '@/pages/Team';
+import PartnerSync from '@/pages/PartnerSync';
 import PublicSubmit from '@/pages/PublicSubmit';
 import PublicAbout from '@/pages/PublicAbout';
 import PublicFAQ from '@/pages/PublicFAQ';
@@ -110,6 +111,7 @@ const AuthenticatedApp = () => {
       <Route path="/Partners" element={<ProtectedRoute adminOnly><LayoutWrapper currentPageName="Partners"><Partners /></LayoutWrapper></ProtectedRoute>} />
       <Route path="/Reports" element={<ProtectedRoute adminOnly><LayoutWrapper currentPageName="Reports"><Reports /></LayoutWrapper></ProtectedRoute>} />
       <Route path="/PropertyImport" element={<ProtectedRoute adminOnly><LayoutWrapper currentPageName="PropertyImport"><PropertyImport /></LayoutWrapper></ProtectedRoute>} />
+      <Route path="/PartnerSync" element={<ProtectedRoute adminOnly><LayoutWrapper currentPageName="PartnerSync"><PartnerSync /></LayoutWrapper></ProtectedRoute>} />
       <Route path="/Team" element={<ProtectedRoute adminOnly><LayoutWrapper currentPageName="Team"><Team /></LayoutWrapper></ProtectedRoute>} />
       <Route path="/RealEstateAgencies" element={<ProtectedRoute adminOnly><LayoutWrapper currentPageName="RealEstateAgencies"><RealEstateAgencies /></LayoutWrapper></ProtectedRoute>} />
       <Route path="/PropertyAgent" element={<ProtectedRoute><LayoutWrapper currentPageName="PropertyAgent"><PropertyAgent /></LayoutWrapper></ProtectedRoute>} />

@@ -29,6 +29,7 @@ export default function Layout({ children, currentPageName }) {
     { nameKey: "realEstateAgencies", icon: Building2, page: "RealEstateAgencies", roles: ["admin"] },
     { nameKey: "reports", icon: BarChart3, page: "Reports", roles: ["admin"] },
     { nameKey: "propertyImport", icon: Upload, page: "PropertyImport", roles: ["admin"] },
+    { nameKey: "partnerSync", icon: Globe, page: "PartnerSync", roles: ["admin"] },
     { nameKey: "aiAgents", icon: Bot, page: "AIAgents", roles: ["admin", "user"] },
     { nameKey: "team", icon: Users, page: "Team", roles: ["admin"], divider: true },
     { nameKey: "publicSite", icon: Globe, page: "PublicHome", roles: ["admin", "user"] },
