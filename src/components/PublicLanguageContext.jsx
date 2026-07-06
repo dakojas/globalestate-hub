@@ -475,7 +475,7 @@ const t = {
     listProperty: "Inzerovať nehnuteľnosť",
     submitTitle: "Inzerujte svoju nehnuteľnosť",
     submitSubtitle: "Zadajte detaily – inzerát bude dostupný vo všetkých jazykoch",
-    submitBadge: "Bezplatné zalistovanie, schvaľujeme do 48 hodín",
+    submitBadge: "Bezplatné zverejnenie, schvaľujeme do 48 hodín",
     ownerInfo: "Kontaktné údaje",
     ownerName: "Meno a priezvisko",
     ownerEmail: "Email",

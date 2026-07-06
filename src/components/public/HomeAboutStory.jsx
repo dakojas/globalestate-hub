@@ -15,13 +15,13 @@ const brandStory = {
     },
     chapter2: {
       label: "KAPITOLA II – RAST",
-      title: "Klienti nás vziali so sebou.",
+      title: "Klienti nás vzali so sebou.",
       content: "Prvá kúpa v Egypte. Potom Dubaj. Potom Bali. Každý spokojný klient otvoril nové dvere — do novej krajiny, k novému developerovi, k novej komunite ľudí.",
       timeline: [
         { label: "Vznik", desc: "Slovenský portál ide online. Prvé projekty, prví klienti, prvé sny splnené na cudzej pôde." },
         { label: "Expanzia", desc: "Egypt, Dubaj, Albánsko, Turecko. Tím rastie. Makléri v Dubaji. Partneri na mieste." },
         { label: "Dnes", desc: "16 krajín. Stovky spokojných klientov. Globálna sieť. Lokálna duša." },
-        { label: "Zajtra", desc: "Rast bez kompromisov. Viac krajín. Viac príbehov. Jeden závázok." }
+        { label: "Zajtra", desc: "Rast bez kompromisov. Viac krajín. Viac príbehov. Jeden záväzok." }
       ]
     },
     chapter3: {
