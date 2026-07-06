@@ -1,0 +1,76 @@
+{
+  "name": "PartnerSource",
+  "type": "object",
+  "properties": {
+    "name": {
+      "type": "string",
+      "description": "Partner / developer name"
+    },
+    "website_url": {
+      "type": "string",
+      "description": "URL of the listings page to scan for new projects"
+    },
+    "is_active": {
+      "type": "boolean",
+      "default": true,
+      "description": "Whether this partner is being synced"
+    },
+    "frequency_days": {
+      "type": "number",
+      "default": 7,
+      "description": "Days between automatic syncs"
+    },
+    "last_synced": {
+      "type": "string",
+      "format": "date-time",
+      "description": "When the last sync ran"
+    },
+    "last_result": {
+      "type": "string",
+      "description": "Summary of the last sync"
+    },
+    "last_sync_new": {
+      "type": "number",
+      "description": "New properties found in last sync"
+    },
+    "last_sync_total": {
+      "type": "number",
+      "description": "Total properties found in last sync"
+    },
+    "auto_publish": {
+      "type": "boolean",
+      "default": false,
+      "description": "Auto-publish imported properties or hold for review"
+    },
+    "default_country": {
+      "type": "string",
+      "description": "Fallback country if AI cannot detect one"
+    }
+  },
+  "required": [
+    "name",
+    "website_url"
+  ],
+  "rls": {
+    "create": {
+      "user_condition": {
+        "role": "admin"
+      }
+    },
+    "read": {
+      "user_condition": {
+        "role": "admin"
+      }
+    },
+    "update": {
+      "user_condition": {
+        "role": "admin"
+      }
+    },
+    "delete": {
+      "user_condition": {
+        "role": "admin"
+      }
+    }
+  }
+}
