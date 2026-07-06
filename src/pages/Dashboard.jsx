@@ -19,7 +19,6 @@ import PipelineValue from "../components/dashboard/PipelineValue";
 import StaleLeads from "../components/dashboard/StaleLeads";
 import MonthlySalesChart from "../components/dashboard/MonthlySalesChart";
 import AgentPerformanceChart from "../components/dashboard/AgentPerformanceChart";
-import PartnerSync from "../components/dashboard/PartnerSync";
 
 export default function Dashboard() {
   const { t } = useTranslation();
@@ -109,7 +108,6 @@ export default function Dashboard() {
       {/* Main grid */}
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
         <div className="lg:col-span-2 space-y-6">
-          <PartnerSync />
           <LeadsTrend clients={clients} />
           <MonthlySalesChart commissions={commissions} />
           <SalesFunnel clients={clients} />

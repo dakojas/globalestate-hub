@@ -1,8 +1,9 @@
 import React from "react";
 import { Link } from "react-router-dom";
 import { createPageUrl } from "@/utils";
-import { Sparkles, FileText, ArrowRight, Bot } from "lucide-react";
+import { Sparkles, FileText, ArrowRight, Bot, Globe } from "lucide-react";
 import { Card, CardContent } from "@/components/ui/card";
+import PartnerSync from "@/components/dashboard/PartnerSync";
 
 const AGENTS = [
   {
@@ -69,6 +70,15 @@ export default function AIAgents() {
             </Card>
           </Link>
         ))}
+      </div>
+
+      {/* Partner Sync Agent */}
+      <div>
+        <div className="flex items-center gap-2.5 mb-3">
+          <Globe className="w-5 h-5 text-[#c9a84c]" />
+          <h3 className="font-semibold text-[#0a1628]">Synchronizácia partnerov</h3>
+        </div>
+        <PartnerSync />
       </div>
 
       <Card className="border-0 shadow-sm bg-gradient-to-br from-[#0a1628] to-[#132039]">
