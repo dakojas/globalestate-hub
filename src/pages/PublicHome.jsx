@@ -5,7 +5,7 @@ import { base44 } from "@/api/base44Client";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
-import { MapPin, Bed, Maximize, Home, X, Menu, MessageCircle } from "lucide-react";
+import { MapPin, Bed, Maximize, Home, X, Menu, MessageCircle, Sun, Moon } from "lucide-react";
 import CountryMap from "@/components/public/CountryMap";
 import Logo from "@/components/Logo";
 import GlobeWireframe from "@/components/public/GlobeWireframe";
@@ -106,7 +106,7 @@ function PropertyCard({ property, getCountryName, getTypeName, tr, lang, hideFea
 
 function PublicHomeInner() {
   const { tr, lang } = usePublicLang();
-  const isDark = useDayNight();
+  const { isDark, toggleTheme } = useDayNight();
   const [filters, setFilters] = useState({ country: "all", minBudget: "", maxBudget: "", propertyType: "all", constructionPhase: "all" });
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
 
@@ -236,6 +236,14 @@ function PublicHomeInner() {
             </a>
           </nav>
           <div className="flex items-center gap-2">
+            <button
+              onClick={toggleTheme}
+              className="flex items-center justify-center bg-white/10 hover:bg-white/20 text-white p-2 rounded-full transition-all"
+              title={isDark ? "Prepnúť na svetlý režim" : "Prepnúť na tmavý režim"}
+              type="button"
+            >
+              {isDark ? <Sun className="w-4 h-4" /> : <Moon className="w-4 h-4" />}
+            </button>
             <PublicLangSwitcher />
             <button onClick={() => setMobileMenuOpen(!mobileMenuOpen)} className="md:hidden text-white/70 hover:text-[#c5a065] p-1.5">
               {mobileMenuOpen ? <X className="w-6 h-6" /> : <Menu className="w-6 h-6" />}
