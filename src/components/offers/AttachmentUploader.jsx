@@ -54,7 +54,7 @@ export default function AttachmentUploader({ attachments, onAdd, onRemove }) {
             <p className="text-sm font-medium text-gray-700">
               Kliknite alebo pretiahnite súbory sem
             </p>
-            <p className="text-xs text-gray-400">Fotky, PDF, dokumenty — max ~10 MB</p>
+            <p className="text-xs text-gray-400">Fotky, PDF, dokumenty</p>
           </div>
         )}
         <input
