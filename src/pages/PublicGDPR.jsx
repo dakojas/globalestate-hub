@@ -5,6 +5,8 @@ import Logo from "@/components/Logo";
 import { createPageUrl } from "@/utils";
 import { PublicLanguageProvider, usePublicLang } from "@/components/PublicLanguageContext";
 import PublicLangSwitcher from "@/components/PublicLangSwitcher";
+import { useDayNight } from "@/hooks/useDayNight";
+import ThemeToggle from "@/components/public/ThemeToggle";
 
 const gdprContent = {
   sk: {
@@ -371,10 +373,11 @@ const gdprContent = {
 
 function PublicGDPRInner() {
   const { lang } = usePublicLang();
+  const { isDark } = useDayNight();
   const content = gdprContent[lang] || gdprContent.en;
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-[#0a1628] via-[#132039] to-[#1a2844]">
+    <div data-theme={isDark ? "dark" : "light"} className="min-h-screen font-body" style={{ background: "var(--bg-page)" }}>
       {/* Header */}
       <header className="border-b border-white/10 bg-white/5 backdrop-blur-lg sticky top-0 z-50">
         <div className="max-w-5xl mx-auto px-6 py-4 flex items-center justify-between">
@@ -382,6 +385,7 @@ function PublicGDPRInner() {
             <ArrowLeft className="w-5 h-5" />
             <Logo className="h-9 ml-2" />
           </Link>
+          <ThemeToggle />
           <PublicLangSwitcher />
         </div>
       </header>

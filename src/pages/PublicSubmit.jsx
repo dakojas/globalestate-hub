@@ -6,6 +6,8 @@ import { Textarea } from "@/components/ui/textarea";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { Card, CardContent } from "@/components/ui/card";
 import { ArrowLeft, CheckCircle, Loader2, Upload, X } from "lucide-react";
+import { useDayNight } from "@/hooks/useDayNight";
+import ThemeToggle from "@/components/public/ThemeToggle";
 import { Link } from "react-router-dom";
 import { createPageUrl } from "@/utils";
 import { toast } from "sonner";
@@ -18,6 +20,7 @@ const PROPERTY_TYPES = ["studio","1_bedroom","2_bedroom","penthouse","vila"];
 
 function PublicSubmitInner() {
   const { tr, lang } = usePublicLang();
+  const { isDark } = useDayNight();
   const [step, setStep] = useState("form"); // form | translating | success
   const [gdprAccepted, setGdprAccepted] = useState(false);
   const [form, setForm] = useState({
@@ -127,7 +130,7 @@ function PublicSubmitInner() {
 
   if (step === "translating") {
     return (
-      <div className="min-h-screen bg-gradient-to-br from-[#0a1628] via-[#132039] to-[#1a2844] flex items-center justify-center">
+      <div data-theme={isDark ? "dark" : "light"} className="min-h-screen flex items-center justify-center" style={{ background: "var(--bg-page)" }}>
         <div className="text-center">
           <Loader2 className="w-12 h-12 text-[#c9a84c] animate-spin mx-auto mb-4" />
           <p className="text-white text-xl font-semibold mb-2">{tr("translatingListing")}</p>
@@ -139,7 +142,7 @@ function PublicSubmitInner() {
 
   if (step === "success") {
     return (
-      <div className="min-h-screen bg-gradient-to-br from-[#0a1628] via-[#132039] to-[#1a2844] flex items-center justify-center px-6">
+      <div data-theme={isDark ? "dark" : "light"} className="min-h-screen flex items-center justify-center px-6" style={{ background: "var(--bg-page)" }}>
         <Card className="bg-white/5 backdrop-blur-lg border-white/10 max-w-md w-full">
           <CardContent className="p-10 text-center">
             <CheckCircle className="w-16 h-16 text-[#c9a84c] mx-auto mb-4" />
@@ -155,7 +158,7 @@ function PublicSubmitInner() {
   }
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-[#0a1628] via-[#132039] to-[#1a2844]">
+    <div data-theme={isDark ? "dark" : "light"} className="min-h-screen font-body" style={{ background: "var(--bg-page)" }}>
       {/* Header */}
       <header className="border-b border-white/10 bg-white/5 backdrop-blur-lg sticky top-0 z-50">
         <div className="max-w-5xl mx-auto px-6 py-4 flex items-center justify-between">
@@ -163,6 +166,7 @@ function PublicSubmitInner() {
             <ArrowLeft className="w-5 h-5" />
             <Logo className="h-9 ml-2" />
           </Link>
+          <ThemeToggle />
           <PublicLangSwitcher />
         </div>
       </header>

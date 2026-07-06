@@ -4,17 +4,21 @@ import { PublicLanguageProvider, usePublicLang } from "@/components/PublicLangua
 import PublicLangSwitcher from "@/components/PublicLangSwitcher";
 import Logo from "@/components/Logo";
 import { createPageUrl } from "@/utils";
+import { useDayNight } from "@/hooks/useDayNight";
+import ThemeToggle from "@/components/public/ThemeToggle";
 
 function PageInner() {
   const { tr } = usePublicLang();
+  const { isDark } = useDayNight();
   return (
-    <div className="min-h-screen bg-white">
+    <div data-theme={isDark ? "dark" : "light"} className="min-h-screen font-body" style={{ background: "var(--bg-page)" }}>
       {/* Nav */}
       <nav style={{ background: "#080d1a" }} className="px-6 py-4 flex items-center justify-between sticky top-0 z-50">
         <Link to="/">
           <Logo className="h-9" />
         </Link>
         <div className="flex items-center gap-6">
+          <ThemeToggle />
           <PublicLangSwitcher />
         </div>
       </nav>
