@@ -8,10 +8,11 @@
         "admin",
         "assistant",
         "tiper",
-        "partner"
+        "partner",
+        "user"
       ],
-      "default": "assistant",
-      "description": "User role: admin, assistant (team member), tiper (referrer), partner"
+      "default": "user",
+      "description": "User role: admin (full access), assistant (agent - team member), tiper (referrer - own clients & commissions), partner (property submissions), user (no dashboard access)"
     },
     "commission_rate": {
       "type": "number",

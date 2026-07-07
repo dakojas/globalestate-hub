@@ -4,18 +4,19 @@ import { createPageUrl } from "@/utils";
 import { base44 } from "@/api/base44Client";
 import {
   LayoutDashboard, Building2, Users, CalendarClock, DollarSign,
-  MapPin, Menu, X, LogOut, ChevronRight, Bell, UserPlus
+  MapPin, Menu, X, LogOut, ChevronRight, Bell, UserPlus, Upload
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 
 const navItems = [
-  { name: "Dashboard", icon: LayoutDashboard, page: "Dashboard" },
-  { name: "Properties", icon: Building2, page: "Properties" },
-  { name: "Clients", icon: Users, page: "Clients" },
-  { name: "Calendar", icon: CalendarClock, page: "Calendar" },
-  { name: "Commissions", icon: DollarSign, page: "Commissions" },
-  { name: "Partner Requests", icon: UserPlus, page: "PartnerRequests" },
+  { name: "Dashboard", icon: LayoutDashboard, page: "Dashboard", roles: ["admin", "assistant"] },
+  { name: "Properties", icon: Building2, page: "Properties", roles: ["admin", "assistant", "partner"] },
+  { name: "Clients", icon: Users, page: "Clients", roles: ["admin", "assistant", "tiper"] },
+  { name: "Calendar", icon: CalendarClock, page: "Calendar", roles: ["admin", "assistant"] },
+  { name: "Commissions", icon: DollarSign, page: "Commissions", roles: ["admin", "tiper"] },
+  { name: "Submit Property", icon: Upload, page: "PartnerSubmit", roles: ["partner"] },
+  { name: "Partner Requests", icon: UserPlus, page: "PartnerRequests", roles: ["admin"] },
 ];
 
 export default function Layout({ children, currentPageName }) {
@@ -66,7 +67,7 @@ export default function Layout({ children, currentPageName }) {
         </div>
 
         <nav className="flex-1 p-4 space-y-1 overflow-y-auto">
-          {navItems.map((item) => {
+          {navItems.filter(item => !item.roles || item.roles.includes(user?.role)).map((item) => {
             const isActive = currentPageName === item.page;
             return (
               <Link

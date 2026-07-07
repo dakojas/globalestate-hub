@@ -37,6 +37,7 @@ import PublicPouceniePreKlienta from '@/pages/PublicPouceniePreKlienta';
 import PublicReklamacnyPoriadok from '@/pages/PublicReklamacnyPoriadok';
 import PublicBlog from '@/pages/PublicBlog';
 import PartnerRequests from '@/pages/PartnerRequests';
+import PartnerSubmit from '@/pages/PartnerSubmit';
 import AccessDenied from '@/components/AccessDenied';
 
 const LayoutWrapper = ({ children, currentPageName }) =>
@@ -49,7 +50,7 @@ const ADMIN_ONLY_PAGES = [
   "Reports", "PropertyImport", "Team"
 ];
 
-const ProtectedRoute = ({ children, adminOnly }) => {
+const ProtectedRoute = ({ children, allowedRoles }) => {
   const { isLoadingAuth, isLoadingPublicSettings, authError, isAuthenticated, user } = useAuth();
 
   if (isLoadingPublicSettings || isLoadingAuth) {
@@ -73,7 +74,7 @@ const ProtectedRoute = ({ children, adminOnly }) => {
     );
   }
 
-  if (adminOnly && user?.role !== 'admin') {
+  if (allowedRoles && !allowedRoles.includes(user?.role)) {
     return <AccessDenied />;
   }
 
@@ -97,26 +98,27 @@ const AuthenticatedApp = () => {
       <Route path="/PublicBlog" element={<PublicBlog />} />
 
       {/* Protected routes - login required */}
-      <Route path="/Dashboard" element={<ProtectedRoute adminOnly><LayoutWrapper currentPageName="Dashboard"><Dashboard /></LayoutWrapper></ProtectedRoute>} />
-      <Route path="/Properties" element={<ProtectedRoute adminOnly><LayoutWrapper currentPageName="Properties"><Properties /></LayoutWrapper></ProtectedRoute>} />
-      <Route path="/PropertyDetail" element={<ProtectedRoute adminOnly><LayoutWrapper currentPageName="PropertyDetail"><PropertyDetail /></LayoutWrapper></ProtectedRoute>} />
-      <Route path="/Clients" element={<ProtectedRoute adminOnly><LayoutWrapper currentPageName="Clients"><Clients /></LayoutWrapper></ProtectedRoute>} />
-      <Route path="/ClientDetail" element={<ProtectedRoute adminOnly><LayoutWrapper currentPageName="ClientDetail"><ClientDetail /></LayoutWrapper></ProtectedRoute>} />
-      <Route path="/Calendar" element={<ProtectedRoute adminOnly><LayoutWrapper currentPageName="Calendar"><Calendar /></LayoutWrapper></ProtectedRoute>} />
-      <Route path="/Commissions" element={<ProtectedRoute adminOnly><LayoutWrapper currentPageName="Commissions"><Commissions /></LayoutWrapper></ProtectedRoute>} />
-      <Route path="/PropertyMap" element={<ProtectedRoute adminOnly><LayoutWrapper currentPageName="PropertyMap"><PropertyMap /></LayoutWrapper></ProtectedRoute>} />
-      <Route path="/Leads" element={<ProtectedRoute adminOnly><LayoutWrapper currentPageName="Leads"><Leads /></LayoutWrapper></ProtectedRoute>} />
-      <Route path="/Referrers" element={<ProtectedRoute adminOnly><LayoutWrapper currentPageName="Referrers"><Referrers /></LayoutWrapper></ProtectedRoute>} />
-      <Route path="/Partners" element={<ProtectedRoute adminOnly><LayoutWrapper currentPageName="Partners"><Partners /></LayoutWrapper></ProtectedRoute>} />
-      <Route path="/Reports" element={<ProtectedRoute adminOnly><LayoutWrapper currentPageName="Reports"><Reports /></LayoutWrapper></ProtectedRoute>} />
-      <Route path="/PropertyImport" element={<ProtectedRoute adminOnly><LayoutWrapper currentPageName="PropertyImport"><PropertyImport /></LayoutWrapper></ProtectedRoute>} />
-      <Route path="/PartnerSync" element={<ProtectedRoute adminOnly><LayoutWrapper currentPageName="PartnerSync"><PartnerSync /></LayoutWrapper></ProtectedRoute>} />
-      <Route path="/Team" element={<ProtectedRoute adminOnly><LayoutWrapper currentPageName="Team"><Team /></LayoutWrapper></ProtectedRoute>} />
-      <Route path="/RealEstateAgencies" element={<ProtectedRoute adminOnly><LayoutWrapper currentPageName="RealEstateAgencies"><RealEstateAgencies /></LayoutWrapper></ProtectedRoute>} />
-      <Route path="/PropertyAgent" element={<ProtectedRoute adminOnly><LayoutWrapper currentPageName="PropertyAgent"><PropertyAgent /></LayoutWrapper></ProtectedRoute>} />
-      <Route path="/OfferAgent" element={<ProtectedRoute adminOnly><LayoutWrapper currentPageName="OfferAgent"><OfferAgent /></LayoutWrapper></ProtectedRoute>} />
-      <Route path="/AIAgents" element={<ProtectedRoute adminOnly><LayoutWrapper currentPageName="AIAgents"><AIAgents /></LayoutWrapper></ProtectedRoute>} />
-      <Route path="/PartnerRequests" element={<ProtectedRoute adminOnly><LayoutWrapper currentPageName="PartnerRequests"><PartnerRequests /></LayoutWrapper></ProtectedRoute>} />
+      <Route path="/Dashboard" element={<ProtectedRoute allowedRoles={['admin','assistant']}><LayoutWrapper currentPageName="Dashboard"><Dashboard /></LayoutWrapper></ProtectedRoute>} />
+      <Route path="/Properties" element={<ProtectedRoute allowedRoles={['admin','assistant','partner']}><LayoutWrapper currentPageName="Properties"><Properties /></LayoutWrapper></ProtectedRoute>} />
+      <Route path="/PropertyDetail" element={<ProtectedRoute allowedRoles={['admin','assistant','partner']}><LayoutWrapper currentPageName="PropertyDetail"><PropertyDetail /></LayoutWrapper></ProtectedRoute>} />
+      <Route path="/Clients" element={<ProtectedRoute allowedRoles={['admin','assistant','tiper']}><LayoutWrapper currentPageName="Clients"><Clients /></LayoutWrapper></ProtectedRoute>} />
+      <Route path="/ClientDetail" element={<ProtectedRoute allowedRoles={['admin','assistant','tiper']}><LayoutWrapper currentPageName="ClientDetail"><ClientDetail /></LayoutWrapper></ProtectedRoute>} />
+      <Route path="/Calendar" element={<ProtectedRoute allowedRoles={['admin','assistant']}><LayoutWrapper currentPageName="Calendar"><Calendar /></LayoutWrapper></ProtectedRoute>} />
+      <Route path="/Commissions" element={<ProtectedRoute allowedRoles={['admin','tiper']}><LayoutWrapper currentPageName="Commissions"><Commissions /></LayoutWrapper></ProtectedRoute>} />
+      <Route path="/PropertyMap" element={<ProtectedRoute allowedRoles={['admin','assistant']}><LayoutWrapper currentPageName="PropertyMap"><PropertyMap /></LayoutWrapper></ProtectedRoute>} />
+      <Route path="/Leads" element={<ProtectedRoute allowedRoles={['admin','assistant']}><LayoutWrapper currentPageName="Leads"><Leads /></LayoutWrapper></ProtectedRoute>} />
+      <Route path="/Referrers" element={<ProtectedRoute allowedRoles={['admin']}><LayoutWrapper currentPageName="Referrers"><Referrers /></LayoutWrapper></ProtectedRoute>} />
+      <Route path="/Partners" element={<ProtectedRoute allowedRoles={['admin']}><LayoutWrapper currentPageName="Partners"><Partners /></LayoutWrapper></ProtectedRoute>} />
+      <Route path="/Reports" element={<ProtectedRoute allowedRoles={['admin']}><LayoutWrapper currentPageName="Reports"><Reports /></LayoutWrapper></ProtectedRoute>} />
+      <Route path="/PropertyImport" element={<ProtectedRoute allowedRoles={['admin']}><LayoutWrapper currentPageName="PropertyImport"><PropertyImport /></LayoutWrapper></ProtectedRoute>} />
+      <Route path="/PartnerSync" element={<ProtectedRoute allowedRoles={['admin']}><LayoutWrapper currentPageName="PartnerSync"><PartnerSync /></LayoutWrapper></ProtectedRoute>} />
+      <Route path="/Team" element={<ProtectedRoute allowedRoles={['admin']}><LayoutWrapper currentPageName="Team"><Team /></LayoutWrapper></ProtectedRoute>} />
+      <Route path="/RealEstateAgencies" element={<ProtectedRoute allowedRoles={['admin']}><LayoutWrapper currentPageName="RealEstateAgencies"><RealEstateAgencies /></LayoutWrapper></ProtectedRoute>} />
+      <Route path="/PropertyAgent" element={<ProtectedRoute allowedRoles={['admin','assistant']}><LayoutWrapper currentPageName="PropertyAgent"><PropertyAgent /></LayoutWrapper></ProtectedRoute>} />
+      <Route path="/OfferAgent" element={<ProtectedRoute allowedRoles={['admin','assistant']}><LayoutWrapper currentPageName="OfferAgent"><OfferAgent /></LayoutWrapper></ProtectedRoute>} />
+      <Route path="/AIAgents" element={<ProtectedRoute allowedRoles={['admin','assistant']}><LayoutWrapper currentPageName="AIAgents"><AIAgents /></LayoutWrapper></ProtectedRoute>} />
+      <Route path="/PartnerRequests" element={<ProtectedRoute allowedRoles={['admin']}><LayoutWrapper currentPageName="PartnerRequests"><PartnerRequests /></LayoutWrapper></ProtectedRoute>} />
+      <Route path="/PartnerSubmit" element={<ProtectedRoute allowedRoles={['admin','partner']}><LayoutWrapper currentPageName="PartnerSubmit"><PartnerSubmit /></LayoutWrapper></ProtectedRoute>} />
       <Route path="*" element={<PageNotFound />} />
     </Routes>
   );
