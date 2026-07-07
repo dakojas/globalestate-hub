@@ -114,7 +114,7 @@ export default function EyaChatWidget({ lang = "sk", onOpenChange }) {
       {!open && (
         <button
           onClick={() => handleSetOpen(true)}
-          className="fixed bottom-6 left-6 z-50 flex items-center gap-2 bg-gradient-to-br from-[#c9a84c] to-[#a88950] text-[#0a1628] font-bold px-5 py-3.5 rounded-full shadow-2xl shadow-[#c9a84c]/40 hover:scale-105 transition-all duration-300 group"
+          className="eya-pulse fixed bottom-6 left-6 z-50 flex items-center gap-2 bg-gradient-to-br from-[#c9a84c] to-[#a88950] text-[#0a1628] font-bold px-5 py-3.5 rounded-full shadow-2xl shadow-[#c9a84c]/40 hover:scale-105 transition-all duration-300 group"
         >
           <div className="w-7 h-7 rounded-full bg-[#0a1628] flex items-center justify-center">
             <Sparkles className="w-4 h-4 text-[#c9a84c]" />

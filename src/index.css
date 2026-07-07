@@ -91,6 +91,19 @@
   }
 }
 
+/* EYA pulsing gold halo */
+@keyframes eya-pulse {
+  0%, 100% {
+    box-shadow: 0 0 0 0 rgba(201,168,76,0.45), 0 10px 30px -5px rgba(201,168,76,0.35);
+  }
+  50% {
+    box-shadow: 0 0 0 14px rgba(201,168,76,0), 0 10px 35px -3px rgba(201,168,76,0.55);
+  }
+}
+.eya-pulse {
+  animation: eya-pulse 2.8s ease-in-out infinite;
+}
+
 /* ===== Public Theme System ===== */
 [data-theme="dark"] {
   --bg-page: linear-gradient(180deg, #0e1a2e 0%, #0c1626 100%);
