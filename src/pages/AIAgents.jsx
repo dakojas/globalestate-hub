@@ -1,7 +1,7 @@
 import React from "react";
 import { Link } from "react-router-dom";
 import { createPageUrl } from "@/utils";
-import { Sparkles, FileText, ArrowRight, Bot, Globe } from "lucide-react";
+import { Sparkles, FileText, ArrowRight, Bot, Globe, MessageCircle } from "lucide-react";
 import { Card, CardContent } from "@/components/ui/card";
 import PartnerSync from "@/components/dashboard/PartnerSync";
 
@@ -23,6 +23,15 @@ const AGENTS = [
     tasks: ["Ponuky v 8 jazykoch", "Odoslanie emailom", "Príloha katalógu"],
     color: "from-amber-500 to-orange-600",
     iconBg: "bg-amber-100 text-amber-600",
+  },
+  {
+    name: "Asistent klientov",
+    page: "ClientInquiryAgent",
+    icon: MessageCircle,
+    description: "Spracováva dopyty klientov, poskytuje históriu interakcií a vysvetľuje kroky nákupu nehnuteľnosti v zahraničí.",
+    tasks: ["História interakcií", "Kroky nákupu", "Danie podľa krajiny"],
+    color: "from-sky-500 to-blue-600",
+    iconBg: "bg-sky-100 text-sky-600",
   },
 ];
 

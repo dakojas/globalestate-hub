@@ -25,6 +25,7 @@ import RealEstateAgencies from '@/pages/RealEstateAgencies';
 import PropertyAgent from '@/pages/PropertyAgent';
 import OfferAgent from '@/pages/OfferAgent';
 import AIAgents from '@/pages/AIAgents';
+import ClientInquiryAgent from '@/pages/ClientInquiryAgent';
 import Reports from '@/pages/Reports';
 import PropertyImport from '@/pages/PropertyImport';
 import Team from '@/pages/Team';
@@ -117,6 +118,7 @@ const AuthenticatedApp = () => {
       <Route path="/PropertyAgent" element={<ProtectedRoute allowedRoles={['admin','assistant']}><LayoutWrapper currentPageName="PropertyAgent"><PropertyAgent /></LayoutWrapper></ProtectedRoute>} />
       <Route path="/OfferAgent" element={<ProtectedRoute allowedRoles={['admin','assistant']}><LayoutWrapper currentPageName="OfferAgent"><OfferAgent /></LayoutWrapper></ProtectedRoute>} />
       <Route path="/AIAgents" element={<ProtectedRoute allowedRoles={['admin','assistant']}><LayoutWrapper currentPageName="AIAgents"><AIAgents /></LayoutWrapper></ProtectedRoute>} />
+      <Route path="/ClientInquiryAgent" element={<ProtectedRoute allowedRoles={['admin','assistant']}><LayoutWrapper currentPageName="ClientInquiryAgent"><ClientInquiryAgent /></LayoutWrapper></ProtectedRoute>} />
       <Route path="/PartnerRequests" element={<ProtectedRoute allowedRoles={['admin']}><LayoutWrapper currentPageName="PartnerRequests"><PartnerRequests /></LayoutWrapper></ProtectedRoute>} />
       <Route path="/PartnerSubmit" element={<ProtectedRoute allowedRoles={['admin','partner']}><LayoutWrapper currentPageName="PartnerSubmit"><PartnerSubmit /></LayoutWrapper></ProtectedRoute>} />
       <Route path="*" element={<PageNotFound />} />
