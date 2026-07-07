@@ -5,8 +5,12 @@ import ReactMarkdown from "react-markdown";
 
 const AGENT_NAME = "eya";
 
-export default function EyaChatWidget({ lang = "sk" }) {
+export default function EyaChatWidget({ lang = "sk", onOpenChange }) {
   const [open, setOpen] = useState(false);
+  const handleSetOpen = (val) => {
+    setOpen(val);
+    if (onOpenChange) onOpenChange(val);
+  };
   const [conversation, setConversation] = useState(null);
   const [messages, setMessages] = useState([]);
   const [input, setInput] = useState("");
@@ -109,7 +113,7 @@ export default function EyaChatWidget({ lang = "sk" }) {
       {/* Floating button */}
       {!open && (
         <button
-          onClick={() => setOpen(true)}
+          onClick={() => handleSetOpen(true)}
           className="fixed bottom-6 left-6 z-50 flex items-center gap-2 bg-gradient-to-br from-[#c9a84c] to-[#a88950] text-[#0a1628] font-bold px-5 py-3.5 rounded-full shadow-2xl shadow-[#c9a84c]/40 hover:scale-105 transition-all duration-300 group"
         >
           <div className="w-7 h-7 rounded-full bg-[#0a1628] flex items-center justify-center">
@@ -137,7 +141,7 @@ export default function EyaChatWidget({ lang = "sk" }) {
                 </p>
               </div>
             </div>
-            <button onClick={() => setOpen(false)} className="text-white/50 hover:text-white p-1">
+            <button onClick={() => handleSetOpen(false)} className="text-white/50 hover:text-white p-1">
               <X className="w-5 h-5" />
             </button>
           </div>
