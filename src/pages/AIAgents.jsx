@@ -1,7 +1,7 @@
 import React from "react";
 import { Link } from "react-router-dom";
 import { createPageUrl } from "@/utils";
-import { Sparkles, FileText, ArrowRight, Bot, Globe, MessageCircle, CalendarClock, Search } from "lucide-react";
+import { Sparkles, FileText, ArrowRight, Bot, Globe, MessageCircle, CalendarClock, Search, BookOpen } from "lucide-react";
 import { Card, CardContent } from "@/components/ui/card";
 import PartnerSync from "@/components/dashboard/PartnerSync";
 
@@ -49,6 +49,15 @@ const AGENTS = [
     description: "Filtruje ponuky v 16 krajinách podľa osobných preferencií, rozpočtu a účelu investície.",
     tasks: ["Filter podľa krajiny", "Rozpočet a typ", "Match s klientom"],
     color: "from-amber-500 to-orange-600",
+    iconBg: "bg-amber-100 text-amber-600",
+  },
+  {
+    name: "Vedomostná báza EYA",
+    page: "EyaKnowledge",
+    icon: BookOpen,
+    description: "Správa vzorových odpovedí na časté otázky klientov pre presnejšiu komunikáciu agenta EYA.",
+    tasks: ["Pridávanie odpovedí", "Kategorizácia", "Kľúčové slová"],
+    color: "from-[#c9a84c] to-[#a88950]",
     iconBg: "bg-amber-100 text-amber-600",
   },
 ];

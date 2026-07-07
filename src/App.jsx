@@ -41,6 +41,7 @@ import PublicReklamacnyPoriadok from '@/pages/PublicReklamacnyPoriadok';
 import PublicBlog from '@/pages/PublicBlog';
 import PartnerRequests from '@/pages/PartnerRequests';
 import PartnerSubmit from '@/pages/PartnerSubmit';
+import EyaKnowledge from '@/pages/EyaKnowledge';
 import AccessDenied from '@/components/AccessDenied';
 
 const LayoutWrapper = ({ children, currentPageName }) =>
@@ -125,6 +126,7 @@ const AuthenticatedApp = () => {
       <Route path="/PropertyFinder" element={<ProtectedRoute allowedRoles={['admin','assistant']}><LayoutWrapper currentPageName="PropertyFinder"><PropertyFinder /></LayoutWrapper></ProtectedRoute>} />
       <Route path="/PartnerRequests" element={<ProtectedRoute allowedRoles={['admin']}><LayoutWrapper currentPageName="PartnerRequests"><PartnerRequests /></LayoutWrapper></ProtectedRoute>} />
       <Route path="/PartnerSubmit" element={<ProtectedRoute allowedRoles={['admin','partner']}><LayoutWrapper currentPageName="PartnerSubmit"><PartnerSubmit /></LayoutWrapper></ProtectedRoute>} />
+      <Route path="/EyaKnowledge" element={<ProtectedRoute allowedRoles={['admin']}><LayoutWrapper currentPageName="EyaKnowledge"><EyaKnowledge /></LayoutWrapper></ProtectedRoute>} />
       <Route path="*" element={<PageNotFound />} />
     </Routes>
   );
