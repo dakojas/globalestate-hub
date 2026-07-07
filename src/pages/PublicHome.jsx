@@ -18,6 +18,7 @@ import { createPageUrl } from "@/utils";
 import { PublicLanguageProvider, usePublicLang } from "@/components/PublicLanguageContext";
 import PublicLangSwitcher from "@/components/PublicLangSwitcher";
 import CookieConsent from "@/components/public/CookieConsent";
+import EyaChatWidget from "@/components/public/EyaChatWidget";
 import Seo from "@/components/Seo";
 
 const COUNTRIES = ["Albania", "Bali", "Hungary", "Bulgaria", "Croatia", "Dominican Republic", "Egypt", "Georgia", "Mauritius", "Oman", "UAE", "Spain", "Italy", "Thailand", "Turkey"];
@@ -370,6 +371,9 @@ function PublicHomeInner() {
       <HomeAboutStory />
 
       <CookieConsent />
+
+      {/* EYA AI Assistant */}
+      <EyaChatWidget lang={lang} />
 
       {/* Mobile WhatsApp */}
       <a href="https://wa.me/421951094706" target="_blank" rel="noopener noreferrer"

@@ -5,7 +5,7 @@ import { Button } from "@/components/ui/button";
 import { Textarea } from "@/components/ui/textarea";
 import MessageBubble from "@/components/agent/MessageBubble";
 
-const AGENT_NAME = "client_inquiry_agent";
+const AGENT_NAME = "eya";
 
 const SUGGESTIONS = [
   "Aké sú kroky pri nákupe nehnuteľnosti v Dubaji?",
