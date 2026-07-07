@@ -1,7 +1,7 @@
 import React from "react";
 import { Link } from "react-router-dom";
 import { createPageUrl } from "@/utils";
-import { Sparkles, FileText, ArrowRight, Bot, Globe, MessageCircle } from "lucide-react";
+import { Sparkles, FileText, ArrowRight, Bot, Globe, MessageCircle, CalendarClock } from "lucide-react";
 import { Card, CardContent } from "@/components/ui/card";
 import PartnerSync from "@/components/dashboard/PartnerSync";
 
@@ -32,6 +32,15 @@ const AGENTS = [
     tasks: ["História interakcií", "Kroky nákupu", "Danie podľa krajiny"],
     color: "from-sky-500 to-blue-600",
     iconBg: "bg-sky-100 text-sky-600",
+  },
+  {
+    name: "Plánovač obhliadok",
+    page: "ViewingScheduler",
+    icon: CalendarClock,
+    description: "Spravuje harmonogram obhliadok, nastavuje pripomienky klientom a koordinuje s realitnými agentúrami.",
+    tasks: ["Scheduling obhliadok", "Pripomienky klientom", "Koordinácia s agentúrami"],
+    color: "from-emerald-500 to-teal-600",
+    iconBg: "bg-emerald-100 text-emerald-600",
   },
 ];
 
