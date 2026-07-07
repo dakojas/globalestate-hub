@@ -100,15 +100,15 @@ const AuthenticatedApp = () => {
       <Route path="/PublicBlog" element={<PublicBlog />} />
 
       {/* Protected routes - login required */}
-      <Route path="/Dashboard" element={<ProtectedRoute><LayoutWrapper currentPageName="Dashboard"><Dashboard /></LayoutWrapper></ProtectedRoute>} />
-      <Route path="/Properties" element={<ProtectedRoute><LayoutWrapper currentPageName="Properties"><Properties /></LayoutWrapper></ProtectedRoute>} />
-      <Route path="/PropertyDetail" element={<ProtectedRoute><LayoutWrapper currentPageName="PropertyDetail"><PropertyDetail /></LayoutWrapper></ProtectedRoute>} />
-      <Route path="/Clients" element={<ProtectedRoute><LayoutWrapper currentPageName="Clients"><Clients /></LayoutWrapper></ProtectedRoute>} />
-      <Route path="/ClientDetail" element={<ProtectedRoute><LayoutWrapper currentPageName="ClientDetail"><ClientDetail /></LayoutWrapper></ProtectedRoute>} />
-      <Route path="/Calendar" element={<ProtectedRoute><LayoutWrapper currentPageName="Calendar"><Calendar /></LayoutWrapper></ProtectedRoute>} />
+      <Route path="/Dashboard" element={<ProtectedRoute adminOnly><LayoutWrapper currentPageName="Dashboard"><Dashboard /></LayoutWrapper></ProtectedRoute>} />
+      <Route path="/Properties" element={<ProtectedRoute adminOnly><LayoutWrapper currentPageName="Properties"><Properties /></LayoutWrapper></ProtectedRoute>} />
+      <Route path="/PropertyDetail" element={<ProtectedRoute adminOnly><LayoutWrapper currentPageName="PropertyDetail"><PropertyDetail /></LayoutWrapper></ProtectedRoute>} />
+      <Route path="/Clients" element={<ProtectedRoute adminOnly><LayoutWrapper currentPageName="Clients"><Clients /></LayoutWrapper></ProtectedRoute>} />
+      <Route path="/ClientDetail" element={<ProtectedRoute adminOnly><LayoutWrapper currentPageName="ClientDetail"><ClientDetail /></LayoutWrapper></ProtectedRoute>} />
+      <Route path="/Calendar" element={<ProtectedRoute adminOnly><LayoutWrapper currentPageName="Calendar"><Calendar /></LayoutWrapper></ProtectedRoute>} />
       <Route path="/Commissions" element={<ProtectedRoute adminOnly><LayoutWrapper currentPageName="Commissions"><Commissions /></LayoutWrapper></ProtectedRoute>} />
-      <Route path="/PropertyMap" element={<ProtectedRoute><LayoutWrapper currentPageName="PropertyMap"><PropertyMap /></LayoutWrapper></ProtectedRoute>} />
-      <Route path="/Leads" element={<ProtectedRoute><LayoutWrapper currentPageName="Leads"><Leads /></LayoutWrapper></ProtectedRoute>} />
+      <Route path="/PropertyMap" element={<ProtectedRoute adminOnly><LayoutWrapper currentPageName="PropertyMap"><PropertyMap /></LayoutWrapper></ProtectedRoute>} />
+      <Route path="/Leads" element={<ProtectedRoute adminOnly><LayoutWrapper currentPageName="Leads"><Leads /></LayoutWrapper></ProtectedRoute>} />
       <Route path="/Referrers" element={<ProtectedRoute adminOnly><LayoutWrapper currentPageName="Referrers"><Referrers /></LayoutWrapper></ProtectedRoute>} />
       <Route path="/Partners" element={<ProtectedRoute adminOnly><LayoutWrapper currentPageName="Partners"><Partners /></LayoutWrapper></ProtectedRoute>} />
       <Route path="/Reports" element={<ProtectedRoute adminOnly><LayoutWrapper currentPageName="Reports"><Reports /></LayoutWrapper></ProtectedRoute>} />
@@ -116,9 +116,9 @@ const AuthenticatedApp = () => {
       <Route path="/PartnerSync" element={<ProtectedRoute adminOnly><LayoutWrapper currentPageName="PartnerSync"><PartnerSync /></LayoutWrapper></ProtectedRoute>} />
       <Route path="/Team" element={<ProtectedRoute adminOnly><LayoutWrapper currentPageName="Team"><Team /></LayoutWrapper></ProtectedRoute>} />
       <Route path="/RealEstateAgencies" element={<ProtectedRoute adminOnly><LayoutWrapper currentPageName="RealEstateAgencies"><RealEstateAgencies /></LayoutWrapper></ProtectedRoute>} />
-      <Route path="/PropertyAgent" element={<ProtectedRoute><LayoutWrapper currentPageName="PropertyAgent"><PropertyAgent /></LayoutWrapper></ProtectedRoute>} />
-      <Route path="/OfferAgent" element={<ProtectedRoute><LayoutWrapper currentPageName="OfferAgent"><OfferAgent /></LayoutWrapper></ProtectedRoute>} />
-      <Route path="/AIAgents" element={<ProtectedRoute><LayoutWrapper currentPageName="AIAgents"><AIAgents /></LayoutWrapper></ProtectedRoute>} />
+      <Route path="/PropertyAgent" element={<ProtectedRoute adminOnly><LayoutWrapper currentPageName="PropertyAgent"><PropertyAgent /></LayoutWrapper></ProtectedRoute>} />
+      <Route path="/OfferAgent" element={<ProtectedRoute adminOnly><LayoutWrapper currentPageName="OfferAgent"><OfferAgent /></LayoutWrapper></ProtectedRoute>} />
+      <Route path="/AIAgents" element={<ProtectedRoute adminOnly><LayoutWrapper currentPageName="AIAgents"><AIAgents /></LayoutWrapper></ProtectedRoute>} />
       <Route path="*" element={<PageNotFound />} />
     </Routes>
   );
