@@ -112,6 +112,7 @@ function PublicHomeInner() {
   const [filters, setFilters] = useState({ country: "all", minBudget: "", maxBudget: "", propertyType: "all", constructionPhase: "all" });
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const [eyaOpen, setEyaOpen] = useState(false);
+  const [filtersOpen, setFiltersOpen] = useState(false);
 
   const handleMapSelect = (country) => {
     setFilters(f => ({ ...f, country }));
@@ -277,44 +278,76 @@ function PublicHomeInner() {
           </div>
 
           {/* Filters */}
-          <div className="rounded-xl gold-border p-4 mb-6" style={{ background: "var(--bg-card-alt)" }}>
-            <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-3">
-              <Select value={filters.country} onValueChange={v => setFilters({ ...filters, country: v })}>
-                <SelectTrigger className="bg-[#16223a] border-[#c5a065]/30 text-white/80 text-sm h-9">
-                  <SelectValue placeholder={tr("allCountries")} />
-                </SelectTrigger>
-                <SelectContent>
-                  <SelectItem value="all">{tr("allCountries")}</SelectItem>
-                  {COUNTRIES.map(c => <SelectItem key={c} value={c}>{getCountryName(c)}</SelectItem>)}
-                </SelectContent>
-              </Select>
-              <Select value={filters.propertyType} onValueChange={v => setFilters({ ...filters, propertyType: v })}>
-                <SelectTrigger className="bg-[#16223a] border-[#c5a065]/30 text-white/80 text-sm h-9">
-                  <SelectValue placeholder={tr("allTypes")} />
-                </SelectTrigger>
-                <SelectContent>
-                  <SelectItem value="all">{tr("allTypes")}</SelectItem>
-                  {Object.keys(PROPERTY_TYPE_LABELS.en).map(type => (
-                    <SelectItem key={type} value={type}>{getTypeName(type)}</SelectItem>
-                  ))}
-                </SelectContent>
-              </Select>
-              <Select value={filters.constructionPhase} onValueChange={v => setFilters({ ...filters, constructionPhase: v })}>
-                <SelectTrigger className="bg-[#16223a] border-[#c5a065]/30 text-white/80 text-sm h-9">
-                  <SelectValue placeholder={lang === "sk" ? "Fáza projektu" : "Phase"} />
-                </SelectTrigger>
-                <SelectContent>
-                  <SelectItem value="all">{lang === "sk" ? "Všetky fázy" : "All phases"}</SelectItem>
-                  <SelectItem value="vo_vystavbe">{lang === "sk" ? "Vo výstavbe / Off Plan" : "Off Plan"}</SelectItem>
-                  <SelectItem value="dokoncene">{lang === "sk" ? "Dokončené" : "Completed"}</SelectItem>
-                </SelectContent>
-              </Select>
-              <Input type="number" placeholder={tr("minPrice")} value={filters.minBudget}
-                onChange={e => setFilters({ ...filters, minBudget: e.target.value })}
-                className="bg-[#16223a] border-[#c5a065]/30 text-white placeholder:text-white/30 h-9 text-sm" />
-              <Input type="number" placeholder={tr("maxPrice")} value={filters.maxBudget}
-                onChange={e => setFilters({ ...filters, maxBudget: e.target.value })}
-                className="bg-[#16223a] border-[#c5a065]/30 text-white placeholder:text-white/30 h-9 text-sm" />
+          <div className="rounded-xl gold-border mb-6 overflow-visible" style={{ background: "var(--bg-card-alt)" }}>
+            {/* Mobile toggle bar */}
+            <div className="md:hidden flex items-center justify-between px-4 py-3">
+              <button
+                onClick={() => setFiltersOpen(!filtersOpen)}
+                className="flex items-center gap-2 text-white font-semibold text-sm"
+              >
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="w-4 h-4 text-[#c5a065]">
+                  <line x1="4" y1="6" x2="20" y2="6" /><line x1="7" y1="12" x2="17" y2="12" /><line x1="10" y1="18" x2="14" y2="18" />
+                </svg>
+                {lang === "sk" ? "Filtre" : "Filters"}
+                {(filters.country !== "all" || filters.propertyType !== "all" || filters.constructionPhase !== "all" || filters.minBudget || filters.maxBudget) && (
+                  <span className="bg-[#c5a065] text-[#0a0a0a] text-[10px] font-bold px-1.5 py-0.5 rounded-full">
+                    {[filters.country !== "all", filters.propertyType !== "all", filters.constructionPhase !== "all", filters.minBudget, filters.maxBudget].filter(Boolean).length}
+                  </span>
+                )}
+              </button>
+              {filtersOpen ? (
+                <X className="w-4 h-4 text-white/40" onClick={() => setFiltersOpen(false)} />
+              ) : null}
+            </div>
+            {/* Filter grid — always visible on md+, collapsible on mobile */}
+            <div className={`px-4 ${filtersOpen ? "pb-4" : "pb-0"} ${filtersOpen ? "block" : "hidden"} md:block md:pb-4`}>
+              <div className="grid grid-cols-2 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-3">
+                <Select value={filters.country} onValueChange={v => setFilters({ ...filters, country: v })}>
+                  <SelectTrigger className="bg-[#16223a] border-[#c5a065]/30 text-white/80 text-sm h-9">
+                    <SelectValue placeholder={tr("allCountries")} />
+                  </SelectTrigger>
+                  <SelectContent>
+                    <SelectItem value="all">{tr("allCountries")}</SelectItem>
+                    {COUNTRIES.map(c => <SelectItem key={c} value={c}>{getCountryName(c)}</SelectItem>)}
+                  </SelectContent>
+                </Select>
+                <Select value={filters.propertyType} onValueChange={v => setFilters({ ...filters, propertyType: v })}>
+                  <SelectTrigger className="bg-[#16223a] border-[#c5a065]/30 text-white/80 text-sm h-9">
+                    <SelectValue placeholder={tr("allTypes")} />
+                  </SelectTrigger>
+                  <SelectContent>
+                    <SelectItem value="all">{tr("allTypes")}</SelectItem>
+                    {Object.keys(PROPERTY_TYPE_LABELS.en).map(type => (
+                      <SelectItem key={type} value={type}>{getTypeName(type)}</SelectItem>
+                    ))}
+                  </SelectContent>
+                </Select>
+                <Select value={filters.constructionPhase} onValueChange={v => setFilters({ ...filters, constructionPhase: v })}>
+                  <SelectTrigger className="bg-[#16223a] border-[#c5a065]/30 text-white/80 text-sm h-9">
+                    <SelectValue placeholder={lang === "sk" ? "Fáza projektu" : "Phase"} />
+                  </SelectTrigger>
+                  <SelectContent>
+                    <SelectItem value="all">{lang === "sk" ? "Všetky fázy" : "All phases"}</SelectItem>
+                    <SelectItem value="vo_vystavbe">{lang === "sk" ? "Vo výstavbe / Off Plan" : "Off Plan"}</SelectItem>
+                    <SelectItem value="dokoncene">{lang === "sk" ? "Dokončené" : "Completed"}</SelectItem>
+                  </SelectContent>
+                </Select>
+                <Input type="number" placeholder={tr("minPrice")} value={filters.minBudget}
+                  onChange={e => setFilters({ ...filters, minBudget: e.target.value })}
+                  className="bg-[#16223a] border-[#c5a065]/30 text-white placeholder:text-white/30 h-9 text-sm" />
+                <Input type="number" placeholder={tr("maxPrice")} value={filters.maxBudget}
+                  onChange={e => setFilters({ ...filters, maxBudget: e.target.value })}
+                  className="bg-[#16223a] border-[#c5a065]/30 text-white placeholder:text-white/30 h-9 text-sm" />
+              </div>
+              {/* Mobile clear button */}
+              {(filters.country !== "all" || filters.propertyType !== "all" || filters.constructionPhase !== "all" || filters.minBudget || filters.maxBudget) && (
+                <button
+                  onClick={() => { setFilters({ country: "all", minBudget: "", maxBudget: "", propertyType: "all", constructionPhase: "all" }); }}
+                  className="md:hidden mt-3 w-full text-center text-xs text-[#c5a065] hover:text-[#e8d5a0] font-medium py-1.5 border border-[#c5a065]/30 rounded-lg"
+                >
+                  {lang === "sk" ? "Zrušiť filtre" : "Clear filters"}
+                </button>
+              )}
             </div>
           </div>
 
