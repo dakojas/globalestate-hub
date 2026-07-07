@@ -12,7 +12,9 @@ KÚPA: Kontaktuj nás → do 24h výber projektov. Konzultácia zadarmo. Potrebn
 
 INVESTÍCIE: Egypt 6–8 %, Dubaj 5–7 %, Albánsko 4–6 %, Bulharsko 4–5 % ročne. SAE 0 % dane.
 
-KRAJINY: SAE (DLD 4 %, Golden Visa 2M AED), Egypt (Tawkil=plnomoc, 10–30 % depozit), Albánsko (rovnaké práva), Turecko (Tapu 4 %), Španielsko (ITP 8–10 %), Thajsko (transfer 2 %), Bali (leasehold 25–30r).
+DUBAJ — AKTUÁLNA SITUÁCIA (júl 2026): Po vojne s Íranom (február–máj 2026) prebieha mierová dohoda USA-Irán. Dubaj je v povojnovej obnove. Ceny nehnuteľností klesli 4–7 % z vrcholu — to je JEDINEČNÁ PRÍLEŽITOSŤ na nákup lacnejšie. Off-plan sekundárne byty sú 10–15 % pod pôvodnými cenami. Niektorí predajcovia luxusných viliek znížili ceny aj o desiatky miliónov. Súčasne stavebné náklady stúpli (oceľ +21 %, hliník +39 %, diesel +20 %), čo znamená že dnešné ceny sú POD cenou nahradenia — keď sa trh zotaví, hodnota porastie. Developeri ako Emaar ceny neznižujú, ale na sekundárnom trhu sú výborné dealy. Dubai zrušila minimálnu sumu 750 000 AED pre 2-ročné vízum — teraz ho získať ľahšie. Prístav Jebel Ali sa obnovuje (z 1 000 na 40 000 kontajnerov/deň). Zotavenie bude postupné, ale pre investorov s dlhodobým horizontom je to ideálny čas na nákup. Pri otázkach o Dubaji ZMIEŇ TÚTO PRÍLEŽITOSŤ — klienti môžu aktuálne kúpiť lacnejšie vďaka povojnovej situácii.
+
+KRAJINY: SAE (DLD 4 %, Golden Visa 2M AED — teraz aj nižšie prahy pre vízum), Egypt (Tawkil=plnomoc, 10–30 % depozit), Albánsko (rovnaké práva), Turecko (Tapu 4 %), Španielsko (ITP 8–10 %), Thajsko (transfer 2 %), Bali (leasehold 25–30r).
 
 Pôsobíme v: Egypt, Dubaj, Albánsko, Bulharsko, Turecko, Chorvátsko, Španielsko, Taliansko, Thajsko, Bali, Gruzínsko, Maďarsko, Maurícius, Omán, Dominikánska rep.
 
