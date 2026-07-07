@@ -1,0 +1,61 @@
+{
+  "name": "PartnerRequest",
+  "type": "object",
+  "properties": {
+    "full_name": {
+      "type": "string",
+      "description": "Meno a priezvisko \u017eiadate\u013ea"
+    },
+    "organization_name": {
+      "type": "string",
+      "description": "N\u00e1zov organiz\u00e1cie"
+    },
+    "email": {
+      "type": "string",
+      "description": "Email \u017eiadate\u013ea"
+    },
+    "message": {
+      "type": "string",
+      "description": "Kr\u00e1tky text \u2013 pre\u010do chce by\u0165 partner Globeya"
+    },
+    "status": {
+      "type": "string",
+      "enum": [
+        "pending",
+        "approved",
+        "rejected"
+      ],
+      "default": "pending",
+      "description": "Stav \u017eiadosti"
+    }
+  },
+  "required": [
+    "full_name",
+    "message"
+  ],
+  "rls": {
+    "create": {},
+    "read": {
+      "$or": [
+        {
+          "user_condition": {
+            "role": "admin"
+          }
+        },
+        {
+          "created_by_id": "{{user.id}}"
+        }
+      ]
+    },
+    "update": {
+      "user_condition": {
+        "role": "admin"
+      }
+    },
+    "delete": {
+      "user_condition": {
+        "role": "admin"
+      }
+    }
+  }
+}

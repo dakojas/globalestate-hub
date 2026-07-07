@@ -36,6 +36,8 @@ import PublicGDPR from '@/pages/PublicGDPR';
 import PublicPouceniePreKlienta from '@/pages/PublicPouceniePreKlienta';
 import PublicReklamacnyPoriadok from '@/pages/PublicReklamacnyPoriadok';
 import PublicBlog from '@/pages/PublicBlog';
+import PartnerRequests from '@/pages/PartnerRequests';
+import AccessDenied from '@/components/AccessDenied';
 
 const LayoutWrapper = ({ children, currentPageName }) =>
   <Layout currentPageName={currentPageName}>{children}</Layout>;
@@ -72,12 +74,7 @@ const ProtectedRoute = ({ children, adminOnly }) => {
   }
 
   if (adminOnly && user?.role !== 'admin') {
-    return (
-      <div className="fixed inset-0 flex flex-col items-center justify-center bg-[#0a1628] gap-4">
-        <p className="text-white/80 text-lg font-semibold">Prístup zamietnutý</p>
-        <p className="text-white/40 text-sm">Na túto sekciu nemáte oprávnenie.</p>
-      </div>
-    );
+    return <AccessDenied />;
   }
 
   return children;
@@ -119,6 +116,7 @@ const AuthenticatedApp = () => {
       <Route path="/PropertyAgent" element={<ProtectedRoute adminOnly><LayoutWrapper currentPageName="PropertyAgent"><PropertyAgent /></LayoutWrapper></ProtectedRoute>} />
       <Route path="/OfferAgent" element={<ProtectedRoute adminOnly><LayoutWrapper currentPageName="OfferAgent"><OfferAgent /></LayoutWrapper></ProtectedRoute>} />
       <Route path="/AIAgents" element={<ProtectedRoute adminOnly><LayoutWrapper currentPageName="AIAgents"><AIAgents /></LayoutWrapper></ProtectedRoute>} />
+      <Route path="/PartnerRequests" element={<ProtectedRoute adminOnly><LayoutWrapper currentPageName="PartnerRequests"><PartnerRequests /></LayoutWrapper></ProtectedRoute>} />
       <Route path="*" element={<PageNotFound />} />
     </Routes>
   );
