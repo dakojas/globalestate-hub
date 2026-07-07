@@ -57,21 +57,30 @@ export default function EyaChatWidget({ lang = "sk", onOpenChange }) {
     const newMessages = [...messages, { role: "user", content }];
     setMessages(newMessages);
 
-    try {
-      const res = await base44.functions.invoke("eyaPublicChat", {
-        message: content,
-        history: messages,
-        lang,
-      });
-      const responseText = res?.data?.response || res?.response || (lang === "sk" ? "Prepáčte, nepodarilo sa mi odpovedať. Skúste to znova alebo nás kontaktujte cez WhatsApp." : "Sorry, I couldn't respond. Please try again or contact us via WhatsApp.");
+    let responseText = null;
+    for (let attempt = 0; attempt < 2; attempt++) {
+      try {
+        const res = await base44.functions.invoke("eyaPublicChat", {
+          message: content,
+          history: messages,
+          lang,
+        });
+        responseText = res?.data?.response || res?.response;
+        if (responseText) break;
+      } catch (e) {
+        if (attempt === 1) {
+          responseText = null;
+        }
+      }
+    }
+
+    if (responseText) {
       setMessages(prev => [...prev, { role: "assistant", content: responseText }]);
-    } catch (e) {
+    } else {
       const errMsg = lang === "sk"
-        ? "Prepáčte, vyskytla sa chyba. Skúste to znova alebo nás kontaktujte cez WhatsApp."
-        : "Sorry, an error occurred. Please try again or contact us via WhatsApp.";
+        ? "Prepáčte, chvíľku mi to trvalo. Skúste to znova alebo nás kontaktujte cez WhatsApp."
+        : "Sorry, that took too long. Please try again or contact us via WhatsApp.";
       setMessages(prev => [...prev, { role: "assistant", content: "⚠️ " + errMsg }]);
-    } finally {
-      setSending(false);
     }
   };
 
