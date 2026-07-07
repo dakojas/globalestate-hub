@@ -3,8 +3,6 @@ import { base44 } from "@/api/base44Client";
 import { Send, X, Loader2, Sparkles } from "lucide-react";
 import ReactMarkdown from "react-markdown";
 
-const AGENT_NAME = "eya";
-
 export default function EyaChatWidget({ lang = "sk", onOpenChange }) {
   const [open, setOpen] = useState(false);
   const [showBubble, setShowBubble] = useState(false);
@@ -18,12 +16,10 @@ export default function EyaChatWidget({ lang = "sk", onOpenChange }) {
     const hideTimer = setTimeout(() => setShowBubble(false), 12000);
     return () => { clearTimeout(timer); clearTimeout(hideTimer); };
   }, []);
-  const [conversation, setConversation] = useState(null);
+
   const [messages, setMessages] = useState([]);
   const [input, setInput] = useState("");
-  const [loading, setLoading] = useState(false);
   const [sending, setSending] = useState(false);
-  const [needsAuth, setNeedsAuth] = useState(false);
   const scrollRef = useRef(null);
 
   const UI = {
@@ -33,123 +29,47 @@ export default function EyaChatWidget({ lang = "sk", onOpenChange }) {
     fr: { title: "EYA — Assistant", subtitle: "Posez vos questions sur l'immobilier", placeholder: "Écrivez votre question...", greeting: "Bonjour! 👋 Je suis EYA, votre assistant personnel pour l'immobilier à l'étranger. Comment puis-je vous aider?", bubble: "Je vous aide à trouver votre propriété de rêve au bord de la mer 🏖️" },
     it: { title: "EYA — Assistente", subtitle: "Chiedi qualsiasi cosa sulle proprietà", placeholder: "Scrivi la tua domanda...", greeting: "Ciao! 👋 Sono EYA, il tuo assistente personale per gli immobili all'estero. Come posso aiutarti?", bubble: "Ti aiuto a trovare la tua proprietà dei sogni al mare 🏖️" },
     ru: { title: "EYA — Ассистент", subtitle: "Спросите о недвижимости", placeholder: "Напишите ваш вопрос...", greeting: "Привет! 👋 Я EYA, ваш личный помощник по зарубежной недвижимости. Чем могу помочь?", bubble: "Помогу найти вашу идеальную недвижимость у моря 🏖️" },
-    pl: { title: "EYA — Asystent", subtitle: "Zapytaj o nieruchomości", placeholder: "Napisz swoje pytanie...", greeting: "Cześć! 👋 Jestem EYA, twój osobisty asystent ds. nieruchomości za granicą. Jak mogę pomóc?", bubble: "PomogęCi znaleźć wymarzoną nieruchomość nad morzem 🏖️", signInRequired: "Aby porozmawiać z EYA, zaloguj się lub napisz do nas na WhatsApp — chętnie pomożemy! 📱", signInBtn: "Zaloguj się" },
-    hu: { title: "EYA — Asszisztens", subtitle: "Kérdezzen az ingatlanokról", placeholder: "Írja kérdését...", greeting: "Szia! 👋 Én vagyok EYA, a személyes asszisztense a külföldi ingatlanokhoz. Hogyan segíthetek?", bubble: "Segítek megtalálni álom ingatlanát a tengerparton 🏖️", signInRequired: "Az EYA-val való beszélgetéshez jelentkezzen be, vagy írjon nekünk WhatsAppon — szívesen segítünk! 📱", signInBtn: "Bejelentkezés" },
+    pl: { title: "EYA — Asystent", subtitle: "Zapytaj o nieruchomości", placeholder: "Napisz swoje pytanie...", greeting: "Cześć! 👋 Jestem EYA, twój osobisty asystent ds. nieruchomości za granicą. Jak mogę pomóc?", bubble: "Pomogę Ci znaleźć wymarzoną nieruchomość nad morzem 🏖️" },
+    hu: { title: "EYA — Asszisztens", subtitle: "Kérdezzen az ingatlanokról", placeholder: "Írja kérdését...", greeting: "Szia! 👋 Én vagyok EYA, a személyes asszisztense a külföldi ingatlanokhoz. Hogyan segíthetek?", bubble: "Segítek megtalálni álom ingatlanát a tengerparton 🏖️" },
   };
-
-  // Add signInRequired and signInBtn to all languages
-  UI.sk.signInRequired = "Pre konverzáciu s EYA sa prihláste, alebo nám napíšte na WhatsApp — radi vám pomôžeme! 📱";
-  UI.sk.signInBtn = "Prihlásiť sa";
-  UI.en.signInRequired = "To chat with EYA, please sign in or message us on WhatsApp — we're happy to help! 📱";
-  UI.en.signInBtn = "Sign in";
-  UI.de.signInRequired = "Um mit EYA zu chatten, melden Sie sich an oder schreiben Sie uns auf WhatsApp — wir helfen gerne! 📱";
-  UI.de.signInBtn = "Anmelden";
-  UI.fr.signInRequired = "Pour discuter avec EYA, connectez-vous ou écrivez-nous sur WhatsApp — nous sommes là pour vous aider! 📱";
-  UI.fr.signInBtn = "Se connecter";
-  UI.it.signInRequired = "Per chattare con EYA, accedi o scrivici su WhatsApp — siamo felici di aiutarti! 📱";
-  UI.it.signInBtn = "Accedi";
-  UI.ru.signInRequired = "Чтобы пообщаться с EYA, войдите в систему или напишите нам в WhatsApp — мы рады помочь! 📱";
-  UI.ru.signInBtn = "Войти";
 
   const t = UI[lang] || UI.en;
 
+  // Load greeting on first open
   useEffect(() => {
-    if (!open) return;
-    let unsub = () => {};
-    (async () => {
-      if (conversation) return;
-      setLoading(true);
-      try {
-        // Check if user is authenticated — agent conversations require login
-        const authed = await base44.auth.isAuthenticated();
-        if (!authed) {
-          setNeedsAuth(true);
-          setMessages([{ role: "assistant", content: t.signInRequired }]);
-          return;
-        }
-        const existing = await base44.agents.listConversations({ agent_name: AGENT_NAME });
-        if (existing && existing.length > 0) {
-          const conv = existing[0];
-          setConversation(conv);
-          setMessages(conv.messages || []);
-          unsub = base44.agents.subscribeToConversation(conv.id, (data) => {
-            const cleaned = (data.messages || []).map(m => {
-              if (m.role === "assistant" && typeof m.content === "string" && /sign in to communicate/i.test(m.content)) {
-                return { ...m, content: t.signInRequired };
-              }
-              return m;
-            });
-            setMessages(cleaned);
-          });
-        } else {
-          const conv = await base44.agents.createConversation({
-            agent_name: AGENT_NAME,
-            metadata: { name: "EYA Public Chat" },
-          });
-          setConversation(conv);
-          setMessages([{ role: "assistant", content: t.greeting }]);
-          unsub = base44.agents.subscribeToConversation(conv.id, (data) => {
-            const cleaned = (data.messages || []).map(m => {
-              if (m.role === "assistant" && typeof m.content === "string" && /sign in to communicate/i.test(m.content)) {
-                return { ...m, content: t.signInRequired };
-              }
-              return m;
-            });
-            setMessages(cleaned);
-          });
-        }
-      } catch (e) {
-        const errMsg = e?.message || "";
-        if (/sign in|not authorized|unauthenticated|401/i.test(errMsg)) {
-          setNeedsAuth(true);
-          setMessages([{ role: "assistant", content: t.signInRequired }]);
-        } else {
-          setMessages([{ role: "assistant", content: t.greeting }]);
-        }
-      } finally {
-        setLoading(false);
-      }
-    })();
-    return () => unsub();
+    if (open && messages.length === 0) {
+      setMessages([{ role: "assistant", content: t.greeting }]);
+    }
   }, [open]);
 
   useEffect(() => {
     if (scrollRef.current) {
       scrollRef.current.scrollTop = scrollRef.current.scrollHeight;
     }
-  }, [messages]);
+  }, [messages, sending]);
 
   const handleSend = async () => {
     const content = input.trim();
-    if (!content || sending || needsAuth) return;
+    if (!content || sending) return;
     setInput("");
     setSending(true);
 
-    if (!conversation) {
-      setMessages(prev => [...prev, { role: "user", content }, { role: "assistant", content: "..." }]);
-      try {
-        const conv = await base44.agents.createConversation({
-          agent_name: AGENT_NAME,
-          metadata: { name: "EYA Public Chat" },
-        });
-        setConversation(conv);
-        base44.agents.subscribeToConversation(conv.id, (data) => {
-          setMessages(data.messages || []);
-        });
-        await base44.agents.addMessage(conv, { role: "user", content });
-      } catch (e) {
-        setMessages(prev => [...prev, { role: "assistant", content: "⚠️ " + (lang === "sk" ? "Prepáčte, momentálne nie je k dispozícii. Kontaktujte nás cez WhatsApp." : "Sorry, currently unavailable. Please contact us via WhatsApp.") }]);
-      } finally {
-        setSending(false);
-      }
-      return;
-    }
+    const newMessages = [...messages, { role: "user", content }];
+    setMessages(newMessages);
 
-    setMessages(prev => [...prev, { role: "user", content }]);
     try {
-      await base44.agents.addMessage(conversation, { role: "user", content });
+      const res = await base44.functions.invoke("eyaPublicChat", {
+        message: content,
+        history: messages,
+        lang,
+      });
+      const responseText = res?.data?.response || res?.response || (lang === "sk" ? "Prepáčte, nepodarilo sa mi odpovedať. Skúste to znova alebo nás kontaktujte cez WhatsApp." : "Sorry, I couldn't respond. Please try again or contact us via WhatsApp.");
+      setMessages(prev => [...prev, { role: "assistant", content: responseText }]);
     } catch (e) {
-      setMessages(prev => [...prev, { role: "assistant", content: "⚠️ " + (lang === "sk" ? "Prepáčte, vyskytla sa chyba. Skúste to znova alebo kontaktujte nás cez WhatsApp." : "Sorry, an error occurred. Please try again or contact us via WhatsApp.") }]);
+      const errMsg = lang === "sk"
+        ? "Prepáčte, vyskytla sa chyba. Skúste to znova alebo nás kontaktujte cez WhatsApp."
+        : "Sorry, an error occurred. Please try again or contact us via WhatsApp.";
+      setMessages(prev => [...prev, { role: "assistant", content: "⚠️ " + errMsg }]);
     } finally {
       setSending(false);
     }
@@ -210,92 +130,64 @@ export default function EyaChatWidget({ lang = "sk", onOpenChange }) {
 
           {/* Messages */}
           <div ref={scrollRef} className="flex-1 overflow-y-auto p-3 space-y-3" style={{ background: "var(--bg-page, #0e1a2e)" }}>
-            {loading ? (
-              <div className="flex items-center justify-center h-full">
-                <Loader2 className="w-6 h-6 text-[#c9a84c] animate-spin" />
+            {messages.length === 0 && (
+              <div className="text-white/40 text-center text-sm py-8">
+                {t.greeting}
               </div>
-            ) : (
-              <>
-                {messages.length === 0 && (
-                  <div className="text-white/40 text-center text-sm py-8">
-                    {t.greeting}
+            )}
+            {messages.map((msg, i) => {
+              const isUser = msg.role === "user";
+              return (
+                <div key={i} className={isUser ? "flex justify-end" : "flex justify-start"}>
+                  <div className={`max-w-[85%] rounded-2xl px-3.5 py-2.5 text-sm ${isUser ? "bg-[#c9a84c] text-[#0a1628]" : "text-white/90"}`}
+                    style={!isUser ? { background: "var(--bg-card-alt, rgba(22,34,58,0.6))" } : {}}>
+                    {isUser ? (
+                      <p className="whitespace-pre-wrap">{msg.content}</p>
+                    ) : (
+                      <ReactMarkdown className="prose prose-sm prose-invert max-w-none [&>*:first-child]:mt-0 [&>*:last-child]:mb-0">{msg.content}</ReactMarkdown>
+                    )}
                   </div>
-                )}
-                {messages.map((msg, i) => {
-                  const isUser = msg.role === "user";
-                  return (
-                    <div key={i} className={isUser ? "flex justify-end" : "flex justify-start"}>
-                      <div className={`max-w-[85%] rounded-2xl px-3.5 py-2.5 text-sm ${isUser ? "bg-[#c9a84c] text-[#0a1628]" : "text-white/90"}`}
-                        style={!isUser ? { background: "var(--bg-card-alt, rgba(22,34,58,0.6))" } : {}}>
-                        {isUser ? (
-                          <p className="whitespace-pre-wrap">{msg.content}</p>
-                        ) : (
-                          <ReactMarkdown className="prose prose-sm prose-invert max-w-none [&>*:first-child]:mt-0 [&>*:last-child]:mb-0">{msg.content}</ReactMarkdown>
-                        )}
-                      </div>
-                    </div>
-                  );
-                })}
-                {sending && (
-                  <div className="flex justify-start">
-                    <div className="rounded-2xl px-4 py-3" style={{ background: "var(--bg-card-alt, rgba(22,34,58,0.6))" }}>
-                      <div className="flex gap-1">
-                        <span className="w-2 h-2 bg-white/40 rounded-full animate-bounce" style={{ animationDelay: "0ms" }} />
-                        <span className="w-2 h-2 bg-white/40 rounded-full animate-bounce" style={{ animationDelay: "150ms" }} />
-                        <span className="w-2 h-2 bg-white/40 rounded-full animate-bounce" style={{ animationDelay: "300ms" }} />
-                      </div>
-                    </div>
+                </div>
+              );
+            })}
+            {sending && (
+              <div className="flex justify-start">
+                <div className="rounded-2xl px-4 py-3" style={{ background: "var(--bg-card-alt, rgba(22,34,58,0.6))" }}>
+                  <div className="flex gap-1">
+                    <span className="w-2 h-2 bg-white/40 rounded-full animate-bounce" style={{ animationDelay: "0ms" }} />
+                    <span className="w-2 h-2 bg-white/40 rounded-full animate-bounce" style={{ animationDelay: "150ms" }} />
+                    <span className="w-2 h-2 bg-white/40 rounded-full animate-bounce" style={{ animationDelay: "300ms" }} />
                   </div>
-                )}
-                {needsAuth && (
-                  <div className="flex flex-col gap-2 pt-2">
-                    <button
-                      onClick={() => base44.auth.redirectToLogin(window.location.href)}
-                      className="bg-[#c9a84c] hover:bg-[#a88950] text-[#0a1628] font-semibold text-sm py-2.5 rounded-xl transition-colors"
-                    >
-                      {t.signInBtn}
-                    </button>
-                    <a
-                      href="https://wa.me/421951094706"
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      className="bg-[#25D366] hover:bg-[#1da851] text-white font-semibold text-sm py-2.5 rounded-xl text-center transition-colors"
-                    >
-                      WhatsApp
-                    </a>
-                  </div>
-                )}
-              </>
+                </div>
+              </div>
             )}
           </div>
 
           {/* Input */}
-          {!needsAuth && (
-            <div className="p-3 border-t border-white/10" style={{ background: "var(--bg-card, #16223a)" }}>
-              <div className="flex gap-2 items-end">
-                <textarea
-                  value={input}
-                  onChange={(e) => setInput(e.target.value)}
-                  onKeyDown={(e) => {
-                    if (e.key === "Enter" && !e.shiftKey) {
-                      e.preventDefault();
-                      handleSend();
-                    }
-                  }}
-                  placeholder={t.placeholder}
-                  rows={1}
-                  className="flex-1 resize-none bg-white/10 border border-white/10 rounded-xl px-3 py-2.5 text-sm text-white placeholder:text-white/30 focus:outline-none focus:border-[#c5a065]/50 max-h-24"
-                />
-                <button
-                  onClick={handleSend}
-                  disabled={!input.trim() || sending}
-                  className="w-10 h-10 rounded-xl bg-[#c9a84c] hover:bg-[#a88950] text-[#0a1628] flex items-center justify-center disabled:opacity-40 transition-colors flex-shrink-0"
-                >
-                  <Send className="w-4 h-4" />
-                </button>
-              </div>
+          <div className="p-3 border-t border-white/10" style={{ background: "var(--bg-card, #16223a)" }}>
+            <div className="flex gap-2 items-end">
+              <textarea
+                value={input}
+                onChange={(e) => setInput(e.target.value)}
+                onKeyDown={(e) => {
+                  if (e.key === "Enter" && !e.shiftKey) {
+                    e.preventDefault();
+                    handleSend();
+                  }
+                }}
+                placeholder={t.placeholder}
+                rows={1}
+                className="flex-1 resize-none bg-white/10 border border-white/10 rounded-xl px-3 py-2.5 text-sm text-white placeholder:text-white/30 focus:outline-none focus:border-[#c5a065]/50 max-h-24"
+              />
+              <button
+                onClick={handleSend}
+                disabled={!input.trim() || sending}
+                className="w-10 h-10 rounded-xl bg-[#c9a84c] hover:bg-[#a88950] text-[#0a1628] flex items-center justify-center disabled:opacity-40 transition-colors flex-shrink-0"
+              >
+                <Send className="w-4 h-4" />
+              </button>
             </div>
-          )}
+          </div>
         </div>
       )}
     </>
