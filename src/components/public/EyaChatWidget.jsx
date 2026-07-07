@@ -7,10 +7,17 @@ const AGENT_NAME = "eya";
 
 export default function EyaChatWidget({ lang = "sk", onOpenChange }) {
   const [open, setOpen] = useState(false);
+  const [showBubble, setShowBubble] = useState(false);
   const handleSetOpen = (val) => {
     setOpen(val);
     if (onOpenChange) onOpenChange(val);
   };
+
+  useEffect(() => {
+    const timer = setTimeout(() => setShowBubble(true), 2500);
+    const hideTimer = setTimeout(() => setShowBubble(false), 12000);
+    return () => { clearTimeout(timer); clearTimeout(hideTimer); };
+  }, []);
   const [conversation, setConversation] = useState(null);
   const [messages, setMessages] = useState([]);
   const [input, setInput] = useState("");
@@ -19,14 +26,14 @@ export default function EyaChatWidget({ lang = "sk", onOpenChange }) {
   const scrollRef = useRef(null);
 
   const UI = {
-    sk: { title: "EYA — Asistent", subtitle: "Opýtajte sa na čokoľvek o nehnuteľnostiach", placeholder: "Napíšte vašu otázku...", greeting: "Ahoj! 👋 Som EYA, váš osobný asistent pre nehnuteľnosti v zahraničí. Ako vám môžem pomôcť?" },
-    en: { title: "EYA — Assistant", subtitle: "Ask anything about properties", placeholder: "Type your question...", greeting: "Hi! 👋 I'm EYA, your personal assistant for international real estate. How can I help you?" },
-    de: { title: "EYA — Assistent", subtitle: "Fragen Sie alles über Immobilien", placeholder: "Schreiben Sie Ihre Frage...", greeting: "Hallo! 👋 Ich bin EYA, Ihr persönlicher Assistent für Immobilien im Ausland. Wie kann ich helfen?" },
-    fr: { title: "EYA — Assistant", subtitle: "Posez vos questions sur l'immobilier", placeholder: "Écrivez votre question...", greeting: "Bonjour! 👋 Je suis EYA, votre assistant personnel pour l'immobilier à l'étranger. Comment puis-je vous aider?" },
-    it: { title: "EYA — Assistente", subtitle: "Chiedi qualsiasi cosa sulle proprietà", placeholder: "Scrivi la tua domanda...", greeting: "Ciao! 👋 Sono EYA, il tuo assistente personale per gli immobili all'estero. Come posso aiutarti?" },
-    ru: { title: "EYA — Ассистент", subtitle: "Спросите о недвижимости", placeholder: "Напишите ваш вопрос...", greeting: "Привет! 👋 Я EYA, ваш личный помощник по зарубежной недвижимости. Чем могу помочь?" },
-    pl: { title: "EYA — Asystent", subtitle: "Zapytaj o nieruchomości", placeholder: "Napisz swoje pytanie...", greeting: "Cześć! 👋 Jestem EYA, twój osobisty asystent ds. nieruchomości za granicą. Jak mogę pomóc?" },
-    hu: { title: "EYA — Asszisztens", subtitle: "Kérdezzen az ingatlanokról", placeholder: "Írja kérdését...", greeting: "Szia! 👋 Én vagyok EYA, a személyes asszisztense a külföldi ingatlanokhoz. Hogyan segíthetek?" },
+    sk: { title: "EYA — Asistent", subtitle: "Opýtajte sa na čokoľvek o nehnuteľnostiach", placeholder: "Napíšte vašu otázku...", greeting: "Ahoj! 👋 Som EYA, váš osobný asistent pre nehnuteľnosti v zahraničí. Ako vám môžem pomôcť?", bubble: "Pomôžem vám nájsť vysnívanú nehnuteľnosť pri mori 🏖️" },
+    en: { title: "EYA — Assistant", subtitle: "Ask anything about properties", placeholder: "Type your question...", greeting: "Hi! 👋 I'm EYA, your personal assistant for international real estate. How can I help you?", bubble: "I'll help you find your dream property by the sea 🏖️" },
+    de: { title: "EYA — Assistent", subtitle: "Fragen Sie alles über Immobilien", placeholder: "Schreiben Sie Ihre Frage...", greeting: "Hallo! 👋 Ich bin EYA, Ihr persönlicher Assistent für Immobilien im Ausland. Wie kann ich helfen?", bubble: "Ich helfe Ihnen, Ihre Traumimmobilie am Meer zu finden 🏖️" },
+    fr: { title: "EYA — Assistant", subtitle: "Posez vos questions sur l'immobilier", placeholder: "Écrivez votre question...", greeting: "Bonjour! 👋 Je suis EYA, votre assistant personnel pour l'immobilier à l'étranger. Comment puis-je vous aider?", bubble: "Je vous aide à trouver votre propriété de rêve au bord de la mer 🏖️" },
+    it: { title: "EYA — Assistente", subtitle: "Chiedi qualsiasi cosa sulle proprietà", placeholder: "Scrivi la tua domanda...", greeting: "Ciao! 👋 Sono EYA, il tuo assistente personale per gli immobili all'estero. Come posso aiutarti?", bubble: "Ti aiuto a trovare la tua proprietà dei sogni al mare 🏖️" },
+    ru: { title: "EYA — Ассистент", subtitle: "Спросите о недвижимости", placeholder: "Напишите ваш вопрос...", greeting: "Привет! 👋 Я EYA, ваш личный помощник по зарубежной недвижимости. Чем могу помочь?", bubble: "Помогу найти вашу идеальную недвижимость у моря 🏖️" },
+    pl: { title: "EYA — Asystent", subtitle: "Zapytaj o nieruchomości", placeholder: "Napisz swoje pytanie...", greeting: "Cześć! 👋 Jestem EYA, twój osobisty asystent ds. nieruchomości za granicą. Jak mogę pomóc?", bubble: "Pomogę Ci znaleźć wymarzoną nieruchomość nad morzem 🏖️" },
+    hu: { title: "EYA — Asszisztens", subtitle: "Kérdezzen az ingatlanokról", placeholder: "Írja kérdését...", greeting: "Szia! 👋 Én vagyok EYA, a személyes asszisztense a külföldi ingatlanokhoz. Hogyan segíthetek?", bubble: "Segítek megtalálni álom ingatlanát a tengerparton 🏖️" },
   };
 
   const t = UI[lang] || UI.en;
@@ -112,16 +119,31 @@ export default function EyaChatWidget({ lang = "sk", onOpenChange }) {
     <>
       {/* Floating button */}
       {!open && (
-        <button
-          onClick={() => handleSetOpen(true)}
-          className="eya-pulse fixed bottom-6 left-6 z-50 flex items-center gap-2 bg-gradient-to-br from-[#c9a84c] to-[#a88950] text-[#0a1628] font-bold px-5 py-3.5 rounded-full shadow-2xl shadow-[#c9a84c]/40 hover:scale-105 transition-all duration-300 group"
-        >
-          <div className="w-7 h-7 rounded-full bg-[#0a1628] flex items-center justify-center">
-            <Sparkles className="w-4 h-4 text-[#c9a84c]" />
-          </div>
-          <span className="text-sm">EYA</span>
-          <span className="absolute -top-1 -right-1 w-3 h-3 bg-green-400 rounded-full border-2 border-[#c9a84c] animate-pulse" />
-        </button>
+        <div className="fixed bottom-6 left-6 z-50 flex items-end gap-3">
+          {showBubble && (
+            <div className="hidden sm:flex flex-col items-start max-w-[220px] animate-[eya-pulse_0.4s_ease-out]">
+              <div className="rounded-2xl rounded-bl-sm px-4 py-3 shadow-xl border border-[#c5a065]/30"
+                style={{ background: "var(--bg-card, #16223a)" }}>
+                <p className="text-[#c5a065] font-bold text-sm mb-0.5">EYA</p>
+                <p className="text-white/80 text-xs leading-relaxed">{t.bubble}</p>
+              </div>
+              <button onClick={() => setShowBubble(false)}
+                className="text-white/40 hover:text-white/70 text-[10px] mt-1 ml-1">
+                {lang === "sk" ? "Zavrieť" : "Dismiss"}
+              </button>
+            </div>
+          )}
+          <button
+            onClick={() => handleSetOpen(true)}
+            className="eya-pulse flex items-center gap-2 bg-gradient-to-br from-[#c9a84c] to-[#a88950] text-[#0a1628] font-bold px-5 py-3.5 rounded-full shadow-2xl shadow-[#c9a84c]/40 hover:scale-105 transition-all duration-300 group"
+          >
+            <div className="w-7 h-7 rounded-full bg-[#0a1628] flex items-center justify-center">
+              <Sparkles className="w-4 h-4 text-[#c9a84c]" />
+            </div>
+            <span className="text-sm">EYA</span>
+            <span className="absolute -top-1 -right-1 w-3 h-3 bg-green-400 rounded-full border-2 border-[#c9a84c] animate-pulse" />
+          </button>
+        </div>
       )}
 
       {/* Chat panel */}
