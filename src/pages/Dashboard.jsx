@@ -23,6 +23,7 @@ import StaleLeads from "../components/dashboard/StaleLeads";
 import MonthlySalesChart from "../components/dashboard/MonthlySalesChart";
 import AgentPerformanceChart from "../components/dashboard/AgentPerformanceChart";
 import ClientStatusChart from "../components/dashboard/ClientStatusChart";
+import EyaAgentStats from "../components/dashboard/EyaAgentStats";
 
 function getGreeting() {
   const h = new Date().getHours();
@@ -168,6 +169,15 @@ export default function Dashboard() {
             <LeadSourceChart clients={clients} />
           </div>
         </div>
+      </div>
+
+      {/* Section: EYA Agent */}
+      <div>
+        <div className="flex items-center gap-2.5 mb-4">
+          <div className="w-1 h-5 bg-[#c9a84c] rounded-full" />
+          <h3 className="text-sm font-bold text-[#0a1628] uppercase tracking-wider">EYA AI Asistent</h3>
+        </div>
+        <EyaAgentStats />
       </div>
 
       {/* Section: Akcie & Pripomienky */}
