@@ -1,7 +1,7 @@
 import React from "react";
 import { Link } from "react-router-dom";
 import { createPageUrl } from "@/utils";
-import { Sparkles, FileText, ArrowRight, Bot, Globe, MessageCircle, CalendarClock } from "lucide-react";
+import { Sparkles, FileText, ArrowRight, Bot, Globe, MessageCircle, CalendarClock, Search } from "lucide-react";
 import { Card, CardContent } from "@/components/ui/card";
 import PartnerSync from "@/components/dashboard/PartnerSync";
 
@@ -41,6 +41,15 @@ const AGENTS = [
     tasks: ["Scheduling obhliadok", "Pripomienky klientom", "Koordinácia s agentúrami"],
     color: "from-emerald-500 to-teal-600",
     iconBg: "bg-emerald-100 text-emerald-600",
+  },
+  {
+    name: "Vyhľadávač nehnuteľností",
+    page: "PropertyFinder",
+    icon: Search,
+    description: "Filtruje ponuky v 16 krajinách podľa osobných preferencií, rozpočtu a účelu investície.",
+    tasks: ["Filter podľa krajiny", "Rozpočet a typ", "Match s klientom"],
+    color: "from-amber-500 to-orange-600",
+    iconBg: "bg-amber-100 text-amber-600",
   },
 ];
 
