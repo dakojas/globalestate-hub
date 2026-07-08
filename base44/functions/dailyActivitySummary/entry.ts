@@ -183,7 +183,7 @@ Deno.serve(async (req) => {
 
     html += `
         <div style="text-align: center; margin-top: 24px;">
-          <a href="https://nvz.info/Dashboard" style="display: inline-block; background: #c5a065; color: #0a0a0a; font-weight: bold; font-size: 14px; padding: 12px 32px; border-radius: 8px; text-decoration: none;">Otvoriť Dashboard</a>
+          <a href="https://globeya.com/Dashboard" style="display: inline-block; background: #c5a065; color: #0a0a0a; font-weight: bold; font-size: 14px; padding: 12px 32px; border-radius: 8px; text-decoration: none;">Otvoriť Dashboard</a>
         </div>
         <p style="color: #94a3b8; font-size: 11px; text-align: center; margin-top: 20px;">Tento e-mail bol vygenerovaný automaticky systémom GLOBEYA.</p>
       </div>
