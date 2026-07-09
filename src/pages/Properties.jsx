@@ -42,12 +42,16 @@ export default function Properties() {
     queryFn: () => base44.entities.Property.list("-created_date", 200),
   });
 
+  const approvedProperties = properties.filter(p => p.approval_status !== "pending_review" && p.approval_status !== "rejected");
+
   const countsByCountry = COUNTRIES.reduce((acc, c) => {
-    acc[c] = properties.filter(p => p.country === c).length;
+    acc[c] = approvedProperties.filter(p => p.country === c).length;
     return acc;
   }, {});
 
-  const filtered = properties.filter(p => {
+  const pendingCount = properties.filter(p => p.approval_status === "pending_review").length;
+
+  const filtered = approvedProperties.filter(p => {
     const matchSearch = !search || p.title?.toLowerCase().includes(search.toLowerCase()) || p.city?.toLowerCase().includes(search.toLowerCase());
     const matchCountry = !selectedCountry || p.country === selectedCountry;
     const matchStatus = statusFilter === "all" || p.status === statusFilter;
@@ -119,6 +123,8 @@ export default function Properties() {
     );
   }
 
+  const countryPending = properties.filter(p => p.country === selectedCountry && p.approval_status === "pending_review").length;
+
   // Country detail view
   return (
     <div className="space-y-6">
@@ -132,6 +138,11 @@ export default function Properties() {
           <div className="flex items-center gap-2">
             <span className="text-2xl">{COUNTRY_FLAGS[selectedCountry]}</span>
             <h2 className="text-xl font-bold text-[#0a1628]">{COUNTRY_SK[selectedCountry] || selectedCountry}</h2>
+            {countryPending > 0 && (
+              <span className="text-xs bg-orange-100 text-orange-700 border border-orange-300 px-2 py-0.5 rounded-full font-medium">
+                {countryPending} čaká na schválenie
+              </span>
+            )}
           </div>
         </div>
         <Button onClick={() => setShowForm(true)} className="bg-[#0a1628] hover:bg-[#132039]">

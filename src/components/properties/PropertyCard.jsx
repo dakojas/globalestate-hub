@@ -33,9 +33,19 @@ export default function PropertyCard({ property }) {
               <MapPin className="w-10 h-10 text-[#c9a84c]/50" />
             </div>
           )}
-          <Badge variant="outline" className={`absolute top-3 left-3 ${statusColors[property.status] || statusColors.available}`}>
-            {property.status?.replace("_", " ")}
-          </Badge>
+          {property.approval_status === "pending_review" ? (
+            <Badge variant="outline" className="absolute top-3 left-3 bg-orange-100 text-orange-700 border-orange-300 font-medium">
+              ⏳ Čaká na schválenie
+            </Badge>
+          ) : property.approval_status === "rejected" ? (
+            <Badge variant="outline" className="absolute top-3 left-3 bg-red-100 text-red-700 border-red-300 font-medium">
+              ✗ Zamietnuté
+            </Badge>
+          ) : (
+            <Badge variant="outline" className={`absolute top-3 left-3 ${statusColors[property.status] || statusColors.available}`}>
+              {property.status?.replace("_", " ")}
+            </Badge>
+          )}
           <div className="absolute top-3 right-3 bg-white/90 backdrop-blur-sm rounded-lg px-2 py-1 text-xs font-medium">
             {countryFlags[property.country]} {property.country}
           </div>
