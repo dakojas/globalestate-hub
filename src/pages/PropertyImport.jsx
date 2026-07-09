@@ -94,7 +94,8 @@ Vráť zoznam v JSON formáte.`,
             description: prop.description || "",
             images: prop.images || [],
             status: "available",
-            is_public: true,
+            is_public: false,
+            approval_status: "pending_review",
             currency: "EUR",
           });
           success++;
@@ -149,8 +150,8 @@ Vráť zoznam v JSON formáte.`,
             <ul className="text-xs text-blue-700 space-y-1">
               <li>• AI prejde stránku a automaticky vyhľadá nehnuteľnosti</li>
               <li>• Extrahuje všetky informácie vrátane všetkých fotografií z galérie</li>
-              <li>• Importované nehnuteľnosti sú automaticky zverejnené na verejnej stránke</li>
-              <li>• Po importe skontrolujte a upravte údaje podľa potreby</li>
+              <li>• Importované nehnuteľnosti vyžadujú schválenie pred zverejnením</li>
+              <li>• Po importe ich skontrolujete a schválite v sekcii Nehnuteľnosti</li>
             </ul>
           </div>
 
@@ -212,8 +213,8 @@ Vráť zoznam v JSON formáte.`,
           <h4 className="text-sm font-semibold text-amber-900 mb-2">⚠️ Upozornenie</h4>
           <p className="text-xs text-amber-700">
             Import používa AI na extrahovanie údajov, preto odporúčame po importe skontrolovať správnosť údajov.
-            Importované nehnuteľnosti sú automaticky zverejnené na verejnej stránke - môžete ich upraviť
-            alebo skryť v sekcii Properties.
+            Importované nehnuteľnosti vyžadujú schválenie pred zverejnením - môžete ich skontrolovať
+            a schváliť v sekcii Nehnuteľnosti.
           </p>
         </CardContent>
       </Card>
