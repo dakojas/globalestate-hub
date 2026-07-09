@@ -57,8 +57,8 @@ Deno.serve(async (req) => {
     const results = [];
 
     for (const partner of partners) {
+      const isAdHoc = partner.id === null;
       try {
-        const isAdHoc = partner.id === null;
 
         // Skip manual-mode partners during automatic scheduled scans (not for ad-hoc or explicit partner_id)
         if (!isAdHoc && !partner_id && partner.sync_mode === 'manual') {
@@ -264,11 +264,56 @@ ${truncatedDetail}`,
           // Strip partner contact info before saving
           fullDescription = stripContactInfo(fullDescription);
 
+          // Translate title + description to Slovak and English
+          let titleSk = prop.title;
+          let titleEn = prop.title;
+          let descSk = fullDescription;
+          let descEn = fullDescription;
+          let detectedLang = 'sk';
+
+          if (fullDescription && fullDescription.length > 10) {
+            try {
+              const translationResult = await base44.asServiceRole.integrations.Core.InvokeLLM({
+                prompt: `You are a professional real estate translator. Translate the following property title and description into Slovak and English.
+
+Rules:
+- If the text is already in Slovak, keep the Slovak version as-is.
+- If the text is already in English, keep the English version as-is.
+- Detect the original language and report it in "original_language" (use ISO 639-1 code: sk, en, tr, de, etc.).
+- Translate naturally and professionally — preserve formatting, line breaks, and real estate terminology.
+- Do NOT add any contact information, phone numbers, or emails.
+- Return ONLY the JSON object.
+
+TITLE:
+${prop.title}
+
+DESCRIPTION:
+${fullDescription}`,
+                response_json_schema: {
+                  type: "object",
+                  properties: {
+                    title_sk: { type: "string" },
+                    title_en: { type: "string" },
+                    description_sk: { type: "string" },
+                    description_en: { type: "string" },
+                    original_language: { type: "string" }
+                  }
+                }
+              });
+
+              if (translationResult.title_sk) titleSk = translationResult.title_sk;
+              if (translationResult.title_en) titleEn = translationResult.title_en;
+              if (translationResult.description_sk) descSk = translationResult.description_sk;
+              if (translationResult.description_en) descEn = translationResult.description_en;
+              if (translationResult.original_language) detectedLang = translationResult.original_language;
+            } catch (e) { /* translation failed, use originals */ }
+          }
+
           // Create property
           await base44.asServiceRole.entities.Property.create({
-            title: prop.title,
-            description: fullDescription,
-            description_en: fullDescription,
+            title: titleSk,
+            description: descSk,
+            description_en: descEn,
             country,
             city: prop.city || '',
             price: prop.price || 0,
@@ -280,7 +325,7 @@ ${truncatedDetail}`,
             images: uploadedImages,
             developer: partner.name,
             project_name: partner.name,
-            original_language: 'sk',
+            original_language: detectedLang,
             owner_submitted: false,
             is_public: false,
             approval_status: 'pending_review',
