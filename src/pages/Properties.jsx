@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import PendingApprovals from "../components/properties/PendingApprovals";
+import FeaturedManager from "../components/properties/FeaturedManager";
 import { useQuery, useQueryClient } from "@tanstack/react-query";
 import { base44 } from "@/api/base44Client";
 import { Button } from "@/components/ui/button";
@@ -88,6 +89,7 @@ export default function Properties() {
     return (
       <div className="space-y-6">
         <PendingApprovals />
+        <FeaturedManager />
         <div>
           <h2 className="text-2xl font-bold text-[#0a1628] mb-1">Nehnuteľnosti podľa krajín</h2>
           <p className="text-gray-500 text-sm">Vyberte krajinu pre zobrazenie ponúk</p>
