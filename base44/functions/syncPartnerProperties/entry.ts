@@ -46,6 +46,12 @@ Deno.serve(async (req) => {
 
     for (const partner of partners) {
       try {
+        // Skip manual-mode partners during automatic scheduled scans
+        if (!partner_id && partner.sync_mode === 'manual') {
+          results.push({ partner: partner.name, skipped: 'manual mode — scan on demand only' });
+          continue;
+        }
+
         // Check if due (skip when manual sync via partner_id)
         if (!partner_id && partner.frequency_days && partner.last_synced) {
           const lastSync = new Date(partner.last_synced);
@@ -129,10 +135,12 @@ ${truncatedHtml}`,
         const extracted = llmResult.properties || [];
         let newCount = 0;
         let skippedCount = 0;
+        const maxProps = partner.max_properties_per_scan || 0;
 
         const baseUrl = new URL(fetchUrl);
 
         for (const prop of extracted) {
+          if (maxProps > 0 && newCount >= maxProps) { skippedCount = extracted.length - newCount; break; }
           if (!prop.title || prop.title.length < 3) { skippedCount++; continue; }
 
           // Normalize fields

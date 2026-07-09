@@ -15,10 +15,23 @@
       "default": true,
       "description": "Whether this partner is being synced"
     },
+    "sync_mode": {
+      "type": "string",
+      "enum": [
+        "scheduled",
+        "manual"
+      ],
+      "default": "scheduled",
+      "description": "scheduled = automatic interval, manual = only scan on demand"
+    },
     "frequency_days": {
       "type": "number",
       "default": 7,
-      "description": "Days between automatic syncs"
+      "description": "Days between automatic syncs (only when sync_mode=scheduled)"
+    },
+    "max_properties_per_scan": {
+      "type": "number",
+      "description": "Max properties to import per scan (null = no limit)"
     },
     "last_synced": {
       "type": "string",

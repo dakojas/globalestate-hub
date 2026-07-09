@@ -4,7 +4,7 @@ import { base44 } from "@/api/base44Client";
 import { Card, CardContent } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
-import { Check, X, Eye, MapPin, Bed, Maximize, User, Mail, Phone, Globe } from "lucide-react";
+import { Check, X, Eye, MapPin, Bed, Maximize, User, Mail, Phone, Globe, CheckSquare, Square, Loader2 } from "lucide-react";
 import { toast } from "sonner";
 import { Dialog, DialogContent, DialogHeader, DialogTitle } from "@/components/ui/dialog";
 
@@ -13,11 +13,64 @@ const LANG_LABELS = { sk: "🇸🇰 SK", en: "🇬🇧 EN", cs: "🇨🇿 CS", d
 export default function PendingApprovals() {
   const queryClient = useQueryClient();
   const [preview, setPreview] = useState(null);
+  const [selected, setSelected] = useState(new Set());
+  const [bulkLoading, setBulkLoading] = useState(false);
 
   const { data: pending = [] } = useQuery({
     queryKey: ["pending-properties"],
     queryFn: () => base44.entities.Property.filter({ approval_status: "pending_review" }, "-created_date", 50),
   });
+
+  const toggleSelect = (id) => {
+    setSelected(prev => {
+      const next = new Set(prev);
+      if (next.has(id)) next.delete(id); else next.add(id);
+      return next;
+    });
+  };
+
+  const toggleSelectAll = () => {
+    if (selected.size === pending.length) setSelected(new Set());
+    else setSelected(new Set(pending.map(p => p.id)));
+  };
+
+  const bulkReject = async () => {
+    if (selected.size === 0) return;
+    if (!confirm(`Naozaj zamietnuť ${selected.size} nehnuteľností?`)) return;
+    setBulkLoading(true);
+    try {
+      const ids = Array.from(selected);
+      await base44.entities.Property.bulkUpdate(
+        ids.map(id => ({ id, approval_status: "rejected", is_public: false }))
+      );
+      toast.success(`${ids.length} nehnuteľností zamietnutých`);
+      setSelected(new Set());
+      queryClient.invalidateQueries({ queryKey: ["pending-properties"] });
+      queryClient.invalidateQueries({ queryKey: ["properties"] });
+    } catch (err) {
+      toast.error("Chyba pri hromadnom odmietnutí: " + err.message);
+    }
+    setBulkLoading(false);
+  };
+
+  const bulkApprove = async () => {
+    if (selected.size === 0) return;
+    if (!confirm(`Naozaj schváliť a zverejniť ${selected.size} nehnuteľností?`)) return;
+    setBulkLoading(true);
+    try {
+      const ids = Array.from(selected);
+      await base44.entities.Property.bulkUpdate(
+        ids.map(id => ({ id, approval_status: "approved", is_public: true }))
+      );
+      toast.success(`${ids.length} nehnuteľností schválených`);
+      setSelected(new Set());
+      queryClient.invalidateQueries({ queryKey: ["pending-properties"] });
+      queryClient.invalidateQueries({ queryKey: ["properties"] });
+    } catch (err) {
+      toast.error("Chyba pri hromadnom schvaľovaní: " + err.message);
+    }
+    setBulkLoading(false);
+  };
 
   const approve = async (prop) => {
     await base44.entities.Property.update(prop.id, { approval_status: "approved", is_public: true });
@@ -46,11 +99,38 @@ export default function PendingApprovals() {
               <h3 className="font-bold text-amber-900 text-lg">⏳ Čakajú na schválenie</h3>
               <p className="text-amber-700 text-sm">{pending.length} {pending.length === 1 ? "nehnuteľnosť odoslaná" : "nehnuteľností odoslaných"} vlastníkmi</p>
             </div>
+            {selected.size > 0 && (
+              <div className="flex items-center gap-2">
+                <span className="text-xs text-amber-800 font-medium mr-1">{selected.size} vybraných</span>
+                <Button size="sm" onClick={bulkApprove} disabled={bulkLoading}
+                  className="h-8 bg-emerald-600 hover:bg-emerald-700 text-white text-xs gap-1">
+                  {bulkLoading ? <Loader2 className="w-3 h-3 animate-spin" /> : <Check className="w-3 h-3" />} Schváliť všetky
+                </Button>
+                <Button size="sm" variant="destructive" onClick={bulkReject} disabled={bulkLoading}
+                  className="h-8 text-xs gap-1">
+                  {bulkLoading ? <Loader2 className="w-3 h-3 animate-spin" /> : <X className="w-3 h-3" />} Zamietnuť všetky
+                </Button>
+              </div>
+            )}
+          </div>
+          {/* Select all bar */}
+          <div className="flex items-center gap-2 mb-2 px-1">
+            <button onClick={toggleSelectAll} className="flex items-center gap-1.5 text-xs text-amber-800 hover:text-amber-900 font-medium">
+              {selected.size === pending.length && pending.length > 0
+                ? <CheckSquare className="w-4 h-4" />
+                : <Square className="w-4 h-4" />}
+              {selected.size === pending.length && pending.length > 0 ? "Odznačiť všetko" : "Označiť všetko"}
+            </button>
           </div>
           <div className="space-y-3">
             {pending.map(prop => (
               <div key={prop.id} className="flex items-center justify-between bg-white rounded-xl p-4 shadow-sm">
-                <div className="flex items-center gap-4 flex-1 min-w-0">
+                <div className="flex items-center gap-3 flex-1 min-w-0">
+                  <button onClick={() => toggleSelect(prop.id)} className="flex-shrink-0">
+                    {selected.has(prop.id)
+                      ? <CheckSquare className="w-5 h-5 text-emerald-600" />
+                      : <Square className="w-5 h-5 text-gray-300 hover:text-gray-400" />}
+                  </button>
                   {prop.images?.[0] && (
                     <img src={prop.images[0]} alt="" className="w-16 h-12 rounded-lg object-cover flex-shrink-0" />
                   )}

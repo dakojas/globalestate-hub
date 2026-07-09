@@ -8,7 +8,7 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import {
   Globe, Plus, Trash2, RefreshCw, Loader2, CheckCircle2,
-  AlertCircle, Clock, Zap, Settings
+  AlertCircle, Clock, Zap, Settings, Square, Hand
 } from "lucide-react";
 import { toast } from "sonner";
 import {
@@ -26,6 +26,7 @@ export default function PartnerSync() {
   const [editingPartner, setEditingPartner] = useState(null);
   const [scanningIds, setScanningIds] = useState(new Set());
   const [scanResults, setScanResults] = useState({});
+  const [abortControllers, setAbortControllers] = useState({});
 
   const { data: partners = [], isLoading } = useQuery({
     queryKey: ["partnerSources"],
@@ -35,10 +36,19 @@ export default function PartnerSync() {
   const handleScanNow = async (partner) => {
     setScanningIds(prev => new Set(prev).add(partner.id));
     setScanResults(prev => ({ ...prev, [partner.id]: null }));
+
+    const controller = new AbortController();
+    setAbortControllers(prev => ({ ...prev, [partner.id]: controller }));
+
+    const abortPromise = new Promise((_, reject) => {
+      controller.signal.addEventListener('abort', () => reject(new Error('aborted')));
+    });
+
     try {
-      const response = await base44.functions.invoke("syncPartnerProperties", {
+      const invokePromise = base44.functions.invoke("syncPartnerProperties", {
         partner_id: partner.id
       });
+      const response = await Promise.race([invokePromise, abortPromise]);
       const result = response.data?.results?.[0] || {};
       setScanResults(prev => ({ ...prev, [partner.id]: result }));
       if (result.error) {
@@ -49,14 +59,30 @@ export default function PartnerSync() {
       queryClient.invalidateQueries({ queryKey: ["partnerSources"] });
       queryClient.invalidateQueries({ queryKey: ["properties"] });
     } catch (err) {
-      toast.error("Chyba pri skenovaní: " + (err.message || "neznáma chyba"));
+      if (err.message === 'aborted') {
+        toast.info("Sken zastavený — importované nehnuteľnosti nájdete v čakajúcich na schválenie");
+        queryClient.invalidateQueries({ queryKey: ["partnerSources"] });
+        queryClient.invalidateQueries({ queryKey: ["properties"] });
+      } else {
+        toast.error("Chyba pri skenovaní: " + (err.message || "neznáma chyba"));
+      }
     } finally {
       setScanningIds(prev => {
         const next = new Set(prev);
         next.delete(partner.id);
         return next;
       });
+      setAbortControllers(prev => {
+        const next = { ...prev };
+        delete next[partner.id];
+        return next;
+      });
     }
+  };
+
+  const handleStopScan = (partnerId) => {
+    const controller = abortControllers[partnerId];
+    if (controller) controller.abort();
   };
 
   const handleDelete = async (partner) => {
@@ -139,14 +165,16 @@ export default function PartnerSync() {
                   {/* Settings row */}
                   <div className="grid grid-cols-3 gap-2 text-sm">
                     <div className="flex items-center gap-1.5">
-                      <Clock className="w-3.5 h-3.5 text-gray-400" />
-                      <span className="text-xs text-gray-500">Frekvencia:</span>
-                      <span className="font-semibold text-xs">{partner.frequency_days || 7}d</span>
+                      {partner.sync_mode === 'manual' ? <Hand className="w-3.5 h-3.5 text-blue-500" /> : <Clock className="w-3.5 h-3.5 text-gray-400" />}
+                      <span className="text-xs text-gray-500">Režim:</span>
+                      <span className="font-semibold text-xs">
+                        {partner.sync_mode === 'manual' ? 'Manuál' : `${partner.frequency_days || 7}d`}
+                      </span>
                     </div>
                     <div className="flex items-center gap-1.5">
                       <Zap className="w-3.5 h-3.5 text-gray-400" />
-                      <span className="text-xs text-gray-500">Auto-zverejnenie:</span>
-                      <span className="font-semibold text-xs">{partner.auto_publish ? "Áno" : "Nie"}</span>
+                      <span className="text-xs text-gray-500">Limit:</span>
+                      <span className="font-semibold text-xs">{partner.max_properties_per_scan || "∞"}</span>
                     </div>
                     <div className="flex items-center gap-1.5">
                       <Globe className="w-3.5 h-3.5 text-gray-400" />
@@ -199,24 +227,35 @@ export default function PartnerSync() {
 
                   {/* Actions */}
                   <div className="flex gap-2 pt-1">
-                    <Button
-                      size="sm"
-                      onClick={() => handleScanNow(partner)}
-                      disabled={isScanning}
-                      className="flex-1 bg-[#c9a84c] hover:bg-[#b8963f] text-white"
-                    >
-                      {isScanning ? (
-                        <>
+                    {isScanning ? (
+                      <>
+                        <Button
+                          size="sm"
+                          disabled
+                          className="flex-1 bg-[#c9a84c] text-white"
+                        >
                           <Loader2 className="w-3.5 h-3.5 mr-1.5 animate-spin" />
                           Skenujem...
-                        </>
-                      ) : (
-                        <>
-                          <Zap className="w-3.5 h-3.5 mr-1.5" />
-                          Skenovať teraz
-                        </>
-                      )}
-                    </Button>
+                        </Button>
+                        <Button
+                          size="sm"
+                          variant="destructive"
+                          onClick={() => handleStopScan(partner.id)}
+                          title="Zastaviť sken"
+                        >
+                          <Square className="w-3.5 h-3.5" />
+                        </Button>
+                      </>
+                    ) : (
+                      <Button
+                        size="sm"
+                        onClick={() => handleScanNow(partner)}
+                        className="flex-1 bg-[#c9a84c] hover:bg-[#b8963f] text-white"
+                      >
+                        <Zap className="w-3.5 h-3.5 mr-1.5" />
+                        Skenovať teraz
+                      </Button>
+                    )}
                     <Button
                       size="sm"
                       variant="outline"
@@ -268,7 +307,9 @@ function PartnerSourceForm({ partner, onClose, onSaved }) {
   const [form, setForm] = useState({
     name: partner?.name || "",
     website_url: partner?.website_url || "",
+    sync_mode: partner?.sync_mode || "scheduled",
     frequency_days: partner?.frequency_days || 7,
+    max_properties_per_scan: partner?.max_properties_per_scan || "",
     auto_publish: partner?.auto_publish ?? false,
     default_country: partner?.default_country || "Turkey",
     is_active: partner?.is_active ?? true,
@@ -316,36 +357,64 @@ function PartnerSourceForm({ partner, onClose, onSaved }) {
               URL stránky, kde sa nachádzajú ponuky nehnuteľností
             </p>
           </div>
-          <div className="grid grid-cols-2 gap-4">
-            <div>
-              <Label>Frekvencia skenovania (dni)</Label>
-              <Input type="number" min={1} value={form.frequency_days}
-                onChange={e => setForm({ ...form, frequency_days: parseInt(e.target.value) || 7 })} />
-            </div>
-            <div>
-              <Label>Predvolená krajina</Label>
-              <select
-                value={form.default_country}
-                onChange={e => setForm({ ...form, default_country: e.target.value })}
-                className="w-full h-10 rounded-md border border-input bg-background px-3 text-sm"
+          <div>
+            <Label>Režim skenovania</Label>
+            <div className="flex gap-2 mt-1">
+              <button
+                type="button"
+                onClick={() => setForm({ ...form, sync_mode: "scheduled" })}
+                className={`flex-1 px-3 py-2 rounded-lg border text-sm font-medium transition-colors ${
+                  form.sync_mode === "scheduled"
+                    ? "border-[#0a1628] bg-[#0a1628] text-white"
+                    : "border-gray-200 bg-white text-gray-600 hover:bg-gray-50"
+                }`}
               >
-                {COUNTRIES.map(c => <option key={c} value={c}>{c}</option>)}
-              </select>
+                <Clock className="w-4 h-4 inline mr-1" /> Plánované (interval)
+              </button>
+              <button
+                type="button"
+                onClick={() => setForm({ ...form, sync_mode: "manual" })}
+                className={`flex-1 px-3 py-2 rounded-lg border text-sm font-medium transition-colors ${
+                  form.sync_mode === "manual"
+                    ? "border-[#0a1628] bg-[#0a1628] text-white"
+                    : "border-gray-200 bg-white text-gray-600 hover:bg-gray-50"
+                }`}
+              >
+                <Hand className="w-4 h-4 inline mr-1" /> Iba manuálne
+              </button>
+            </div>
+            {form.sync_mode === "manual" && (
+              <p className="text-xs text-blue-600 bg-blue-50 p-2 rounded mt-2">
+                Skenovanie prebehne len keď kliknete "Skenovať teraz" — žiadny automatický interval.
+              </p>
+            )}
+          </div>
+          <div className="grid grid-cols-2 gap-4">
+            {form.sync_mode === "scheduled" && (
+              <div>
+                <Label>Frekvencia skenovania (dni)</Label>
+                <Input type="number" min={1} value={form.frequency_days}
+                  onChange={e => setForm({ ...form, frequency_days: parseInt(e.target.value) || 7 })} />
+              </div>
+            )}
+            <div>
+              <Label>Max. počet nehnuteľností na sken</Label>
+              <Input type="number" min={0} value={form.max_properties_per_scan}
+                onChange={e => setForm({ ...form, max_properties_per_scan: e.target.value ? parseInt(e.target.value) : "" })}
+                placeholder="Bez limitu" />
+              <p className="text-xs text-gray-400 mt-1">Zastaví import po dosiahnutí limitu</p>
             </div>
           </div>
-          <div className="flex items-center gap-3">
-            <input type="checkbox" id="auto_publish" checked={form.auto_publish}
-              onChange={e => setForm({ ...form, auto_publish: e.target.checked })}
-              className="w-4 h-4" />
-            <Label htmlFor="auto_publish" className="cursor-pointer">
-              Automaticky zverejniť importované nehnuteľnosti
-            </Label>
+          <div>
+            <Label>Predvolená krajina</Label>
+            <select
+              value={form.default_country}
+              onChange={e => setForm({ ...form, default_country: e.target.value })}
+              className="w-full h-10 rounded-md border border-input bg-background px-3 text-sm"
+            >
+              {COUNTRIES.map(c => <option key={c} value={c}>{c}</option>)}
+            </select>
           </div>
-          {!form.auto_publish && (
-            <p className="text-xs text-amber-600 bg-amber-50 p-2 rounded">
-              Nezverejnené nehnuteľnosti budú čakať na schválenie v sekcii Properties.
-            </p>
-          )}
         </div>
         <DialogFooter>
           <Button variant="outline" onClick={onClose} disabled={saving}>Zrušiť</Button>
