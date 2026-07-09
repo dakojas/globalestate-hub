@@ -139,11 +139,7 @@ function PublicHomeInner() {
 
   const displayFeatured = properties
     .filter(p => p.is_featured && p.status === "available")
-    .reduce((acc, p) => {
-      if (!acc.find(x => x.country === p.country)) acc.push(p);
-      return acc;
-    }, [])
-    .slice(0, 5);
+    .slice(0, 10);
 
   const getTypeName = (type) => (PROPERTY_TYPE_LABELS[lang]?.[type] || PROPERTY_TYPE_LABELS.en[type] || type);
   const getCountryName = (country) => country ? (COUNTRY_NAMES[lang]?.[country] || country) : country;
