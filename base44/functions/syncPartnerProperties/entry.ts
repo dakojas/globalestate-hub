@@ -260,8 +260,8 @@ ${truncatedDetail}`,
             project_name: partner.name,
             original_language: 'sk',
             owner_submitted: false,
-            is_public: partner.auto_publish || false,
-            approval_status: partner.auto_publish ? 'approved' : 'pending_review',
+            is_public: false,
+            approval_status: 'pending_review',
             portal_links: [{ portal_name: partner.name, url: prop.source_url || partner.website_url }]
           });
           newCount++;
