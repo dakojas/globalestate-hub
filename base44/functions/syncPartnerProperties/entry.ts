@@ -32,10 +32,22 @@ Deno.serve(async (req) => {
     if (user.role !== 'admin') return Response.json({ error: 'Forbidden' }, { status: 403 });
 
     const body = await req.json().catch(() => ({}));
-    const { partner_id } = body;
+    const { partner_id, website_url } = body;
 
     let partners;
-    if (partner_id) {
+    if (website_url) {
+      // Ad-hoc import from arbitrary URL — no PartnerSource record needed
+      partners = [{
+        id: null,
+        name: 'Ad-hoc import',
+        website_url,
+        default_country: body.default_country || null,
+        max_properties_per_scan: body.max_properties || 0,
+        sync_mode: 'manual',
+        frequency_days: 0,
+        last_synced: null,
+      }];
+    } else if (partner_id) {
       const p = await base44.asServiceRole.entities.PartnerSource.get(partner_id);
       partners = [p];
     } else {
@@ -46,14 +58,16 @@ Deno.serve(async (req) => {
 
     for (const partner of partners) {
       try {
-        // Skip manual-mode partners during automatic scheduled scans
-        if (!partner_id && partner.sync_mode === 'manual') {
+        const isAdHoc = partner.id === null;
+
+        // Skip manual-mode partners during automatic scheduled scans (not for ad-hoc or explicit partner_id)
+        if (!isAdHoc && !partner_id && partner.sync_mode === 'manual') {
           results.push({ partner: partner.name, skipped: 'manual mode — scan on demand only' });
           continue;
         }
 
-        // Check if due (skip when manual sync via partner_id)
-        if (!partner_id && partner.frequency_days && partner.last_synced) {
+        // Check if due (skip during automatic scheduled scans only)
+        if (!isAdHoc && !partner_id && partner.frequency_days && partner.last_synced) {
           const lastSync = new Date(partner.last_synced);
           const dueDate = new Date(lastSync.getTime() + (partner.frequency_days || 7) * 86400000);
           if (new Date() < dueDate) {
@@ -275,23 +289,27 @@ ${truncatedDetail}`,
           newCount++;
         }
 
-        // Update partner sync info
-        await base44.asServiceRole.entities.PartnerSource.update(partner.id, {
-          last_synced: new Date().toISOString(),
-          last_result: `Nájdených ${extracted.length} | Nových ${newCount} | Preskočených ${skippedCount}`,
-          last_sync_new: newCount,
-          last_sync_total: extracted.length
-        });
+        // Update partner sync info (skip for ad-hoc imports with no PartnerSource record)
+        if (!isAdHoc) {
+          await base44.asServiceRole.entities.PartnerSource.update(partner.id, {
+            last_synced: new Date().toISOString(),
+            last_result: `Nájdených ${extracted.length} | Nových ${newCount} | Preskočených ${skippedCount}`,
+            last_sync_new: newCount,
+            last_sync_total: extracted.length
+          });
+        }
 
         results.push({ partner: partner.name, found: extracted.length, new: newCount, skipped: skippedCount });
       } catch (err) {
-        // Update partner with error
-        try {
-          await base44.asServiceRole.entities.PartnerSource.update(partner.id, {
-            last_synced: new Date().toISOString(),
-            last_result: `Chyba: ${err.message}`
-          });
-        } catch (_) {}
+        // Update partner with error (skip for ad-hoc)
+        if (!isAdHoc) {
+          try {
+            await base44.asServiceRole.entities.PartnerSource.update(partner.id, {
+              last_synced: new Date().toISOString(),
+              last_result: `Chyba: ${err.message}`
+            });
+          } catch (_) {}
+        }
         results.push({ partner: partner.name, error: err.message });
       }
     }

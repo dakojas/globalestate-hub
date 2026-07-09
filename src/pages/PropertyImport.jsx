@@ -2,7 +2,6 @@ import React, { useState } from "react";
 import { base44 } from "@/api/base44Client";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
-import { Badge } from "@/components/ui/badge";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Download, Loader2, CheckCircle2, AlertCircle, Globe } from "lucide-react";
@@ -20,96 +19,29 @@ export default function PropertyImport() {
     setResults(null);
 
     try {
-      const response = await base44.integrations.Core.InvokeLLM({
-        prompt: `Navštív stránku ${url} a extrahuj všetky nehnuteľnosti, ktoré tam nájdeš.
+      const response = await base44.functions.invoke('syncPartnerProperties', { website_url: url });
+      const data = response.data || response;
+      const result = data.results?.[0] || {};
 
-Pre každú nehnuteľnosť zisti:
-- Presný názov projektu/nehnuteľnosti
-- Krajina (použi z tejto ponuky: Albania, Bali, Hungary, Bulgaria, Dominican Republic, Egypt, Georgia, Mauritius, Oman, UAE, Spain, Italy, Thailand, Turkey)
-- Mesto alebo lokalita
-- Typ nehnuteľnosti - apartment, villa, penthouse, studio, townhouse, land alebo commercial
-- Cena v EUR - ak je v inej mene, preveď na EUR (napr. 1 USD = 0.92 EUR, 1 GBP = 1.17 EUR)
-- Počet spální/izieb
-- Plocha v m²
-- Detailný popis nehnuteľnosti
-- URL adresy všetkých fotografií nehnuteľnosti (nie len hlavnej, ale všetkých dostupných obrázkov)
+      const found = result.found || 0;
+      const imported = result.new || 0;
+      const skipped = result.skipped || 0;
 
-DÔLEŽITÉ pre obrázky:
-- Použi plné URL adresy obrázkov (začínajúce http:// alebo https://)
-- Skontroluj či sú obrázky funkčné a skutočné fotografie nehnuteľností
-- Extrahuj všetky dostupné obrázky z galérie nehnuteľnosti
-
-Vráť zoznam v JSON formáte.`,
-        add_context_from_internet: true,
-        response_json_schema: {
-          type: "object",
-          properties: {
-            properties: {
-              type: "array",
-              items: {
-                type: "object",
-                properties: {
-                  title: { type: "string" },
-                  country: { type: "string" },
-                  city: { type: "string" },
-                  property_type: { type: "string" },
-                  price: { type: "number" },
-                  bedrooms: { type: "number" },
-                  area_sqm: { type: "number" },
-                  description: { type: "string" },
-                  images: { 
-                    type: "array",
-                    items: { type: "string" }
-                  }
-                }
-              }
-            }
-          }
-        }
+      setResults({
+        success: imported,
+        failed: skipped + (found - imported - skipped),
+        total: found,
+        error: result.error
       });
 
-      const properties = response.properties || [];
-      
-      if (properties.length === 0) {
-        toast.error("Nenašli sa žiadne nehnuteľnosti");
-        setResults({ success: 0, failed: 0, total: 0 });
-        setLoading(false);
-        return;
+      if (result.error) {
+        toast.error("Chyba pri importe: " + result.error);
+      } else {
+        toast.success(`Importované: ${imported} z ${found} nehnuteľností`);
+        queryClient.invalidateQueries({ queryKey: ["properties"] });
+        queryClient.invalidateQueries({ queryKey: ["pending-properties"] });
       }
-
-      // Import properties
-      let success = 0;
-      let failed = 0;
-
-      for (const prop of properties) {
-        try {
-          await base44.entities.Property.create({
-            title: prop.title,
-            country: prop.country,
-            city: prop.city,
-            property_type: prop.property_type || "apartment",
-            price: prop.price,
-            bedrooms: prop.bedrooms || 0,
-            area_sqm: prop.area_sqm || 0,
-            description: prop.description || "",
-            images: prop.images || [],
-            status: "available",
-            is_public: false,
-            approval_status: "pending_review",
-            currency: "EUR",
-          });
-          success++;
-        } catch (err) {
-          console.error("Failed to import property:", err);
-          failed++;
-        }
-      }
-
-      setResults({ success, failed, total: properties.length });
-      toast.success(`Importované: ${success} z ${properties.length} nehnuteľností`);
-      queryClient.invalidateQueries({ queryKey: ["properties"] });
     } catch (error) {
-      console.error("Import failed:", error);
       toast.error("Chyba pri importe: " + error.message);
       setResults({ success: 0, failed: 0, total: 0, error: error.message });
     }
@@ -121,7 +53,7 @@ Vráť zoznam v JSON formáte.`,
     <div className="max-w-3xl mx-auto space-y-6">
       <div>
         <h2 className="text-2xl font-bold text-[#0a1628]">Import nehnuteľností</h2>
-        <p className="text-gray-500 text-sm mt-1">Automatický import z nehnutelnostivzahranici.sk</p>
+        <p className="text-gray-500 text-sm mt-1">AI scraper pre rýchly import z akejkoľvek webovej stránky</p>
       </div>
 
       <Card className="border-0 shadow-sm">
@@ -137,7 +69,7 @@ Vráť zoznam v JSON formáte.`,
             <Input
               value={url}
               onChange={(e) => setUrl(e.target.value)}
-              placeholder="https://nehnutelnostivzahranici.sk"
+              placeholder="https://example.com/nehnutelnosti"
               disabled={loading}
             />
             <p className="text-xs text-gray-400 mt-1">
@@ -149,9 +81,10 @@ Vráť zoznam v JSON formáte.`,
             <h4 className="text-sm font-semibold text-blue-900 mb-2">ℹ️ Ako to funguje?</h4>
             <ul className="text-xs text-blue-700 space-y-1">
               <li>• AI prejde stránku a automaticky vyhľadá nehnuteľnosti</li>
-              <li>• Extrahuje všetky informácie vrátane všetkých fotografií z galérie</li>
+              <li>• Pre každú navštívi aj detail stránku pre bohatší popis a viac fotiek</li>
+              <li>• Obrázky sa stiahnu a uložia do vlastného úložiska</li>
               <li>• Importované nehnuteľnosti vyžadujú schválenie pred zverejnením</li>
-              <li>• Po importe ich skontrolujete a schválite v sekcii Nehnuteľnosti</li>
+              <li>• Duplikáty (rovnaký názov) sa automaticky preskočia</li>
             </ul>
           </div>
 
@@ -191,11 +124,11 @@ Vráť zoznam v JSON formáte.`,
                 </div>
                 <div className="bg-white rounded-lg p-3">
                   <p className="text-2xl font-bold text-red-600">{results.failed}</p>
-                  <p className="text-xs text-gray-500">Zlyhané</p>
+                  <p className="text-xs text-gray-500">Preskočené</p>
                 </div>
                 <div className="bg-white rounded-lg p-3">
                   <p className="text-2xl font-bold text-blue-600">{results.total}</p>
-                  <p className="text-xs text-gray-500">Celkom</p>
+                  <p className="text-xs text-gray-500">Celkom nájdených</p>
                 </div>
               </div>
               {results.error && (
@@ -213,7 +146,7 @@ Vráť zoznam v JSON formáte.`,
           <h4 className="text-sm font-semibold text-amber-900 mb-2">⚠️ Upozornenie</h4>
           <p className="text-xs text-amber-700">
             Import používa AI na extrahovanie údajov, preto odporúčame po importe skontrolovať správnosť údajov.
-            Importované nehnuteľnosti vyžadujú schválenie pred zverejnením - môžete ich skontrolovať
+            Importované nehnuteľnosti vyžadujú schválenie pred zverejnením — môžete ich skontrolovať
             a schváliť v sekcii Nehnuteľnosti.
           </p>
         </CardContent>
