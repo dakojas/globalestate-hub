@@ -21,6 +21,7 @@ const translations = {
     aiAgent: "AI Agent",
     offerAgent: "Generátor ponúk",
     aiAgents: "AI Agenti",
+    landingPages: "Landing Pages",
 
     // Common
     search: "Hľadať",
@@ -277,6 +278,7 @@ const translations = {
     publicSite: "Public Site",
     propertyImport: "Property Import",
     partnerSync: "Website Scanner",
+    landingPages: "Landing Pages",
     aiAgent: "AI Agent",
     offerAgent: "Offer Generator",
     aiAgents: "AI Agents",

@@ -1,0 +1,94 @@
+{
+  "name": "LandingPage",
+  "type": "object",
+  "properties": {
+    "title": {
+      "type": "string",
+      "description": "Intern\u00fd n\u00e1zov"
+    },
+    "slug": {
+      "type": "string",
+      "description": "URL slug"
+    },
+    "headline": {
+      "type": "string",
+      "description": "Hlavn\u00fd nadpis"
+    },
+    "subheadline": {
+      "type": "string",
+      "description": "Podnadpis"
+    },
+    "hero_image": {
+      "type": "string",
+      "description": "URL obr\u00e1zku pozadia"
+    },
+    "body_content": {
+      "type": "string",
+      "description": "Text ponuky (HTML z Quill editora)"
+    },
+    "property_ids": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      },
+      "description": "ID nehnute\u013enost\u00ed na zobrazenie"
+    },
+    "show_lead_form": {
+      "type": "boolean",
+      "default": true
+    },
+    "lead_form_title": {
+      "type": "string",
+      "default": "M\u00e1m z\u00e1ujem"
+    },
+    "lead_button_text": {
+      "type": "string",
+      "default": "Odosla\u0165"
+    },
+    "thank_you_message": {
+      "type": "string",
+      "default": "\u010eakujeme! Ozveme sa v\u00e1m \u010do najsk\u00f4r."
+    },
+    "whatsapp_number": {
+      "type": "string",
+      "description": "WhatsApp telef\u00f3nne \u010d\u00edslo"
+    },
+    "is_active": {
+      "type": "boolean",
+      "default": true
+    }
+  },
+  "required": [
+    "title",
+    "slug"
+  ],
+  "rls": {
+    "create": {
+      "user_condition": {
+        "role": "admin"
+      }
+    },
+    "read": {
+      "$or": [
+        {
+          "data.is_active": true
+        },
+        {
+          "user_condition": {
+            "role": "admin"
+          }
+        }
+      ]
+    },
+    "update": {
+      "user_condition": {
+        "role": "admin"
+      }
+    },
+    "delete": {
+      "user_condition": {
+        "role": "admin"
+      }
+    }
+  }
+}

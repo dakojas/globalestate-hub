@@ -1,0 +1,52 @@
+{
+  "name": "LandingPageLead",
+  "type": "object",
+  "properties": {
+    "landing_page_id": {
+      "type": "string",
+      "description": "ID landing page"
+    },
+    "landing_page_title": {
+      "type": "string",
+      "description": "N\u00e1zov landing page pre r\u00fdchly preh\u013ead"
+    },
+    "full_name": {
+      "type": "string",
+      "description": "Meno klienta"
+    },
+    "email": {
+      "type": "string",
+      "description": "Email"
+    },
+    "phone": {
+      "type": "string",
+      "description": "Telef\u00f3n"
+    },
+    "message": {
+      "type": "string",
+      "description": "Spr\u00e1va od klienta"
+    }
+  },
+  "required": [
+    "landing_page_id",
+    "full_name"
+  ],
+  "rls": {
+    "create": {},
+    "read": {
+      "user_condition": {
+        "role": "admin"
+      }
+    },
+    "update": {
+      "user_condition": {
+        "role": "admin"
+      }
+    },
+    "delete": {
+      "user_condition": {
+        "role": "admin"
+      }
+    }
+  }
+}

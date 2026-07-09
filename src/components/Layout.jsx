@@ -4,7 +4,7 @@ import { createPageUrl } from "@/utils";
 import { base44 } from "@/api/base44Client";
 import {
   LayoutDashboard, Building2, Users, CalendarClock, DollarSign,
-  MapPin, Menu, X, LogOut, ChevronRight, Bell, Languages, UserPlus, BarChart3, Globe, Upload, Bot
+  MapPin, Menu, X, LogOut, ChevronRight, Bell, Languages, UserPlus, BarChart3, Globe, Upload, Bot, Megaphone
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
@@ -30,6 +30,7 @@ export default function Layout({ children, currentPageName }) {
     { nameKey: "reports", icon: BarChart3, page: "Reports", roles: ["admin"] },
     { nameKey: "propertyImport", icon: Upload, page: "PropertyImport", roles: ["admin"] },
     { nameKey: "partnerSync", icon: Globe, page: "PartnerSync", roles: ["admin"] },
+    { nameKey: "landingPages", icon: Megaphone, page: "LandingPages", roles: ["admin"] },
     { nameKey: "aiAgents", icon: Bot, page: "AIAgents", roles: ["admin", "user"] },
     { nameKey: "team", icon: Users, page: "Team", roles: ["admin"], divider: true },
     { nameKey: "publicSite", icon: Globe, page: "PublicHome", roles: ["admin", "user"] },
