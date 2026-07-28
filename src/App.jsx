@@ -44,6 +44,7 @@ import PartnerSubmit from '@/pages/PartnerSubmit';
 import EyaKnowledge from '@/pages/EyaKnowledge';
 import LandingPages from '@/pages/LandingPages';
 import PublicLandingPage from '@/pages/PublicLandingPage';
+import WhatsAppConversations from '@/pages/WhatsAppConversations';
 import AccessDenied from '@/components/AccessDenied';
 
 const LayoutWrapper = ({ children, currentPageName }) =>
@@ -131,6 +132,7 @@ const AuthenticatedApp = () => {
       <Route path="/PartnerSubmit" element={<ProtectedRoute allowedRoles={['admin','partner']}><LayoutWrapper currentPageName="PartnerSubmit"><PartnerSubmit /></LayoutWrapper></ProtectedRoute>} />
       <Route path="/EyaKnowledge" element={<ProtectedRoute allowedRoles={['admin']}><LayoutWrapper currentPageName="EyaKnowledge"><EyaKnowledge /></LayoutWrapper></ProtectedRoute>} />
       <Route path="/LandingPages" element={<ProtectedRoute allowedRoles={['admin']}><LayoutWrapper currentPageName="LandingPages"><LandingPages /></LayoutWrapper></ProtectedRoute>} />
+      <Route path="/WhatsAppConversations" element={<ProtectedRoute allowedRoles={['admin']}><LayoutWrapper currentPageName="WhatsAppConversations"><WhatsAppConversations /></LayoutWrapper></ProtectedRoute>} />
       <Route path="*" element={<PageNotFound />} />
     </Routes>
   );

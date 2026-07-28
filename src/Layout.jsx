@@ -4,7 +4,7 @@ import { createPageUrl } from "@/utils";
 import { base44 } from "@/api/base44Client";
 import {
   LayoutDashboard, Building2, Users, CalendarClock, DollarSign,
-  MapPin, Menu, X, LogOut, ChevronRight, Bell, UserPlus, Upload
+  MapPin, Menu, X, LogOut, ChevronRight, Bell, UserPlus, Upload, MessageCircle
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
@@ -17,6 +17,7 @@ const navItems = [
   { name: "Commissions", icon: DollarSign, page: "Commissions", roles: ["admin", "tiper"] },
   { name: "Submit Property", icon: Upload, page: "PartnerSubmit", roles: ["partner"] },
   { name: "Partner Requests", icon: UserPlus, page: "PartnerRequests", roles: ["admin"] },
+  { name: "WhatsApp správy", icon: MessageCircle, page: "WhatsAppConversations", roles: ["admin"] },
 ];
 
 export default function Layout({ children, currentPageName }) {
