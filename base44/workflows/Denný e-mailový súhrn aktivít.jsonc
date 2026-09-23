@@ -1,0 +1,44 @@
+{
+  "name": "Denn\u00fd e-mailov\u00fd s\u00fahrn aktiv\u00edt",
+  "description": "Ka\u017ed\u00e9 r\u00e1no o 08:00 odo\u0161le e-mailov\u00fd s\u00fahrn v\u0161etk\u00fdch nov\u00fdch dopytov, interakci\u00ed, \u017eiadost\u00ed o partnerstvo a nehnute\u013enost\u00ed za posledn\u00fdch 24 hod\u00edn.",
+  "trigger": {
+    "condition": null,
+    "config": {
+      "trigger_type": "scheduled",
+      "events": [],
+      "schedule_mode": "recurring",
+      "cron_expression": "0 6 * * *",
+      "one_time_date": null,
+      "timezone": "UTC",
+      "interval_value": null,
+      "interval_unit": null,
+      "interval_anchor": null,
+      "ends_type": "never",
+      "ends_on_date": null,
+      "ends_after_count": null
+    }
+  },
+  "definition": {
+    "document": {
+      "dsl": "1.0.0",
+      "name": "denn_e_mailov_s_hrn_aktiv_t",
+      "version": "1.0",
+      "namespace": "base44"
+    },
+    "do": [
+      {
+        "run_function": {
+          "call": "invoke_backend_function",
+          "with": {
+            "function_name": "dailyActivitySummary",
+            "args": {}
+          },
+          "then": "end"
+        }
+      }
+    ]
+  },
+  "x-base44-migrated-from-automation": {
+    "legacy_payload_function": "dailyActivitySummary"
+  }
+}
